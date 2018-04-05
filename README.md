@@ -1,8 +1,8 @@
-#README 
+# Bingo 
 
 bingo是一个基于go语言的轻量级API框架，专注构建restfulAPI
 
-GitHub地址：
+GitHub地址：[silsuer/bingo](https://github.com/silsuer/bingo)
 
 ## 目录结构
 
