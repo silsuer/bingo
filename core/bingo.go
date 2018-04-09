@@ -15,7 +15,7 @@ func (b *Bingo) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	params := []reflect.Value{reflect.ValueOf(w), reflect.ValueOf(r)}
 	for _, v := range RoutesList {
 		// 检测中间件，根据中间件首先开启中间件，然后再注册其他路由
-		// 检测路由，根据路由指向需要的数据
+		// 检测路由，根据路由指向需要的数据·
 		if r.URL.Path == v.path && r.Method == v.method {
               flag = true   // 寻找到了对应路由，无需使用静态服务器
 			//TODO 调用一个公共中间件，在这个中间件中寻找路由以及调用中间件收尾等功能
@@ -58,8 +58,8 @@ func (b *Bingo) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 func (b *Bingo) Run(port string) {
 	// 传入一个端口号，没有返回值，根据端口号开启http监听
-
 	// 此处要进行资源初始化，加载所有路由、配置文件等等
+	RouteInit()
 	// 实例化router类，这个类去获取所有router目录下的json文件，然后根据json中的配置，加载数据
 	// 实例化env文件和config文件夹下的所有数据，根据配置
 	// 根据路由列表，开始定义路由，并且根据端口号，开启http服务器

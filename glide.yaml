@@ -1,0 +1,5 @@
+package: bingo
+import:
+- package: github.com/kylelemons/go-gypsy
+- package: github.com/go-sql-driver/mysql
+  version: v1.3

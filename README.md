@@ -383,3 +383,20 @@ func parseRootRoute(group map[string]interface{}) []route {
 8. 便捷的文件上传/存储功能
 
 对，我就是要做一个Go语言的Laravel，不接受反驳，不服你咬我呀！
+
+
+-----------------------------------------------------------
+
+### 20180408更新
+   
+   - 添加glide包管理工具，并且修复glide在win10上报错的bug
+   
+     重新编译glide.exe ,可直接使用
+     
+   - 把env文件使用yaml格式重写
+   
+### 20180409更新
+    
+   - 初步完成仿照Laravel的ORM（可查询全部，可建表）
+   
+   - 初步完成命令行（bingo run -port=12345 [默认是8088端口] ; bingo init）

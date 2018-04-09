@@ -35,7 +35,7 @@ var RoutesGroups []route_group // 路由组集合
 var RoutesList []route         // 全部路由列表
 var R interface{}
 
-func init() {
+func RouteInit() {
 	// 初始化方法，加载路由文件
 	// 获取路由路径，根据路由路径获取所有路由文件，然后读取所有文件，赋值给当前成员变量
 	routes_path := GetRoutesPath()

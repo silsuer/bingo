@@ -6,7 +6,6 @@ import (
 	"strings"
 	"io/ioutil"
 	"errors"
-	"bufio"
 )
 
 //type Json struct {
@@ -69,37 +68,6 @@ func GetCurrentDirectory() string {
 	return strings.Replace(dir, "\\", "/", -1)
 }
 
-// env文件,传入一个配置项名称，返回这个配置项的值
-func Env(name string) (string,error) {
-
-	// 获取env 路径
-	dir, err := os.Getwd()
-	dir = strings.Replace(dir, "\\", "/", -1) // 获取文件执行路径
-	dir = dir + "/.env"
-	// 打开env文件
-	EnvFile, err := os.Open(dir)
-	Check(err)
-	defer EnvFile.Close() // 最后要关闭
-	buf := bufio.NewReader(EnvFile)
-	for {
-		line, _, err := buf.ReadLine()
-		Check(err)
-		// 处理拿到的这一行数据
-		newLine := strings.TrimSpace(string(line))
-		// 如果第一个字符是# 的话，证明是注释，跳过这一行
-		if string([]rune(newLine)[:1]) == "#" {
-			continue
-		}
-		// 否则用=分割数据，拿到
-        env := strings.Split(newLine,"=")
-        if name==env[0] {
-        	return env[1],nil
-		}
-	}
-
-	return "",errors.New("env中不存在"+name +"配置项")
-}
-
 // 获取路由文件夹路径
 func GetRoutesPath() string {
 
@@ -109,7 +77,8 @@ func GetRoutesPath() string {
 	//// 获取env文件的所有值
 	//c := FileGetJson(dir + "/.env")
 	//return c
-	route_path,err := Env("ROUTES_PATH")
+	//route_path,err := Env("ROUTES_PATH")
+	route_path := Env.Get("ROUTES_PATH")
 	Check(err)
 	path := dir + "/" + route_path
 	return path
@@ -120,5 +89,15 @@ func GetPublicPath() string {
 	dir, err := os.Getwd()
 	dir = strings.Replace(dir, "\\", "/", -1)
 	Check(err)
-	return dir + "/public/"
+	return dir + Env.Get("STATIC_FILE_DIR")
+}
+
+func DB() interface{} {
+	// 返回一个驱动的操作类
+	// 传入db配置  env的driver，实例化不同的类,单例模式，获取唯一驱动
+	if Driver == nil {
+		DriverInit()
+	}
+	con := Driver.GetConnection()  // 获取数据库连接
+	return con
 }
