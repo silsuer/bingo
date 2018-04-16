@@ -11,13 +11,13 @@ type Bingo struct{}
 func (b *Bingo) Run(port string) {
 	// 根据httprouter进行重写(根据Httprouter的原理，重新实现路由)
 	// 这个时候要根据RouteList,对每一个方法解析出一个tree来
-
 	router := New()
     // 开始把路由列表注册到tree中
     for _,v:= range RouteList {
     	router.Handle(v.Method,v.Path,v.Target)
 	}
 	fmt.Println("Bingo Running......")
+	// 静态页面
 	router.NotFound = func(writer http.ResponseWriter, request *http.Request) {
 		http.ServeFile(writer,request,GetPublicPath()+request.URL.Path)
 	}

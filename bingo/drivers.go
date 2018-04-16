@@ -34,6 +34,7 @@ func (d *driver) GetConnection() interface{} {
 	switch d.name {
 	case "MYSQL":
 		m := mysql.Mysql{}                // 实例化结构体
+		m.TableSchema = Env.Get("DB_NAME") // 数据库名
 		m.Init(Driver.dbConfig) // 设置表名和数据库连接
 		return &m                         // 返回实例
 		break

@@ -414,3 +414,52 @@ func parseRootRoute(group map[string]interface{}) []route {
 
    - 单纯使用httprouter在其他项目中会出现不可预知的错误，所以把httprouter的代码拷贝到项目中去，成为bingo.router
    
+   - ORM可以进行插入、批量插入、忽略多余值插入、缓存表结构信息
+   
+      ```go
+         Use Case:
+    	
+                // 开始测试
+                // 建立一个表
+                err := bingo.DB().(*mysql.Mysql).CreateTableIfNotExist("test", func(table *mysql.Blueprint) {
+                    table.Increments("id")
+                    table.String("name")
+                })
+                if err != nil {
+                    fmt.Fprint(w,"创建成功！")
+                }else{
+                    fmt.Fprintln(w,err)
+                }
+            
+                // 插入数据
+                a := make(map[string]interface{})
+                 //a["id"] = 1
+                 a["name"] = "silsuer"
+            
+                 // 插入一行
+                rr,err:= bingo.DB().(*mysql.Mysql).Table("test").InserOnetCasual(a)
+                bingo.Check(err)
+                fmt.Fprint(w,rr)
+            
+            
+                // 插入多行
+                var a []map[string]interface{}
+                aa := make(map[string]interface{})
+                bb := make(map[string]interface{})
+                aa["name"] = "silsuer111"
+                bb["name"] = "silsuer222"
+                a = append(a,aa)
+                a = append(a,bb)
+                bingo.DB().(*mysql.Mysql).Table("test").InsertCasual(a)
+                
+            
+                // 更新数据
+                a := make(map[string]interface{})
+                //a["id"] = 1
+                a["name"] = "silsuer"
+                // 更新一行
+                rr,err:= bingo.DB().(*mysql.Mysql).Table("test").UpdateOne(a)
+                bingo.Check(err)
+                fmt.Fprint(w,rr)
+
+      ```

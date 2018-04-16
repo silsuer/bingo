@@ -15,11 +15,13 @@ var conn *sql.DB
 type Mysql struct {
 	connection   *sql.DB
 	sql          string
-	where_sql    string
-	limit_sql    string
-	column_sql   string
-	table_sql    string
-	order_by_sql string
+	whereSql    string
+	limitSql    string
+	columnSql   string
+	tableSql    string
+	orderBySql string
+	tableName string
+	TableSchema string  // 所在数据库，在缓存表结构的时候有用
 }
 
 var once sync.Once
@@ -42,9 +44,10 @@ func (m *Mysql) Init(config string) {
 
 
 func (m *Mysql) Table(tableName string) *Mysql {
-	m.table_sql = " " + tableName + " "
-	m.where_sql = ""
-	m.column_sql = " * "
+	m.tableSql = " " + tableName + " "
+	m.whereSql = ""
+	m.columnSql = " * "
+	m.tableName = tableName
 	return m
 }
 
@@ -74,13 +77,24 @@ func (m *Mysql) HasOne() *Mysql {
 }
 
 func (m *Mysql) Get() *sql.Rows {
-	m.sql = "select" + m.column_sql + "from " + m.table_sql + m.where_sql + m.limit_sql + m.order_by_sql
+	m.sql = "select" + m.columnSql + "from " + m.tableSql + m.whereSql + m.limitSql + m.orderBySql
 	fmt.Println(m.sql)
 	rows,err := m.connection.Query(m.sql)
 
 	Check(err)
 	return rows
 }
+
+// 执行原生语句
+func (m *Mysql) Query(sql string) (*sql.Rows,error)  {
+	return m.connection.Query(sql)
+}
+
+func (m *Mysql) Exec(sql string ) (sql.Result,error)   {
+	return m.connection.Exec(sql)
+}
+
+
 
 func Check(err error)  {
 	if err != nil{

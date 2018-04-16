@@ -2,7 +2,6 @@ package mysql
 
 import (
 	"strings"
-	"fmt"
 	"strconv"
 )
 
@@ -77,7 +76,7 @@ func (bp *Blueprint) IntegerWithLength(colName string, length int) *Blueprint {
 	return bp
 }
 
-func (m *Mysql) CreateTableIfNotExist(tableName string, call func(table *Blueprint)) bool {
+func (m *Mysql) CreateTableIfNotExist(tableName string, call func(table *Blueprint)) error {
 	table := Blueprint{}
 	call(&table)
 	// 判断是否指定了引擎，默认是innodb
@@ -92,10 +91,7 @@ func (m *Mysql) CreateTableIfNotExist(tableName string, call func(table *Bluepri
 	}
 	table.sql = table.sql + strings.Join(cols, ",")
 	table.sql = table.sql + ") engine=" + table.engine
-	fmt.Println(table.sql)
 	stmt, err := m.connection.Prepare(table.sql)
-	Check(err)
 	_, err = stmt.Exec()
-	Check(err)
-	return true
+	return err
 }
