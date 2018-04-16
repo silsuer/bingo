@@ -400,3 +400,17 @@ func parseRootRoute(group map[string]interface{}) []route {
    - 初步完成仿照Laravel的ORM（可查询全部，可建表）
    
    - 初步完成命令行（bingo run -port=12345 [默认是8088端口] ; bingo init）
+   
+### 20180415更新
+
+   - 重写路由结构体，使用httprouter代替原来自己写的多路路由器
+   
+   - 使用方式：
+       
+       1. bingo init   // 创建env glide的yaml文件，以及其他的文件夹，并且初始化一个简易路由
+       2. go run start.go // 执行自动生成的start.go，即可跑通localhost:12345,看到欢迎界面，证明安装完成
+       
+### 20180416更新
+
+   - 单纯使用httprouter在其他项目中会出现不可预知的错误，所以把httprouter的代码拷贝到项目中去，成为bingo.router
+   

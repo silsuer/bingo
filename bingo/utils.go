@@ -1,4 +1,4 @@
-package core
+package bingo
 
 import (
 	"os"
@@ -8,14 +8,7 @@ import (
 	"errors"
 )
 
-//type Json struct {
-//	key   string
-//	value string
-//}
-//
-//type JsonMap struct {
-//	Jsons []Json
-//}
+
 
 // 这里主要写自定义函数
 
@@ -35,13 +28,6 @@ func FileGetContents(filepath string) (string, error) {
 func FileGetJson(filepath string) string {
 
 	//// 获取json文件的内容，并且返回json数据
-	//content, err := FileGetContents(filepath)
-	//Check(err)
-	////var j JsonMap
-	////jsons,err:= json.Unmarshal([]byte(content), &j)
-	//js,err :=
-	//Check(err)
-	//return jsons
 	return "111"
 }
 
@@ -89,7 +75,7 @@ func GetPublicPath() string {
 	dir, err := os.Getwd()
 	dir = strings.Replace(dir, "\\", "/", -1)
 	Check(err)
-	return dir + Env.Get("STATIC_FILE_DIR")
+	return dir+"/" + Env.Get("STATIC_FILE_DIR")
 }
 
 func DB() interface{} {
@@ -101,3 +87,16 @@ func DB() interface{} {
 	con := Driver.GetConnection()  // 获取数据库连接
 	return con
 }
+
+/**
+ * 判断文件是否存在  存在返回 true 不存在返回false
+ */
+func CheckFileIsExist(filename string) bool {
+	var exist = true
+	if _, err := os.Stat(filename); os.IsNotExist(err) {
+		exist = false
+	}
+	return exist
+}
+
+
