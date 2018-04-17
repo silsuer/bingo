@@ -32,9 +32,7 @@ func (m *Mysql) InsertOne(data map[string]interface{}) *Mysql {
 	m.insertSql(d)
 	res, err := m.Exec(m.sql)
 	 m.Result = res
-	if err != nil {
-		m.Errors = append(m.Errors,err)
-	}
+	m.checkAppendError(err)
 	return m
 }
 
@@ -44,9 +42,7 @@ func (m *Mysql) Insert(data []map[string]interface{}) *Mysql {
 	// 获取表结构
 	res,err:= m.Exec(m.sql) // 执行语句并返回
 	m.Result = res
-	if err != nil {
-		m.Errors = append(m.Errors,err)
-	}
+	m.checkAppendError(err)
 	return m
 }
 
@@ -56,9 +52,7 @@ func (m *Mysql) InsertOneCasual(data map[string]interface{}) *Mysql {
 	d = append(d, data)
 	res, err := m.insertCasualSql(d)
 	m.Result = res[0]
-	if err[0]!=nil {
-		m.Errors = append(m.Errors,err[0])
-	}
+	m.checkAppendError(err[0])
 	m.Errors = append(m.Errors,err[0]) // 只插入一条，返回第一个
 	return m
 }
@@ -68,7 +62,7 @@ func (m *Mysql) InsertCasual(data []map[string]interface{}) *Mysql {
 	m.Results = res
 	if len(err)!=0{
 		for _,v := range err{
-			m.Errors = append(m.Errors,v)
+			m.checkAppendError(v)
 		}
 	}
 	return m
@@ -208,5 +202,5 @@ func convertToString(m interface{}) string {
 	default:
 		return m.(string)
 	}
-	return "111"
+	return ""
 }

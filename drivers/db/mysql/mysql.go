@@ -3,7 +3,6 @@ package mysql
 import (
 	"database/sql"
 	"sync"
-	"fmt"
 	"errors"
 	"strings"
 )
@@ -16,19 +15,21 @@ var conn *sql.DB
 // mysql结构体，用来存储sql语句并执行
 type Mysql struct {
 	connection  *sql.DB
-	sql         string
-	whereSql    string
-	limitSql    string
-	columnSql   string
-	tableSql    string
-	orderBySql  string
-	tableName   string
-	TableSchema string  // 所在数据库，在缓存表结构的时候有用
-	Errors      []error // 保存在连贯操作中可能发生的错误
-	Result      sql.Result   // 保存执行语句后的结果
+	sql         string     // 最终要执行的语句
+	whereSql    string     // where语句
+	limitSql    string     // limit语句
+	columnSql   string     // select 中的列语句
+	tableSql    string     // 表名语句
+	orderBySql  string     // order by 语句
+	groupBySql  string     // group by语句
+	havingSql   string     // having语句
+	tableName   string     // 表名
+	TableSchema string     // 所在数据库，在缓存表结构的时候有用
+	Errors      []error    // 保存在连贯操作中可能发生的错误
+	Result      sql.Result // 保存执行语句后的结果
 	Rows        *sql.Rows  // 保存执行多行查询语句后的行
 	Results     []sql.Result
-	Row         *sql.Row   // 保存单行查询语句后的行
+	Row         *sql.Row // 保存单行查询语句后的行
 	//Res         []map[string]interface{}  // 把查询结果生成一个map
 }
 
@@ -65,9 +66,9 @@ func (m *Mysql) Where(args ... interface{}) *Mysql {
 	cif := m.GetTableInfo().Info
 
 	// 先判断这个字段在表中是否存在,如果存在，获取类型获取值等
-	ctype := ""
+	cType := ""
 	if _, ok := cif[convertToString(args[0])]; ok {
-		ctype = cif[convertToString(args[0])].Type
+		cType = cif[convertToString(args[0])].Type
 	} else {
 		m.Errors = append(m.Errors, errors.New("cannot find a column named "+convertToString(args[0])+" in "+m.tableName+" table"))
 		return m // 终止这个函数
@@ -89,14 +90,14 @@ func (m *Mysql) Where(args ... interface{}) *Mysql {
 		// 有where 只需要写 a=b
 		if ifWhere {
 			// 如果是字符串类型，加引号
-			if isString(ctype) {
+			if isString(cType) {
 				m.whereSql = m.whereSql + ` AND ` + convertToString(args[0]) + `='` + convertToString(args[1]) + `'`
 			} else {
 				m.whereSql = m.whereSql + ` AND ` + convertToString(args[0]) + `=` + convertToString(args[1])
 			}
 		} else {
 			// 没有where 要写 where a=b
-			if isString(ctype) {
+			if isString(cType) {
 				m.whereSql = ` WHERE ` + convertToString(args[0]) + `='` + convertToString(args[1]) + `'`
 			} else {
 				m.whereSql = ` WHERE ` + convertToString(args[0]) + `=` + convertToString(args[1])
@@ -107,14 +108,14 @@ func (m *Mysql) Where(args ... interface{}) *Mysql {
 		// 有where 只需要写 a=b
 		if ifWhere {
 			// 如果是字符串类型，加引号
-			if isString(ctype) {
+			if isString(cType) {
 				m.whereSql = m.whereSql + ` AND ` + convertToString(args[0]) + convertToString(args[1]) + `'` + convertToString(args[2]) + `'`
 			} else {
 				m.whereSql = m.whereSql + ` AND ` + convertToString(args[0]) + convertToString(args[1]) + convertToString(args[2])
 			}
 		} else {
 			// 没有where 要写 where a=b
-			if isString(ctype) {
+			if isString(cType) {
 				m.whereSql = ` WHERE ` + convertToString(args[0]) + convertToString(args[1]) + `'` + convertToString(args[2]) + `'`
 			} else {
 				m.whereSql = ` WHERE ` + convertToString(args[0]) + convertToString(args[1]) + convertToString(args[2])
@@ -127,10 +128,6 @@ func (m *Mysql) Where(args ... interface{}) *Mysql {
 	return m
 }
 
-//func (m *Mysql) whereSql()  {
-//
-//}
-
 func (m *Mysql) OrWhere(args ... interface{}) *Mysql {
 	// 要根据传入字段的名字，获得字段类型，然后判断第三个参数是否要加引号
 	// 最多传入三个参数  a=b
@@ -138,9 +135,9 @@ func (m *Mysql) OrWhere(args ... interface{}) *Mysql {
 	cif := m.GetTableInfo().Info
 
 	// 先判断这个字段在表中是否存在,如果存在，获取类型获取值等
-	ctype := ""
+	cType := ""
 	if _, ok := cif[convertToString(args[0])]; ok {
-		ctype = cif[convertToString(args[0])].Type
+		cType = cif[convertToString(args[0])].Type
 	} else {
 		m.Errors = append(m.Errors, errors.New("cannot find a column named "+convertToString(args[0])+" in "+m.tableName+" table"))
 		return m // 终止这个函数
@@ -158,14 +155,14 @@ func (m *Mysql) OrWhere(args ... interface{}) *Mysql {
 		// 有where 只需要写 a=b
 		if ifWhere {
 			// 如果是字符串类型，加引号
-			if isString(ctype) {
+			if isString(cType) {
 				m.whereSql = m.whereSql + ` OR ` + convertToString(args[0]) + `='` + convertToString(args[1]) + `'`
 			} else {
 				m.whereSql = m.whereSql + ` OR ` + convertToString(args[0]) + `=` + convertToString(args[1])
 			}
 		} else {
 			// 没有where 要写 where a=b
-			if isString(ctype) {
+			if isString(cType) {
 				m.whereSql = ` WHERE ` + convertToString(args[0]) + `='` + convertToString(args[1]) + `'`
 			} else {
 				m.whereSql = ` WHERE ` + convertToString(args[0]) + `=` + convertToString(args[1])
@@ -176,14 +173,14 @@ func (m *Mysql) OrWhere(args ... interface{}) *Mysql {
 		// 有where 只需要写 a=b
 		if ifWhere {
 			// 如果是字符串类型，加引号
-			if isString(ctype) {
+			if isString(cType) {
 				m.whereSql = m.whereSql + ` AND ` + convertToString(args[0]) + convertToString(args[1]) + `'` + convertToString(args[2]) + `'`
 			} else {
 				m.whereSql = m.whereSql + ` AND ` + convertToString(args[0]) + convertToString(args[1]) + convertToString(args[2])
 			}
 		} else {
 			// 没有where 要写 where a=b
-			if isString(ctype) {
+			if isString(cType) {
 				m.whereSql = ` WHERE ` + convertToString(args[0]) + convertToString(args[1]) + `'` + convertToString(args[2]) + `'`
 			} else {
 				m.whereSql = ` WHERE ` + convertToString(args[0]) + convertToString(args[1]) + convertToString(args[2])
@@ -196,30 +193,14 @@ func (m *Mysql) OrWhere(args ... interface{}) *Mysql {
 	return m
 }
 
-func (m *Mysql) Limit() *Mysql {
-	return m
-}
-
-func (m *Mysql) Select() *Mysql {
-	return m
-}
-
-func (m *Mysql) HasMany() *Mysql {
-	return m
-}
-
-func (m *Mysql) HasOne() *Mysql {
-	return m
-}
-
-func (m *Mysql) Get() *sql.Rows {
-	m.sql = "select" + m.columnSql + "from " + m.tableSql + m.whereSql + m.limitSql + m.orderBySql
-	fmt.Println(m.sql)
-	rows, err := m.connection.Query(m.sql)
-
-	Check(err)
-	return rows
-}
+//
+//func (m *Mysql) HasMany() *Mysql {
+//	return m
+//}
+//
+//func (m *Mysql) HasOne() *Mysql {
+//	return m
+//}
 
 // 执行原生语句
 func (m *Mysql) Query(sql string) (*sql.Rows, error) {
@@ -230,8 +211,61 @@ func (m *Mysql) Exec(sql string) (sql.Result, error) {
 	return m.connection.Exec(sql)
 }
 
+func (m *Mysql) Limit(args ... int) *Mysql {
+	// 传入一个或者两个参数
+	if len(args) == 0 || (len(args) != 1 && len(args) != 2) {
+		m.checkAppendError(errors.New(`the Limit function need 1 or 2 arguments `))
+		return m // 终止程序
+	}
+	if len(args) == 1 {
+		m.limitSql = ` limit ` + convertToString(args[0])
+	} else {
+		m.limitSql = ` limit ` + convertToString(args[0]) + `,` + convertToString(args[1])
+	}
+	return m
+}
+
+func (m *Mysql) OrderBy(args ... string) *Mysql {
+	// 最多可以传入2个参数 ，第一个是字段名，第二个是排序规则
+	// 判断现在的order by 语句中是否有order by，有的话，就在后面加 ,colName asc 
+	if len(args) == 0 || (len(args) != 1 && len(args) != 2) {
+		m.checkAppendError(errors.New(`the OrderBy function need 1 or 2 arguments `))
+		return m
+	}
+	collate := "ASC"
+	if len(args) == 2 {
+		collate = args[1] // 如果传入了第二个参数，就赋值给排序规则
+	}
+
+	if odArr := strings.Fields(m.orderBySql); len(odArr) == 0 || strings.ToUpper(odArr[0]) != "ORDER" { // 没有order by
+		m.orderBySql = ` ORDER BY ` + args[0] + ` ` + collate
+	} else {
+		m.orderBySql = m.orderBySql + `,` + args[0] + ` ` + collate
+	}
+	return m
+}
+
+func (m *Mysql) OrderByAsc(colName string) *Mysql {
+	// 传入排序的字段名，升序排序
+    m.OrderBy(colName,"ASC")
+	return m
+}
+
+func (m *Mysql) OrderByDesc(colName string) *Mysql {
+	//　传入排序的字段名，降序排序
+    m.OrderBy(colName,"DESC")
+	return m
+}
+
 func Check(err error) {
 	if err != nil {
 		panic(err)
+	}
+}
+
+// 检查error
+func (m *Mysql) checkAppendError(err error) {
+	if err != nil {
+		m.Errors = append(m.Errors, err)
 	}
 }

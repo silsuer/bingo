@@ -3,6 +3,7 @@ package mysql
 import (
 	"strings"
 	"strconv"
+	"errors"
 )
 
 // 建表
@@ -94,4 +95,77 @@ func (m *Mysql) CreateTableIfNotExist(tableName string, call func(table *Bluepri
 	stmt, err := m.connection.Prepare(table.sql)
 	_, err = stmt.Exec()
 	return err
+}
+
+// 创建数据库并且指定字符集
+func (m *Mysql) CreateDatabase(args ... string) *Mysql {
+	// 最多可以传3个参数，第一个是名字，第二个是字符集,第三个是排序规则
+	if len(args) == 0 {
+		m.checkAppendError(errors.New(`the function CreateDatabase need 1 or 2 or 3 args. Use case: CreateDatabase("db_name","gbk","gbk_chinese_ci")`))
+	}
+	dbName := args[0] // 指定数据库名称
+	//dbCharset := "utf8"            // 设置默认字符集
+	//dbCollate := "utf8_general_ci" // 设置默认排序规则
+
+	switch len(args) {
+	case 1: // 默认是uft8的
+		m.sql = `CREATE DATABASE  ` + dbName + ` DEFAULT CHARSET utf8 COLLATE utf8_general_ci`
+		break
+	case 2:
+		if strings.ToUpper(args[1]) == "UTF8" || strings.ToUpper(args[1]) == "UTF-8" {
+			m.sql = `CREATE DATABASE  ` + dbName + ` DEFAULT CHARSET utf8 COLLATE utf8_general_ci`
+		} else if strings.ToUpper(args[1]) == "GBK" {
+			m.sql = `CREATE DATABASE  ` + dbName + ` DEFAULT CHARSET gbk COLLATE gbk_chinese_ci`
+		} else {
+			// 除了这utf8和gbk这两种，其他的，必须指明排序规则
+			m.checkAppendError(errors.New("you must set your collate when create a new database"))
+			return m
+		}
+		break
+	case 3:
+		m.sql = `CREATE DATABASE  ` + dbName + ` DEFAULT CHARSET ` + args[1] + ` COLLATE ` + args[2]
+		break
+	default:
+		m.checkAppendError(errors.New(`too many arguments in the CreateDatabase function`))
+		break
+	}
+	res,err:= m.Exec(m.sql)
+	m.Result = res
+	m.checkAppendError(err)
+	return m
+}
+
+// 创建数据库（如果不存在的话）
+func (m *Mysql) CreateDatabaseIfNotExists(args ... string) *Mysql  {
+	// 最多可以传3个参数，第一个是名字，第二个是字符集,第三个是排序规则
+	if len(args) == 0 {
+		m.checkAppendError(errors.New(`the function CreateDatabase need 1 or 2 or 3 args. Use case: CreateDatabase("db_name","gbk","gbk_chinese_ci")`))
+	}
+	dbName := args[0] // 指定数据库名称
+	switch len(args) {
+	case 1: // 默认是uft8的
+		m.sql = `CREATE DATABASE IF NOT EXISTS  ` + dbName + ` DEFAULT CHARSET utf8 COLLATE utf8_general_ci`
+		break
+	case 2:
+		if strings.ToUpper(args[1]) == "UTF8" || strings.ToUpper(args[1]) == "UTF-8" {
+			m.sql = `CREATE DATABASE IF NOT EXISTS  ` + dbName + ` DEFAULT CHARSET utf8 COLLATE utf8_general_ci`
+		} else if strings.ToUpper(args[1]) == "GBK" {
+			m.sql = `CREATE DATABASE IF NOT EXISTS  ` + dbName + ` DEFAULT CHARSET gbk COLLATE gbk_chinese_ci`
+		} else {
+			// 除了这utf8和gbk这两种，其他的，必须指明排序规则
+			m.checkAppendError(errors.New("you must set your collate when create a new database"))
+			return m
+		}
+		break
+	case 3:
+		m.sql = `CREATE DATABASE IF NOT EXISTS  ` + dbName + ` DEFAULT CHARSET ` + args[1] + ` COLLATE ` + args[2]
+		break
+	default:
+		m.checkAppendError(errors.New(`too many arguments in the CreateDatabase function`))
+		break
+	}
+	res,err:= m.Exec(m.sql)
+	m.Result = res
+	m.checkAppendError(err)
+	return m
 }

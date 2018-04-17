@@ -34,9 +34,7 @@ func (m *Mysql) UpdateOne(data map[string]interface{}) *Mysql {
 	m.sql = `UPDATE ` + m.tableName + ` SET ` + kvSql + ` ` + m.whereSql
 	res, err := m.Exec(m.sql)
 	m.Result = res
-	if err != nil {
-		m.Errors = append(m.Errors, err)
-	}
+	m.checkAppendError(err)
 	return m
 }
 
@@ -46,9 +44,7 @@ func (m *Mysql) UpdateOneCasual(data map[string]interface{}) *Mysql {
 	d = append(d,data)
 	res,err := m.updateSqlCasual(d)
 	m.Result = res[0]
-	if err[0]!=nil {
-		m.Errors = append(m.Errors,err[0])
-	}
+	m.checkAppendError(err[0])
 	return m
 }
 
@@ -67,9 +63,7 @@ func (m *Mysql) UpdateCasual(data []map[string]interface{}) *Mysql {
     res,err:= m.updateSqlCasual(data)
     m.Results = res
     for _,v:= range err{
-    	if v!=nil{
-    		m.Errors = append(m.Errors,v)
-		}
+    	m.checkAppendError(v)
 	}
 	return m
 }
