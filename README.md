@@ -77,4 +77,196 @@ Bingo是一款使用`httprouter`作为路由的Web全栈开发框架。
         bingo.RegistRoute(Welcome)  // 调用这个方法，把我们上面定义的路由注册一下
    ```
    
+## 数据库操作：
+
+### 创建数据库
+```go
+     // 创建数据库
+	// 可以输入1到3个参数，分别是 数据库名 字符集，排序规则
+	// 默认只需要输入数据库名即可，字符集为utf8,排序规则为 utf8_general_ci
+	// 如果只想输入字符集的话，默认支持utf8和gbk字符集，会自动指明排序规则，
+	// 如果是其他的字符集，就必须输入第三个参数指明排序规则
+	res := bingo.DB().(*mysql.Mysql).CreateDatabase("bingo")
+	// 这里相当于 create database if not exists...
+	res := bingo.DB().(*mysql.Mysql).CreateDatabaseIfNotExists("bingo2","utf8")
+	res := bingo.DB().(*mysql.Mysql).CreateDatabase("bingo","gbk","gbk_chinese_ci")
+    fmt.Fprintln(w,res.Result)
+```
+
+
+### 创建数据表
+
+```go
+	// 创建数据库
+		// 第一个参数是表名，第二个参数是回调，在回调中指定每一个列的类型，默认值，和备注等数据
+	res := bingo.DB().(*mysql.Mysql).CreateTableIfNotExist("test", func(table *mysql.Blueprint) {
+		table.Increments("id").Comment("自增的id")
+		table.String("name").Default("default").Comment("姓名")
+		table.Integer("age").Default(18).Comment("年龄")
+	})
+	fmt.Fprintln(w,res)
+```
+   
+### 插入数据
+
+Bingo提供了4种方法向数据库中插入数据
+
+  1.向表中插入一条数据
+   ```go
+     	// 向表中插入一条数据
+     	// 1.InsertOne  向数据库中插入一条数据，传入的参数是map[string]interface{},其中，map的键是字段名，值是要插入的值 
+     	insert := make(map[string]interface{})
+     	insert["id"] = 1
+     	insert["name"] = "silsuer"
+     	insert["age"] = 18
+     	res := bingo.DB().(*mysql.Mysql).Table("test").InsertOne(insert)
+     	fmt.Fprintln(w, res)
+   ```
+ 2. 向表中插入一条数据，如果map中有表中不存在的字段，将会被过滤掉
+ ```go
+    // 过滤字段，插入数据
+    insert := make(map[string]interface{})
+	insert["name"] = "silsuer"
+	insert["age"] = 18
+	res := bingo.DB().(*mysql.Mysql).Table("test4").InsertOneCasual(insert)
+	fmt.Fprintln(w, res)
+  ```
+  
+ 3. 批量插入数据，并过滤不存在的字段
+ ```go
+	// 批量插入数据，InsertCasual方法是对每一行都执行一次插入操作，而不是一条语句全部插入
+	// 因此插入大量数据时会十分耗时，慎用
+	// 接收一个 map[string]interface 的切片，每一片代表一行要插入的数据
+	var insertData []map[string]interface{}
+	for i:=0;i<100 ; i++ {
+		insert := make(map[string]interface{})
+		insert["name"] = "test"+ strconv.Itoa(i)
+		insert["age"] = 18+i
+		insertData = append(insertData,insert)
+	}
+	res:=bingo.DB().(*mysql.Mysql).Table("test4").InsertCasual(insertData)
+	fmt.Fprint(w,res)
+  ```
+ 
+ 4. 批量插入数据
+ ```go
+     	// 批量插入数据
+     	// 接收一个 map[string]interface 的切片，每一片代表一行要插入的数据
+     	var insertData []map[string]interface{}
+     	for i:=0;i<100 ; i++ {
+     		insert := make(map[string]interface{})
+     		insert["name"] = "test"+ strconv.Itoa(i)
+     		insert["age"] = 18+i
+     		insertData = append(insertData,insert)
+     	}
+     	res:=bingo.DB().(*mysql.Mysql).Table("test4").Insert(insertData)
+     	fmt.Fprint(w,res)
+ ```
+ 
+ ### 更新数据
+ 
+ Bingo提供了3种更新数据的方法
+ 
+ 1. 更新一条数据（如果传入多余字段会报错）
+ ```go
+         // 更新一条数据
+     	// 接收一个map[string]interface{} 作为参数，如果存在表中没有的字段，将会报错
+     	// Where 函数接收2或者3个参数，2个参数，中间为默认的 = 号， 三个参数即 （“id”,">=",2），可以连续调用
+     	a:= make(map[string]interface{})
+     	a["name"] = "test"
+     	res := bingo.DB().(*mysql.Mysql).Table("test4").Where("id",1703).UpdateOne(a)
+     	fmt.Fprintln(w,res)
+ ```
+ 
+ 2. 更新一条数据（如果传入多余字段会被过滤掉）
+ 
+ ```go
+     // 更新一条数据，并且过滤多余字段
+	// 接收一个map[string]interface{} 作为参数，如果存在表中没有的字段，将会报错
+	// 请注意 Where和OrWhere的用法
+	a:= make(map[string]interface{})
+	a["name"] = "test"
+	res := bingo.DB().(*mysql.Mysql).Table("test4").Where("name","test4").OrWhere("id",">",2000).UpdateOneCasual(a)
+	fmt.Fprintln(w,res)
+ ```
+ 
+ 3. 批量更新(将会多次调用更新语句，大量数据时十分耗时，慎用)
+ ```go
+    // 更新多条数据，并且过滤多余字段
+	// 接收一个map[string]interface{} 的切片 作为参数，如果存在表中没有的字段，将会报错
+	var d []map[string]interface{}
+	a:= make(map[string]interface{})
+	a["name"] = "test"
+	b:= make(map[string]interface{})
+	b["age"] = 19
+	d = append(d,a)
+	d = append(d,b)
+	res := bingo.DB().(*mysql.Mysql).Table("test4").Where("name","test4").OrWhere("id",">",2000).UpdateCasual(d)
+	fmt.Fprintln(w,res)
+ ```
+ 
+ 
+### 查询数据
+1. 正常查询
+
+    ```go
+        // 查询数据
+        // 查询所有
+        res:= bingo.DB().(*mysql.Mysql).Table("test4").Get()
+        for res.Rows.Next() {
+            var id,age int
+            var name string
+            res.Rows.Scan(&id,&name,&age)
+            fmt.Fprintln(w,"id:"+strconv.Itoa(id)+" name:"+name+" age:"+strconv.Itoa(age))
+        }
+        
+               // 条件查询
+        res := bingo.DB().(*mysql.Mysql).Table("test4").Where("name","test93").Where("name","test94").OrWhere("id",">",1920).OrWhere("id","<",10).Get()
+    
+          // 排序和分组
+          // 默认是ASC排序，可以在第二个参数中传入排序规则，当然，也可以多次调用 
+        res := bingo.DB().(*mysql.Mysql).Table("test4").OrderBy("age").Get()
+        res := bingo.DB().(*mysql.Mysql).Table("test4").OrderBy("age","asc").OrderBy("name").Get()
+        
+         // 直接指明升序排列
+        res := bingo.DB().(*mysql.Mysql).Table("test4").OrderByAsc("age").Get()
+        
+          // 直接指明降序排列 （这样做的好处是IDE会有代码提示~）
+        res := bingo.DB().(*mysql.Mysql).Table("test4").OrderByDesc("age").Get()
+        
+          // 查询前五条数据
+        res := bingo.DB().(*mysql.Mysql).Table("test4").Limit(5).Get()
+        
+          // 查询第6到第15条数据
+        res := bingo.DB().(*mysql.Mysql).Table("test4").Limit(5,10).Get()
+        
+    ```
+
+2. 关联查询
+3. 分页
+
+### 删除数据
+
+```go
+
+        // 1. 删除数据
+        res := bingo.DB().(*mysql.Mysql).Table("test4").Where("id",1).Delete()
+        
+        // 2. 删除表
+        res := bingo.DB().(*mysql.Mysql).Table("test4").DropTable()
+        
+        // 3. 清空数据表,Delete禁止不使用Where直接删除，如果需要直接全部产出的话，必须在Delete方法中传入true
+        res := bingo.DB().(*mysql.Mysql).Table("test4").Delete(true)
+        // 4. 清空数据表，delete是一条一条的删除，直到数据表为空，而truncate 是直接清空数据表，速度比较快
+        res := bingo.DB().(*mysql.Mysql).Table("test4").Truncate()
+        // 5. 清空数据库,删除所有表
+        res := bingo.DB().(*mysql.Mysql).TruncateDatabase()
+        // 6. 清空数据库中的所有表的数据，而不删除表
+        res := bingo.DB().(*mysql.Mysql).TruncateDatabaseExceptTables()
+        
+         // 7. 删除数据库
+        res := bingo.DB().(mysql.Mysql).DropDatabase()
+
+```
+
  ####  未完待续

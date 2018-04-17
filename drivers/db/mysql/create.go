@@ -40,7 +40,7 @@ func (bp *Blueprint) Comment(comment string) *Blueprint {
 // 给建表语句添加默认值
 func (bp *Blueprint) Default(def interface{}) *Blueprint {
 	if bp.currentColType == "integer" {
-		bp.colSql[bp.currentCol] = bp.colSql[bp.currentCol] + " default " + strings.TrimSpace(def.(string))
+		bp.colSql[bp.currentCol] = bp.colSql[bp.currentCol] + " default " + strings.TrimSpace(strconv.Itoa(def.(int)))
 	} else {
 		bp.colSql[bp.currentCol] = bp.colSql[bp.currentCol] + " default '" + strings.TrimSpace(def.(string)) + "'"
 	}

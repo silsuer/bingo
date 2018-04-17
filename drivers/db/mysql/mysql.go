@@ -174,9 +174,9 @@ func (m *Mysql) OrWhere(args ... interface{}) *Mysql {
 		if ifWhere {
 			// 如果是字符串类型，加引号
 			if isString(cType) {
-				m.whereSql = m.whereSql + ` AND ` + convertToString(args[0]) + convertToString(args[1]) + `'` + convertToString(args[2]) + `'`
+				m.whereSql = m.whereSql + ` OR ` + convertToString(args[0]) + convertToString(args[1]) + `'` + convertToString(args[2]) + `'`
 			} else {
-				m.whereSql = m.whereSql + ` AND ` + convertToString(args[0]) + convertToString(args[1]) + convertToString(args[2])
+				m.whereSql = m.whereSql + ` OR ` + convertToString(args[0]) + convertToString(args[1]) + convertToString(args[2])
 			}
 		} else {
 			// 没有where 要写 where a=b

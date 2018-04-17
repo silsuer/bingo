@@ -31,7 +31,7 @@ func (m *Mysql) InsertOne(data map[string]interface{}) *Mysql {
 	d = append(d, data)
 	m.insertSql(d)
 	res, err := m.Exec(m.sql)
-	 m.Result = res
+	m.Result = res
 	m.checkAppendError(err)
 	return m
 }
@@ -40,7 +40,7 @@ func (m *Mysql) InsertOne(data map[string]interface{}) *Mysql {
 func (m *Mysql) Insert(data []map[string]interface{}) *Mysql {
 	m.insertSql(data) // 拼接插入语句
 	// 获取表结构
-	res,err:= m.Exec(m.sql) // 执行语句并返回
+	res, err := m.Exec(m.sql) // 执行语句并返回
 	m.Result = res
 	m.checkAppendError(err)
 	return m
@@ -53,15 +53,15 @@ func (m *Mysql) InsertOneCasual(data map[string]interface{}) *Mysql {
 	res, err := m.insertCasualSql(d)
 	m.Result = res[0]
 	m.checkAppendError(err[0])
-	m.Errors = append(m.Errors,err[0]) // 只插入一条，返回第一个
+	m.Errors = append(m.Errors, err[0]) // 只插入一条，返回第一个
 	return m
 }
 
 func (m *Mysql) InsertCasual(data []map[string]interface{}) *Mysql {
-	res,err:= m.insertCasualSql(data)
+	res, err := m.insertCasualSql(data)
 	m.Results = res
-	if len(err)!=0{
-		for _,v := range err{
+	if len(err) != 0 {
+		for _, v := range err {
 			m.checkAppendError(v)
 		}
 	}
@@ -105,31 +105,33 @@ func (m *Mysql) insertCasualSql(data []map[string]interface{}) ([]sql.Result, []
 
 func (m *Mysql) insertSql(data []map[string]interface{}) error {
 	cif := m.GetTableInfo().Info // 获取表的列结构
-	var keySql, valueSql string
-	for _, v := range data {
-		// 置空
-		keySql = ``
-		// 再进行一次遍历，拼凑key
-		for key, value := range v {
-			keySql = keySql + key + `,`
-			valueSql = valueSql + `(`
-			if attr, ok := cif[key]; ok {
 
-				// 存在这个列，开始判断这个列的属性
-				if isString(attr.Type) {
-					// 如果是字符串类型，插入时要加引号,目前只能插入int和string类型的值
-					valueSql = valueSql + `'` + convertToString(value) + `',`
-				} else {
-					valueSql = valueSql + convertToString(value) + `,`
+	// 先拼凑出key的切片,然后在下面的遍历中让切片和键值对应
+	var keySlice []string
+	for k := range data[0] {
+		keySlice = append(keySlice, k)
+	}
+	var keySql, valueSql string
+	keySql = strings.Join(keySlice,",")
+	for _, v := range data {
+		valueSql = valueSql + `(`
+		// 遍历keySlice
+		for _,key:= range keySlice{
+			if attr,ok:= cif[key];ok {
+				// 存在这个列，开始判断属性
+				if isString(attr.Type){
+					// 如果是字符串类型，插入时加引号
+					valueSql = valueSql + `'` + convertToString(v[key]) + `',`
+				}else{
+					valueSql = valueSql + convertToString(v[key]) + `,`
 				}
-				valueSql = strings.TrimRight(valueSql, `,`)
-			} else {
+			}else{
 				return errors.New("cannot find a column named " + key + " in " + m.tableName + " table ")
 			}
-			valueSql = valueSql + `),`
 		}
+		valueSql = strings.TrimRight(valueSql, `,`)
+		valueSql = valueSql + `),`
 	}
-	keySql = strings.TrimRight(keySql, `,`)
 	valueSql = strings.TrimRight(valueSql, `,`)
 	// 拼接sql字符串
 	m.sql = `INSERT INTO ` + m.tableName + ` (` + keySql + ` ) VALUES  ` + valueSql

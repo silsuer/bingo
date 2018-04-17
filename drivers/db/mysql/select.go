@@ -10,6 +10,7 @@ func (m *Mysql) Get() *Mysql {
 	m.sql = "select" + m.columnSql + "from " + m.tableSql + m.whereSql + m.limitSql + m.orderBySql
 	rows, err := m.connection.Query(m.sql)
 	m.checkAppendError(err)
+	//defer rows.Close()
 	m.Rows = rows
 	return m
 }
