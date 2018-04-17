@@ -2,14 +2,14 @@
 
 bingo是一个基于go语言的轻量级API框架，专注构建restfulAPI
 
-GitHub地址：[silsuer/bingo](https://github.com/silsuer/bingo)
+GitHub地址：[silsuer/bingo](https://github.com/silsuer/bingo/commit/51504ce73687c73596e3df260724a6203241bbfe)
 
 ## 目录结构
 
-app 放置与网站相关代码
-core 放置框架核心代码a
-vendor 放置第三方库,使用glide管理第三方库
-public 放置html代码
+ - app 放置与网站相关代码
+ - core 放置框架核心代码a
+ - vendor 放置第三方库,使用glide管理第三方库
+ - public 放置html代码
 
 ## 开发过程
 
@@ -463,3 +463,21 @@ func parseRootRoute(group map[string]interface{}) []route {
                 fmt.Fprint(w,rr)
 
       ```
+      
+### 20180417 更新
+
+   - ORM新增更新功能，可批量更新数据（目前只能使用Casual进行批量更新，即执行多条语句并忽略多余字段，比较耗时，性能低下）
+   
+   - ORM新增Where功能，可Where，可OrWhere
+   
+       ```go
+        // 更新数据
+        a := make(map[string]interface{})
+        //a["id"] = 1
+        a["name"] = "ddd"
+        a["age"] = 11
+        // 更新一行
+        rr:= bingo.DB().(*mysql.Mysql).Table("test").Where("id",1).OrWhere("id",6).UpdateOneCasual(a)
+        rr:= bingo.DB().(*mysql.Mysql).Table("test").Where("id",1).OrWhere("id",6).UpdateOne(a)
+        fmt.Fprint(w,rr)
+       ```

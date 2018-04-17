@@ -26,30 +26,52 @@ type tableInfo struct {
 var TableInfo map[string]tableInfo // 所有表的结构信息
 
 // 向数据库中插入一条或多条数据,data键是列名，值是列数据
-func (m *Mysql) InsertOne(data map[string]interface{}) (sql.Result, error) {
+func (m *Mysql) InsertOne(data map[string]interface{}) *Mysql {
 	var d []map[string]interface{}
 	d = append(d, data)
 	m.insertSql(d)
-	return m.Exec(m.sql)
+	res, err := m.Exec(m.sql)
+	 m.Result = res
+	if err != nil {
+		m.Errors = append(m.Errors,err)
+	}
+	return m
 }
 
 // 插入多行
-func (m *Mysql) Insert(data []map[string]interface{}) (sql.Result, error) {
+func (m *Mysql) Insert(data []map[string]interface{}) *Mysql {
 	m.insertSql(data) // 拼接插入语句
 	// 获取表结构
-	return m.Exec(m.sql) // 执行语句并返回
+	res,err:= m.Exec(m.sql) // 执行语句并返回
+	m.Result = res
+	if err != nil {
+		m.Errors = append(m.Errors,err)
+	}
+	return m
 }
 
 // 插入时如果有不存在的列，会忽略掉 #随便插插 :)
-func (m *Mysql) InserOnetCasual(data map[string]interface{}) (sql.Result,error)  {
-	 var d []map[string]interface{}
-	 d = append(d,data)
-	 res,err := m.insertCasualSql(d)
-     return res[0],err[0]  // 只插入一条，返回第一个
+func (m *Mysql) InsertOneCasual(data map[string]interface{}) *Mysql {
+	var d []map[string]interface{}
+	d = append(d, data)
+	res, err := m.insertCasualSql(d)
+	m.Result = res[0]
+	if err[0]!=nil {
+		m.Errors = append(m.Errors,err[0])
+	}
+	m.Errors = append(m.Errors,err[0]) // 只插入一条，返回第一个
+	return m
 }
 
-func (m *Mysql) InsertCasual(data []map[string]interface{})  ([]sql.Result, []error) {
-    return m.insertCasualSql(data)
+func (m *Mysql) InsertCasual(data []map[string]interface{}) *Mysql {
+	res,err:= m.insertCasualSql(data)
+	m.Results = res
+	if len(err)!=0{
+		for _,v := range err{
+			m.Errors = append(m.Errors,v)
+		}
+	}
+	return m
 }
 
 // 拼接随便插插的语句....
@@ -77,8 +99,8 @@ func (m *Mysql) insertCasualSql(data []map[string]interface{}) ([]sql.Result, []
 				continue
 			}
 		}
-        keySql = strings.TrimRight(keySql,`,`)
-        valueSql = strings.TrimRight(valueSql,`,`)
+		keySql = strings.TrimRight(keySql, `,`)
+		valueSql = strings.TrimRight(valueSql, `,`)
 		sql := `INSERT INTO ` + m.tableName + ` (` + keySql + ` ) VALUES ( ` + valueSql + `)`
 		re, err := m.Exec(sql)
 		res = append(res, re)
