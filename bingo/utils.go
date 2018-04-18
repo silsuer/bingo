@@ -6,6 +6,7 @@ import (
 	"strings"
 	"io/ioutil"
 	"errors"
+	"bingo/drivers/db/mysql"
 )
 
 
@@ -87,6 +88,11 @@ func DB() interface{} {
 	con := Driver.GetConnection()  // 获取数据库连接
 	return con
 }
+
+func MySqlDB() *mysql.Mysql  {
+	return DB().(*mysql.Mysql)
+}
+
 
 /**
  * 判断文件是否存在  存在返回 true 不存在返回false

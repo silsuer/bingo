@@ -269,3 +269,5 @@ func (m *Mysql) checkAppendError(err error) {
 		m.Errors = append(m.Errors, err)
 	}
 }
+
+

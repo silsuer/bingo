@@ -79,6 +79,12 @@ Bingo是一款使用`httprouter`作为路由的Web全栈开发框架。
    
 ## 数据库操作：
 
+*如果你愿意使用`DB()`函数的话（因为使用这个函数之后需要转换为数据库类型，比如`bingo.DB().(*mysql.Mysql)`）*
+
+*你也可以直接使用另一个辅助函数`MysqlDB()`,这个函数替你做了类型转换的操作*
+
+*即可以这样使用`bingo.MysqlDB().Table("test").Find(12)`(查找id为12的数据)*
+
 ### 创建数据库
 ```go
      // 创建数据库
@@ -240,10 +246,46 @@ Bingo提供了4种方法向数据库中插入数据
           // 查询第6到第15条数据
         res := bingo.DB().(*mysql.Mysql).Table("test4").Limit(5,10).Get()
         
+          // 单独设置某个字段的值
+        res := bingo.DB().(*mysql.Mysql).Table("test").Where("id",1).SetField("age",14)
+        res := bingo.DB().(*mysql.Mysql).Table("test").Where("id",1).SetField("name","silsuer")
+        fmt.Fprintln(w,res)
+        
+        	// 分组查询
+        res := bingo.DB().(*mysql.Mysql).Table("test").Limit(5).GroupBy("age","id").Having("id",">",190).Get()
+        for res.Rows.Next() {
+        	var id,age int
+        	var name string
+        	res.Rows.Scan(&id,&name,&age)
+        	fmt.Fprintln(w,"id:"+strconv.Itoa(id)+" name:"+name+" age:"+strconv.Itoa(age))
+        }
+     
+        //查询单条记录
+     	res := bingo.DB().(*mysql.Mysql).Table("test").First()
+     	res := bingo.DB().(*mysql.Mysql).Table("test").Find(1)
+     	var id, age int
+     	var name string
+     	res.Row.Scan(id, name, age)
+     	fmt.Fprintln(w, "id:"+strconv.Itoa(id)+" name:"+name+" age:"+strconv.Itoa(age))
     ```
 
 2. 关联查询
 3. 分页
+4. 事务
+    
+    ```go
+            // 使用事务,Transaction中传入一个回调，即可使用事务
+             res := bingo.DB().(*mysql.Mysql).Transaction(func() {
+                a:=make(map[string]interface{})
+                a["name"] = "test"
+                a["age"] = 18
+                bingo.DB().(*mysql.Mysql).InsertOne(a)
+                bingo.DB().(*mysql.Mysql).InsertOneCasual(a)
+            })
+             fmt.Fprintln(w,res)
+
+     ```
+    
 
 ### 删除数据
 
