@@ -293,6 +293,10 @@ func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		defer r.recv(w, req)
 	}
 
+	// 在查找之前，要先看看是否存在中间件
+	// 注册路由的时候，应该把中间件也放在此处
+
+	// 开始去查找注册的路由函数
 	if root := r.trees[req.Method]; root != nil {
 		path := req.URL.Path
 
