@@ -170,38 +170,38 @@ func New() *Router {
 }
 
 // GET is a shortcut for router.Handle("GET", path, handle)
-func (r *Router) GET(path string, handle Handle) {
-	r.Handle("GET", path, handle)
+func (r *Router) GET(path string, route Route) {
+	r.Handle("GET", path, route)
 }
 
 // HEAD is a shortcut for router.Handle("HEAD", path, handle)
-func (r *Router) HEAD(path string, handle Handle) {
-	r.Handle("HEAD", path, handle)
+func (r *Router) HEAD(path string, route Route) {
+	r.Handle("HEAD", path, route)
 }
 
 // OPTIONS is a shortcut for router.Handle("OPTIONS", path, handle)
-func (r *Router) OPTIONS(path string, handle Handle) {
-	r.Handle("OPTIONS", path, handle)
+func (r *Router) OPTIONS(path string, route Route) {
+	r.Handle("OPTIONS", path, route)
 }
 
 // POST is a shortcut for router.Handle("POST", path, handle)
-func (r *Router) POST(path string, handle Handle) {
-	r.Handle("POST", path, handle)
+func (r *Router) POST(path string, route Route) {
+	r.Handle("POST", path, route)
 }
 
 // PUT is a shortcut for router.Handle("PUT", path, handle)
-func (r *Router) PUT(path string, handle Handle) {
-	r.Handle("PUT", path, handle)
+func (r *Router) PUT(path string, route Route) {
+	r.Handle("PUT", path, route)
 }
 
 // PATCH is a shortcut for router.Handle("PATCH", path, handle)
-func (r *Router) PATCH(path string, handle Handle) {
-	r.Handle("PATCH", path, handle)
+func (r *Router) PATCH(path string, route Route) {
+	r.Handle("PATCH", path, route)
 }
 
 // DELETE is a shortcut for router.Handle("DELETE", path, handle)
-func (r *Router) DELETE(path string, handle Handle) {
-	r.Handle("DELETE", path, handle)
+func (r *Router) DELETE(path string, route Route) {
+	r.Handle("DELETE", path, route)
 }
 
 // Handle registers a new request handle with the given path and method.
@@ -212,7 +212,7 @@ func (r *Router) DELETE(path string, handle Handle) {
 // This function is intended for bulk loading and to allow the usage of less
 // frequently used, non-standardized or custom methods (e.g. for internal
 // communication with a proxy).
-func (r *Router) Handle(method, path string, handle Handle) {
+func (r *Router) Handle(method, path string, route Route) {
 	if path[0] != '/' {
 		panic("path must begin with '/' in path '" + path + "'")
 	}
@@ -227,17 +227,17 @@ func (r *Router) Handle(method, path string, handle Handle) {
 		r.trees[method] = root
 	}
 
-	root.addRoute(path, handle)
+	root.addRoute(path, route)
 }
 
 // Handler is an adapter which allows the usage of an http.Handler as a
 // request handle.
 func (r *Router) Handler(method, path string, handler http.Handler) {
-	r.Handle(method, path,
-		func(w http.ResponseWriter, req *http.Request, _ Params) {
-			handler.ServeHTTP(w, req)
-		},
-	)
+	route := Route{}
+	route.Target = func(context *Context) {
+		handler.ServeHTTP(context.Writer,context.Request)
+	}
+	r.Handle(method, path, route)
 }
 
 // HandlerFunc is an adapter which allows the usage of an http.HandlerFunc as a
@@ -263,10 +263,13 @@ func (r *Router) ServeFiles(path string, root http.FileSystem) {
 
 	fileServer := http.FileServer(root)
 
-	r.GET(path, func(w http.ResponseWriter, req *http.Request, ps Params) {
-		req.URL.Path = ps.ByName("filepath")
-		fileServer.ServeHTTP(w, req)
-	})
+	route:= Route{}
+	route.Target = func(context *Context) {
+		context.Request.URL.Path = context.Params.ByName("filepath")
+		fileServer.ServeHTTP(context.Writer, context.Request)
+	}
+
+	r.GET(path, route)
 }
 
 func (r *Router) recv(w http.ResponseWriter, req *http.Request) {
@@ -280,11 +283,11 @@ func (r *Router) recv(w http.ResponseWriter, req *http.Request) {
 // If the path was found, it returns the handle function and the path parameter
 // values. Otherwise the third return value indicates whether a redirection to
 // the same path with an extra / without the trailing slash should be performed.
-func (r *Router) Lookup(method, path string) (Handle, Params, bool) {
+func (r *Router) Lookup(method, path string) (Route, Params, bool) {
 	if root := r.trees[method]; root != nil {
 		return root.getValue(path)
 	}
-	return nil, nil, false
+	return Route{}, nil, false
 }
 
 // ServeHTTP makes the router implement the http.Handler interface.
@@ -300,8 +303,18 @@ func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	if root := r.trees[req.Method]; root != nil {
 		path := req.URL.Path
 
-		if handle, ps, tsr := root.getValue(path); handle != nil {
-			handle(w, req, ps)
+		if route, ps, tsr := root.getValue(path); route.Target != nil {
+			// 封装上下文
+			context := &Context{w,req,ps}
+
+			// 判断路由是否有中间件列表，如果有，就执行
+			if len(route.Middleware)!=0{
+				for _,middleHandle:= range route.Middleware{
+					context = middleHandle(context)   // 顺序执行中间件，得到的返回结果重新注入到上下文中
+				}
+			}
+			// 执行目标函数
+			route.Target(context)
 			return
 		} else if req.Method != "CONNECT" && path != "/" {
 			code := 301 // Permanent redirect, request with GET method
@@ -344,8 +357,8 @@ func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 				continue
 			}
 
-			handle, _, _ := r.trees[method].getValue(req.URL.Path)
-			if handle != nil {
+			route, _, _ := r.trees[method].getValue(req.URL.Path)
+			if route.Target != nil {
 				if r.MethodNotAllowed != nil {
 					r.MethodNotAllowed(w, req)
 				} else {
@@ -367,25 +380,37 @@ func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
-const GET  =  "GET"
-const POST  = "POST"
-const DELETE  = "DELETE"
+const GET = "GET"
+const POST = "POST"
+const DELETE = "DELETE"
+
 //const PUTCH  = "PUTCH"
 //const put
 
-type Route struct {
-	Path       string   // 路径
-	Target     Handle   // 对应的控制器路径 Controller@index 这样的方法
-	Method     string   // 访问类型 是get post 或者其他
-	Alias      string   // 路由的别名
-	Middleware []Handle // 中间件名称
+// 上下文结构体
+type Context struct {
+	Writer  http.ResponseWriter // 响应
+	Request *http.Request       // 请求
+	Params  Params              //参数
 }
 
-var RouteList []Route  // 全体列表
+type TargetHandle func(c *Context)
+
+type MiddlewareHandle func(c *Context) *Context    // 中间件需要把上下文返回回来，用来传入TargetHandle中
+
+type Route struct {
+	Path       string   // 路径
+	Target     TargetHandle   // 要执行的方法
+	Method     string   // 访问类型 是get post 或者其他
+	Alias      string   // 路由的别名，并没有什么卵用的样子.......
+	Middleware []MiddlewareHandle // 中间件名称，在执行TargetHandle之前执行的方法
+}
+
+var RouteList []Route // 全体列表
 
 // 注册路由
-func RegistRoute(r []Route)  {
-	for _,v := range r {
-		RouteList = append(RouteList,v)   // 把要注册的路由放置到路由列表中
+func RegisterRoute(r []Route) {
+	for _, v := range r {
+		RouteList = append(RouteList, v) // 把要注册的路由放置到路由列表中
 	}
 }

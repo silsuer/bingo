@@ -50,7 +50,7 @@ Bingo是一款使用`httprouter`作为路由的Web全栈开发框架。
 
   `Bingo`的路由策略非常自由，基于`Httprouter`，性能强劲。
   
-  随意建立一个go文件，或者就在start.go中，声明一个路由列表，然后使用`bingo.RegistRoute()`把这个路由注册进去即可
+  随意建立一个go文件，或者就在start.go中，声明一个路由列表，然后使用`bingo.RegisterRoute()`把这个路由注册进去即可
    
    ```go
        //示例：
@@ -58,8 +58,8 @@ Bingo是一款使用`httprouter`作为路由的Web全栈开发框架。
         	{
         		Path:"/",
         		Method:bingo.GET,
-        		Target: func(writer http.ResponseWriter, request *http.Request, params bingo.Params) {
-        			fmt.Fprint(writer,"<h1>Welcome to Bingo!</h1>")
+        		Target: func(c *bingo.Context) {
+        			fmt.Fprint(c.Writer,"<h1>Welcome to Bingo!</h1>")
         		},
         	},
         	{
@@ -70,16 +70,52 @@ Bingo是一款使用`httprouter`作为路由的Web全栈开发框架。
         }
         
         // 上面注册的路由的Target的方法
-       func Admin(w http.ResponseWriter,r *http.Request,_ bingo.Params)  {
+       func Admin(c *bingo.Context)  {
        	
        }
 
-        bingo.RegistRoute(Welcome)  // 调用这个方法，把我们上面定义的路由注册一下
+        bingo.RegisterRoute(Welcome)  // 调用这个方法，把我们上面定义的路由注册一下
+        b := bingo.Bingo{}  // 建立一个bingo结构体
+        b.Run(":12345")     // 执行Run函数传入端口号即可开启Http服务器
    ```
+ 
+## 中间件：
+
+1. 编写中间件代码
+
+   ```go
+      // 编写完成中间件，请务必返回一个上下文指针
+      func Middleware(c *bingo.Context) *bingo.Context  {
+   	    // c.Writer 是 http.ResponseWriter c.Request 是 *http.Request c.Params是传入的参数
+      	fmt.Fprintln(c.Writer,"Hello,I am a middleware!")
+      	return c
+      }
+   ``` 
+
+2. 在路由中使用中间件
+
+   ```go
+      // 你可以这样定义路由
+      var Welcome = []bingo.Route{
+        {
+            Path:"/",
+            Method:bingo.GET,
+            Target: func(context *bingo.Context) {
+               fmt.Fprintln(context.Writer,"Welcome to Bingo")
+            },
+            Middleware:[]bingo.MiddlewareHandle{
+               Middleware,	
+            },
+        },
+      }
+     // 然后正常使用bingo.RegisterRoute(Welcome)注册路由即可
+   ```
+   
+ 
    
 ## 数据库操作：
 
-*如果你愿意使用`DB()`函数的话（因为使用这个函数之后需要转换为数据库类型，比如`bingo.DB().(*mysql.Mysql)`）*
+*如果你不愿意使用`DB()`函数的话（因为使用这个函数之后需要转换为数据库类型，比如`bingo.DB().(*mysql.Mysql)`）*
 
 *你也可以直接使用另一个辅助函数`MysqlDB()`,这个函数替你做了类型转换的操作*
 
@@ -103,7 +139,7 @@ Bingo是一款使用`httprouter`作为路由的Web全栈开发框架。
 ### 创建数据表
 
 ```go
-	// 创建数据库
+	    // 创建数据库
 		// 第一个参数是表名，第二个参数是回调，在回调中指定每一个列的类型，默认值，和备注等数据
 	res := bingo.DB().(*mysql.Mysql).CreateTableIfNotExist("test", func(table *mysql.Blueprint) {
 		table.Increments("id").Comment("自增的id")

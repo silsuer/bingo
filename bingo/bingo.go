@@ -14,7 +14,7 @@ func (b *Bingo) Run(port string) {
 	router := New()
     // 开始把路由列表注册到tree中
     for _,v:= range RouteList {
-    	router.Handle(v.Method,v.Path,v.Target)
+    	router.Handle(v.Method,v.Path,v)
 	}
 	fmt.Println("Bingo Running......")
 	// 静态页面
