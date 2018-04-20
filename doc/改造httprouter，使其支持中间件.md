@@ -198,13 +198,13 @@ This package just provides a very efficient request router with a few extra feat
     ```
    现在我们要把其中的Handle类型的数据都改成我们自己的Route类型，
    
-   很简单，代码就不贴了，想看的请看commit变更记录
+   很简单，代码就不贴了，想看的请看[commit变更记录](https://github.com/silsuer/bingo/commit/b651757e328b9a711ad2fe274ece8326c954d762)
    
    接下来更改整个tree文件，实际上就是把`tree`的`node`结构体中的`handle`改为route
    
    然后将tree文件中用到`handle`的地方，都用`n.route.Target`代替，虽然是无脑操作，但是要改不少行
    
-   也不贴代码了...  commit记录在这里...
+   也不贴代码了...  commit记录在这里...  [commit变更记录](https://github.com/silsuer/bingo/commit/b651757e328b9a711ad2fe274ece8326c954d762)
    
    改完之后的 `ServeHttp`是这样滴~
    

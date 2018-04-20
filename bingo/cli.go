@@ -10,8 +10,14 @@ import (
 )
 
 const envContent = `# Bingo Config File .......
+# Bingo Config File .......
 # 静态文件夹路径
 STATIC_FILE_DIR : public
+# session驱动配置 map是以map的形式存储在内存中  file 存储在文件中  db 存储在数据库中 redis存储在redis中 bolt，存储在bolt中
+SESSION_DRIVER : file
+# 用file存储session，会生成sessions文件，用数据库存，会生成sessions表
+SESSION_DRIVER_NAME : sessions
+
 
 # 数据库配置
 DB_DRIVER : MYSQL
@@ -21,15 +27,16 @@ DB_PORT : 3306
 DB_USERNAME : root
 DB_PASSWORD : root
 DB_CHARSET: utf8
+           
            `
 
 // start.go中的数据
 const startContent = `
+
 package main
 
 import (
-	"bingo/bingo"
-	"net/http"
+	"github.com/silsuer/bingo/bingo"
 	"fmt"
 )
 
@@ -37,15 +44,15 @@ var Welcome = []bingo.Route{
 	{
 		Path:"/",
 		Method:bingo.GET,
-		Target: func(writer http.ResponseWriter, request *http.Request, params bingo.Params) {
-			fmt.Fprint(writer,"<h1>Welcome to Bingo!</h1>")
+		Target: func(c *bingo.Context) {
+		    fmt.Fprintln(c.Writer,"<h1>Welcome to Bingo!</h1>")	
 		},
 	},
 }
 
 func main() {
 	b := bingo.Bingo{}
-	bingo.RegistRoute(Welcome)
+	bingo.RegisterRoute(Welcome)
 	b.Run(":12345")
 }
 
