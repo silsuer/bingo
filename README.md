@@ -347,4 +347,20 @@ Bingo提供了4种方法向数据库中插入数据
 
 ```
 
+## 会话管理
+
+### 使用session
+
+ Bingo使用 `gorilla/sessions` 管理session，具体用法如下：
+ 
+ ```go
+    func Index(c *bingo.Context) {
+    	// 设置一个session
+    	c.Session.Set("name","silsuer")
+    	// 读取一个session
+    	fmt.Fprintln(c.Writer,c.Session.Get("name"))
+    }
+ ```
+
+
  ####  未完待续

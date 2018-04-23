@@ -78,6 +78,7 @@ package bingo
 
 import (
 	"net/http"
+	"fmt"
 )
 
 // Handle is a function that can be registered to a route to handle HTTP
@@ -305,8 +306,9 @@ func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 
 		if route, ps, tsr := root.getValue(path); route.Target != nil {
 			// 封装上下文
-			context := &Context{w,req,ps}
-
+			session,err := globalSession.Get(req,"bingoSess")  // 从cookie读取数据并且返回对应session
+			fmt.Println(err)
+			context := &Context{w,req,ps ,Session{session:session,writer:w,req:req}}
 			// 判断路由是否有中间件列表，如果有，就执行
 			if len(route.Middleware)!=0{
 				for _,middleHandle:= range route.Middleware{
@@ -392,7 +394,10 @@ type Context struct {
 	Writer  http.ResponseWriter // 响应
 	Request *http.Request       // 请求
 	Params  Params              //参数
+	Session Session  // 保存session
 }
+
+//var store = sessions.NewCookieStore（[] byte（“something-very-secret”））
 
 type TargetHandle func(c *Context)
 

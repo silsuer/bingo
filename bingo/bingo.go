@@ -3,6 +3,7 @@ package bingo
 import (
 	"net/http"
 	"fmt"
+	"github.com/gorilla/context"
 )
 
 // bingo结构体，向外暴露一些属性和方法  实现了http方法
@@ -22,6 +23,6 @@ func (b *Bingo) Run(port string) {
 		http.ServeFile(writer,request,GetPublicPath()+request.URL.Path)
 	}
 	// 开启服务器
-	http.ListenAndServe(port, router)
+	http.ListenAndServe(port, context.ClearHandler(router))
 	// TODO 监听平滑升级和重启
 }

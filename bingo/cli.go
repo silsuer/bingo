@@ -10,14 +10,12 @@ import (
 )
 
 const envContent = `# Bingo Config File .......
-# Bingo Config File .......
 # 静态文件夹路径
 STATIC_FILE_DIR : public
-# session驱动配置 map是以map的形式存储在内存中  file 存储在文件中  db 存储在数据库中 redis存储在redis中 bolt，存储在bolt中
-SESSION_DRIVER : file
-# 用file存储session，会生成sessions文件，用数据库存，会生成sessions表
+# session驱动配置 map是以map的形式存储在内存中 db 存储在数据库中 redis存储在redis中 bolt，存储在bolt中
+SESSION_DRIVER : kvstorage
+# 用数据库存，会生成sessions表，用KVStorage存储，会生成sessions bucket
 SESSION_DRIVER_NAME : sessions
-
 
 # 数据库配置
 DB_DRIVER : MYSQL
@@ -27,6 +25,12 @@ DB_PORT : 3306
 DB_USERNAME : root
 DB_PASSWORD : root
 DB_CHARSET: utf8
+
+# bolt设置
+# 数据库文件名
+KVSTORAGE_DB_NAME : bingo.db
+# kv存储时的默认bucket的名字
+KVSTORAGE_BUCKET : bingo
            
            `
 
