@@ -23,6 +23,9 @@ func (b *Bingo) Run(port string) {
 		http.ServeFile(writer,request,GetPublicPath()+request.URL.Path)
 	}
 	// 开启服务器
-	http.ListenAndServe(port, context.ClearHandler(router))
+	err := http.ListenAndServe(port, context.ClearHandler(router))
+	if err != nil {
+		fmt.Println(err)
+	}
 	// TODO 监听平滑升级和重启
 }

@@ -2,7 +2,7 @@ package bingo
 
 import (
 	"strings"
-	"bingo/drivers/db/mysql"
+	"github.com/silsuer/bingo/drivers/db/mysql"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -33,10 +33,10 @@ func DriverInit() {
 func (d *driver) GetConnection() interface{} {
 	switch d.name {
 	case "MYSQL":
-		m := mysql.Mysql{}                // 实例化结构体
+		m := mysql.Mysql{}                 // 实例化结构体
 		m.TableSchema = Env.Get("DB_NAME") // 数据库名
-		m.Init(Driver.dbConfig) // 设置表名和数据库连接
-		return &m                         // 返回实例
+		m.Init(Driver.dbConfig)            // 设置表名和数据库连接
+		return &m                          // 返回实例
 		break
 	default:
 		break

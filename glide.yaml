@@ -11,3 +11,5 @@ import:
   version: v1.1
 - package: github.com/gorilla/securecookie
   version: v1.1.1
+- package: go.uber.org/dig
+  version: v1.3.0

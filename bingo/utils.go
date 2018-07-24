@@ -6,10 +6,8 @@ import (
 	"strings"
 	"io/ioutil"
 	"errors"
-	"bingo/drivers/db/mysql"
+	"github.com/silsuer/bingo/drivers/db/mysql"
 )
-
-
 
 // 这里主要写自定义函数
 
@@ -76,7 +74,7 @@ func GetPublicPath() string {
 	dir, err := os.Getwd()
 	dir = strings.Replace(dir, "\\", "/", -1)
 	Check(err)
-	return dir+"/" + Env.Get("STATIC_FILE_DIR")
+	return dir + "/" + Env.Get("STATIC_FILE_DIR")
 }
 
 func DB() interface{} {
@@ -85,14 +83,13 @@ func DB() interface{} {
 	if Driver == nil {
 		DriverInit()
 	}
-	con := Driver.GetConnection()  // 获取数据库连接
+	con := Driver.GetConnection() // 获取数据库连接
 	return con
 }
 
-func MySqlDB() *mysql.Mysql  {
+func MySqlDB() *mysql.Mysql {
 	return DB().(*mysql.Mysql)
 }
-
 
 /**
  * 判断文件是否存在  存在返回 true 不存在返回false
@@ -104,5 +101,3 @@ func CheckFileIsExist(filename string) bool {
 	}
 	return exist
 }
-
-

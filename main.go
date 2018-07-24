@@ -1,7 +1,7 @@
 package main
 
 import (
-	"bingo/bingo"
+	"bingo"
 )
 
 

@@ -1,5 +1,5 @@
-hash: 51f1de05e4001f415ae38ad4ec1a0f640dd8b76180298934810c96b05c70290e
-updated: 2018-04-23T19:41:27.7713862+08:00
+hash: dd48dcf570a0887e0a3aeebcd4f59b019a29908cab9b236b61112fc70a7f5068
+updated: 2018-07-17T23:11:21.010923497+08:00
 imports:
 - name: github.com/boltdb/bolt
   version: 2f1ce7a837dcb8da3ec595b1dac9d0632f0f99e8
@@ -17,10 +17,10 @@ imports:
   version: 08cad365cd28a7fba23bb1e57aa43c5e18ad8bb8
   subpackages:
   - yaml
+- name: go.uber.org/dig
+  version: d100de9c8cc8358591507951141bc107713ba671
 - name: golang.org/x/sys
   version: 79b0c6888797020a994db17c8510466c72fe75d9
   subpackages:
   - unix
-  - windows
-  - windows/registry
 testImports: []

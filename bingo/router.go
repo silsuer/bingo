@@ -236,7 +236,7 @@ func (r *Router) Handle(method, path string, route Route) {
 func (r *Router) Handler(method, path string, handler http.Handler) {
 	route := Route{}
 	route.Target = func(context *Context) {
-		handler.ServeHTTP(context.Writer,context.Request)
+		handler.ServeHTTP(context.Writer, context.Request)
 	}
 	r.Handle(method, path, route)
 }
@@ -264,7 +264,7 @@ func (r *Router) ServeFiles(path string, root http.FileSystem) {
 
 	fileServer := http.FileServer(root)
 
-	route:= Route{}
+	route := Route{}
 	route.Target = func(context *Context) {
 		context.Request.URL.Path = context.Params.ByName("filepath")
 		fileServer.ServeHTTP(context.Writer, context.Request)
@@ -306,13 +306,13 @@ func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 
 		if route, ps, tsr := root.getValue(path); route.Target != nil {
 			// 封装上下文
-			session,err := globalSession.Get(req,"bingoSess")  // 从cookie读取数据并且返回对应session
+			session, err := globalSession.Get(req, "bingoSess") // 从cookie读取数据并且返回对应session
 			fmt.Println(err)
-			context := &Context{w,req,ps ,Session{session:session,writer:w,req:req}}
+			context := &Context{w, req, ps, Session{session: session, writer: w, req: req}}
 			// 判断路由是否有中间件列表，如果有，就执行
-			if len(route.Middleware)!=0{
-				for _,middleHandle:= range route.Middleware{
-					context = middleHandle(context)   // 顺序执行中间件，得到的返回结果重新注入到上下文中
+			if len(route.Middleware) != 0 {
+				for _, middleHandle := range route.Middleware {
+					context = middleHandle(context) // 顺序执行中间件，得到的返回结果重新注入到上下文中
 				}
 			}
 			// 执行目标函数
@@ -385,6 +385,8 @@ func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 const GET = "GET"
 const POST = "POST"
 const DELETE = "DELETE"
+const PUT = "PUT"
+const PATCH = "PATCH"
 
 //const PUTCH  = "PUTCH"
 //const put
@@ -394,20 +396,20 @@ type Context struct {
 	Writer  http.ResponseWriter // 响应
 	Request *http.Request       // 请求
 	Params  Params              //参数
-	Session Session  // 保存session
+	Session Session             // 保存session
 }
 
 //var store = sessions.NewCookieStore（[] byte（“something-very-secret”））
 
 type TargetHandle func(c *Context)
 
-type MiddlewareHandle func(c *Context) *Context    // 中间件需要把上下文返回回来，用来传入TargetHandle中
+type MiddlewareHandle func(c *Context) *Context // 中间件需要把上下文返回回来，用来传入TargetHandle中
 
 type Route struct {
-	Path       string   // 路径
-	Target     TargetHandle   // 要执行的方法
-	Method     string   // 访问类型 是get post 或者其他
-	Alias      string   // 路由的别名，并没有什么卵用的样子.......
+	Path       string             // 路径
+	Target     TargetHandle       // 要执行的方法
+	Method     string             // 访问类型 是get post 或者其他
+	Alias      string             // 路由的别名，并没有什么卵用的样子.......
 	Middleware []MiddlewareHandle // 中间件名称，在执行TargetHandle之前执行的方法
 }
 
@@ -419,3 +421,41 @@ func RegisterRoute(r []Route) {
 		RouteList = append(RouteList, v) // 把要注册的路由放置到路由列表中
 	}
 }
+
+// 添加路由时需要，设置为Get方法
+func (r Route) Get(path string, target TargetHandle) Route {
+	return r.Request(GET, path, target)
+}
+
+// 添加路由时需要，设置为Post方法
+func (r Route) Post(path string, target TargetHandle) Route {
+	return r.Request(POST, path, target)
+}
+
+// 添加路由时需要，设置为put方法
+func (r Route) Put(path string, target TargetHandle) Route {
+	return r.Request(PUT, path, target)
+}
+
+// 添加路由时需要，设置为patch方法
+func (r Route) Patch(path string, target TargetHandle) Route {
+	return r.Request(PATCH, path, target)
+}
+
+// 添加路由时需要，设置为delete方法
+func (r Route) Delete(path string, target TargetHandle) Route {
+	return r.Request(DELETE, path, target)
+}
+
+func (r Route) Request(method string, path string, target TargetHandle) Route {
+	r.Method = method
+	r.Path = path
+	r.Target = target
+	return r
+}
+
+func (r Route) Register() Route {
+	RouteList = append(RouteList, r)
+	return r
+}
+
