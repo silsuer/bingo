@@ -1,4 +1,4 @@
-package bingo
+package cli
 
 import (
 	"flag"
@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"errors"
 	"io/ioutil"
+	"github.com/silsuer/bingo/bingo"
 )
 
 const envContent = `# Bingo Config File .......
@@ -68,15 +69,24 @@ func (cli *CLI) Run() {
 	//cli.validateArgs()
 	initCmd := flag.NewFlagSet("init", flag.ExitOnError)
 	runCmd := flag.NewFlagSet("run", flag.ExitOnError)
-	runPort := runCmd.Int("port", 8088, "监听端口")  // 默认是8088端口
+	runPort := runCmd.Int("port", 8088, "监听端口") // 默认是8088端口
+
+	swordCmd := flag.NewFlagSet("sword", flag.ExitOnError) // bingo sword 命令
+	//swordConfig := swordCmd.String("name","list","the Commands name")
+	var swordConfig []string
 	switch os.Args[1] {
 	case "init":
 		err := initCmd.Parse(os.Args[2:]) // 把其余参数传入进去
-		Check(err)
+		bingo.Check(err)
 		break
 	case "run":
 		err := runCmd.Parse(os.Args[2:])
-		Check(err)
+		bingo.Check(err)
+		break
+	case "sword":
+		err := swordCmd.Parse(os.Args[2:])
+		swordConfig = os.Args[2:]
+		bingo.Check(err)
 		break
 	default:
 		break
@@ -91,32 +101,36 @@ func (cli *CLI) Run() {
 		cli.RunSite(runPort)
 	}
 
+	if swordCmd.Parsed() {
+       cli.swordHandle(swordConfig)
+	}
 }
+
 
 func (cli *CLI) InitProject() {
 	// 在当前目录下创建项目 目录
 	// 包括  env.yaml glide.yaml app databases // app下放置一个路由，下一个基本的路由文件
 	// 创建env.yaml
 	dir, err := os.Getwd()
-	Check(err)
+	bingo.Check(err)
 	//fmt.Println(dir)
 	// 创建env
 	envPath := dir + "/env.yaml"
-	if CheckFileIsExist(envPath) {
+	if bingo.CheckFileIsExist(envPath) {
 		// 存在，抛出错误
 		ThrowError("The env file has already exists")
 	} else {
 		// 不存在，创建
 		err = ioutil.WriteFile(envPath, []byte(envContent), 0666)
-		Check(err)
+		bingo.Check(err)
 	}
 	//  创建start文件
-	startPath:= dir+"/start.go"
-	if CheckFileIsExist(startPath) {
+	startPath := dir + "/start.go"
+	if bingo.CheckFileIsExist(startPath) {
 		ThrowError("The start file has already exists")
-	}else{
-		err = ioutil.WriteFile(startPath,[]byte(startContent),0666)
-		Check(err)
+	} else {
+		err = ioutil.WriteFile(startPath, []byte(startContent), 0666)
+		bingo.Check(err)
 	}
 	// 输出结果
 	fmt.Println("Your Bingo Project Init Successfully!")
@@ -124,9 +138,9 @@ func (cli *CLI) InitProject() {
 
 func (cli *CLI) RunSite(port *int) {
 	// 运行网站 实例化一个
-	bingo := new(Bingo)
+	b := new(bingo.Bingo)
 	fmt.Println("Bingo Running......")
-	bingo.Run(":" + strconv.Itoa(*port))
+	b.Run(":" + strconv.Itoa(*port))
 }
 
 func ThrowError(text string) {

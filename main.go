@@ -1,11 +1,10 @@
 package main
 
 import (
-	"bingo"
+	"github.com/silsuer/bingo/cli"
 )
 
-
 func main() {
-	cli := bingo.CLI{}
-	cli.Run()
+	c := cli.CLI{}
+	c.Run()
 }
