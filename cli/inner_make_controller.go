@@ -1,9 +1,5 @@
 package cli
 
-import (
-	"fmt"
-)
-
 type MakeController struct {
 	Command
 	Name        string
@@ -20,7 +16,6 @@ func (m *MakeController) SetName() {
 func (m *MakeController) SetArgs() {
 	m.Args = make(map[string]string)
 	m.Args["name"] = "" // 前面是参数名 后面是默认值
-	//m.Args["bbb"] = ""
 }
 
 // 设置命令描述
@@ -30,5 +25,5 @@ func (m *MakeController) SetDescription() {
 
 // 设置命令实现的方法
 func (m *MakeController) Handle(input Input, output Output) {
-	fmt.Println("这是内置创建控制器的函数")
+
 }

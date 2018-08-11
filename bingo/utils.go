@@ -101,3 +101,14 @@ func CheckFileIsExist(filename string) bool {
 	}
 	return exist
 }
+
+func MakeFile(dir string, content string) bool {
+	if CheckFileIsExist(dir) {
+		panic("the file has already exist: " + dir)
+	} else {
+		// 不存在，创建
+		err := ioutil.WriteFile(dir, []byte(content), 0666)
+		Check(err)
+	}
+	return true
+}

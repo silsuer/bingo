@@ -3,6 +3,8 @@ package cli
 import "strings"
 import (
 	"reflect"
+	"fmt"
+	"time"
 )
 
 //import "fmt"
@@ -12,14 +14,21 @@ type Console struct{}
 
 var InnerCommands = []interface{}{
 	&MakeController{},
+	&MakeCommand{},
+	&MakeOriginCommand{},
 }
 
+// 命令运行
+// 传入命令行参数
+// 第一个参数是命令名，后面跟着的是参数名
+// 接着传入命令组
+// 首先拆出命令名
+// 然后遍历命令数组，断言是否实现了Command接口，然后根据参数，构建input对象和output对象
+// 调用命令的handle方法，传入输入输出对象
 func (console *Console) Exec(args []string, commands []interface{}) {
-	// 传入命令行参数
-	// 第一个参数是命令名，后面跟着的是参数名
-	// 接着传入命令组
-	input := console.initInput(args)
 
+	input := console.initInput(args)
+	//fmt.Println(args)
 	for _, command := range commands {
 
 		// 先做检查,查找对应的命令名
@@ -33,16 +42,10 @@ func (console *Console) Exec(args []string, commands []interface{}) {
 		if target == false {
 			continue
 		}
-
 		// 获得输入和输出并准备作为参数传入Handle方法中
 		var params = []reflect.Value{reflect.ValueOf(input), reflect.ValueOf(Output{})}
 		commandValue.MethodByName("Handle").Call(params)
 	}
-
-	// 首先拆出命令名
-	// 然后遍历命令数组，断言是否实现了Command接口，然后根据参数，构建input对象和output对象
-	// 调用命令的handle方法，传入输入输出对象
-
 }
 
 func checkParams(command interface{}, input *Input) bool {
@@ -81,7 +84,16 @@ type Input struct {
 	Args map[string]string // 参数名->参数值
 }
 
-type Output struct {
+type Output struct{}
+
+// 在控制台中输出普通信息
+func (o *Output) Info(content string) {
+	fmt.Printf("\n %c[0;48;32m%s%c[0m\n\n", 0x1B, "["+time.Now().Format("2006-01-02 15:04:05")+"]"+content, 0x1B)
+}
+
+// 在控制台中输出错误信息
+func (o *Output) Error(content string) {
+	fmt.Printf("\n %c[0;48;31m%s%c[0m\n\n", 0x1B, "["+time.Now().Format("2006-01-02 15:04:05")+"]"+content, 0x1B)
 }
 
 func (console *Console) initInput(args []string) Input {
