@@ -17,7 +17,6 @@ func (b *Bingo) Run(port string) {
     for _,v:= range RouteList {
     	router.Handle(v.Method,v.Path,v)
 	}
-	fmt.Println("Bingo Running......")
 	// 静态页面
 	router.NotFound = func(writer http.ResponseWriter, request *http.Request) {
 		http.ServeFile(writer,request,GetPublicPath()+request.URL.Path)

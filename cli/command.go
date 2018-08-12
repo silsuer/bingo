@@ -65,9 +65,6 @@ func checkParams(command interface{}, input *Input) bool {
 		if _, ok := input.Args[arg]; !ok {
 			input.Args[arg] = value
 		}
-		//if  ok := input.Args[arg], !ok { // 不存在的话
-		//	input.Args[arg] = value
-		//}
 	}
 	return true
 }

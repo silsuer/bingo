@@ -32,11 +32,10 @@ Bingo是一款使用`httprouter`作为路由的Web全栈开发框架。
       bingo init   // 初始化一个bingo项目
     ```
     
-    此时你的项目中应该有`.env.yaml`,`start.go`这两个文件
+    此时你的项目中应该有`.env.yaml`,`start.go`这两个文件以及一些文件夹
     现在执行
-    `go run start.go`,会出现`Bingo Running......` 字样
-    
-    在浏览器中输入：`localhost:12345`,看到欢迎界面，安装成功！
+    `bingo run`, 在浏览器中输入：`localhost:12345`,看到欢迎界面，安装成功！
+    （默认使用`12345`端口，如需更改，在`start.go`中指定）
     
  2. 正常（我为什么要用这个词...）安装
  
@@ -45,7 +44,7 @@ Bingo是一款使用`httprouter`作为路由的Web全栈开发框架。
      
        bingo init  // 初始化项目
    
-       go run start.go // 运行初始化后的项目
+       bingo run // 运行初始化后的项目
      
      // 此时浏览器输入 localhost:12345 会出现Welcome to bingo字样。安装成功
     ```
@@ -54,69 +53,16 @@ Bingo是一款使用`httprouter`作为路由的Web全栈开发框架。
 
   `Bingo`的路由策略非常自由，基于`Httprouter`，性能强劲。
   
-  随意建立一个go文件，或者就在start.go中，声明一个路由列表，然后使用`bingo.RegisterRoute()`把这个路由注册进去即可
+  推荐在`routes/web.go`中注册路由
    
    ```go
-       //示例：
-        var Welcome = []bingo.Route{
-        	{
-        		Path:"/",
-        		Method:bingo.GET,
-        		Target: func(c *bingo.Context) {
-        			fmt.Fprint(c.Writer,"<h1>Welcome to Bingo!</h1>")
-        		},
-        	},
-        	{
-            		Path:"/admin", // 这是第二个路由
-            		Method:bingo.POST,
-            		Target:Admin,
-            	},
-        }
-        
-        // 上面注册的路由的Target的方法
-       func Admin(c *bingo.Context)  {
-       	
-       }
-
-        bingo.RegisterRoute(Welcome)  // 调用这个方法，把我们上面定义的路由注册一下
-        b := bingo.Bingo{}  // 建立一个bingo结构体
-        b.Run(":12345")     // 执行Run函数传入端口号即可开启Http服务器
+      // 使用Get方法，注册'/'，对应路由为打印一个hello world字符串
+      // 注意最后一定要使用Register()将该路由注册进去
+      utils.Route().Get("/", func(c *bingo.Context) {
+      		fmt.Fprintln(c.Writer,"Hello World")
+      	}).Register()
    ```
  
-## 中间件：
-
-1. 编写中间件代码
-
-   ```go
-      // 编写完成中间件，请务必返回一个上下文指针
-      func Middleware(c *bingo.Context) *bingo.Context  {
-   	    // c.Writer 是 http.ResponseWriter c.Request 是 *http.Request c.Params是传入的参数
-      	fmt.Fprintln(c.Writer,"Hello,I am a middleware!")
-      	return c
-      }
-   ``` 
-
-2. 在路由中使用中间件
-
-   ```go
-      // 你可以这样定义路由
-      var Welcome = []bingo.Route{
-        {
-            Path:"/",
-            Method:bingo.GET,
-            Target: func(context *bingo.Context) {
-               fmt.Fprintln(context.Writer,"Welcome to Bingo")
-            },
-            Middleware:[]bingo.MiddlewareHandle{
-               Middleware,	
-            },
-        },
-      }
-     // 然后正常使用bingo.RegisterRoute(Welcome)注册路由即可
-   ```
-   
- 
-   
 ## 数据库操作：
 
 *如果你不愿意使用`DB()`函数的话（因为使用这个函数之后需要转换为数据库类型，比如`bingo.DB().(*mysql.Mysql)`）*
@@ -366,5 +312,80 @@ Bingo提供了4种方法向数据库中插入数据
     }
  ```
 
+## 自定义命令
+
+### 简介
+
+`Laravel` 的 `artisan`也是一大亮点，我经常使用它来洗数据～～～
+
+在`bingo`中，我仿照`artisan`实现了 `sword` 命令，目前在`mac`上可以使用，并未在linux和windows上测试
+
+### 创建一个命令
+
+`bingo sword make:command --name=CommandName`
+
+该命令将会在 `app/Console/Commands` 目录下生成一个 `CommandName.go` 文件
+
+该文件的内容：
+
+```go
+package Commands
+
+import (
+	"github.com/silsuer/bingo/cli"
+)
+
+// 该命令结构体
+type ExampleCommand struct {
+	cli.Command
+	Name        string
+	Description string
+	Args        map[string]string
+}
+
+// 设置命令名
+func (m *ExampleCommand) SetName() {
+	m.Name = "command:name"
+}
+
+// 设置命令所需参数
+func (m *ExampleCommand) SetArgs() {
+	m.Args = make(map[string]string)
+	m.Args["name"] = ""
+}
+
+// 设置命令描述
+func (m *ExampleCommand) SetDescription() {
+	m.Description = "the command description."
+}
+
+// 设置命令实现的方法
+func (m *ExampleCommand) Handle(input cli.Input, output cli.Output) {
+
+}
+
+```
+
+当需要使用该命令的时候，请务必现在`app/Console/Kernel.go`文件中注册：
+
+```go
+
+var Commands = []interface{}{
+	&Command.ExampleCommand{},  // 请务必传入该命令的地址
+}
+```
+
+### 执行命令
+
+当注册好命令后，需要使用时，使用 `bingo sword command:name --arg=value` 调用这个命令
+
+将会调用对应命令的`Handle`方法
+
+
+### 目前已经写好的命令
+
+`bingo sword make:command` 创建一个命令
+
+`bingo sword make:origin:command` 创建一个内置命令(将在`bingo/cli`目录下建立新的文件)
 
  ####  未完待续

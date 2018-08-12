@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"errors"
 	"github.com/silsuer/bingo/drivers/db/mysql"
+	"path"
 )
 
 // 这里主要写自定义函数
@@ -107,8 +108,10 @@ func MakeFile(dir string, content string) bool {
 		panic("the file has already exist: " + dir)
 	} else {
 		// 不存在，创建
+		os.MkdirAll(path.Dir(dir), os.ModePerm)
 		err := ioutil.WriteFile(dir, []byte(content), 0666)
 		Check(err)
 	}
 	return true
 }
+

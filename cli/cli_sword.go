@@ -5,7 +5,6 @@ import (
 	"github.com/silsuer/bingo/bingo"
 	"os"
 	"os/exec"
-	"strings"
 	"bytes"
 	"log"
 )
@@ -37,8 +36,8 @@ func (cli *CLI) swordHandle(args []string) {
 
 	//fmt.Println(args)
 	//[run /Users/silsuer/go/src/test/app/Console/Kernel.go aaa bbb ccc]
-	cmd := exec.Command("sh", "-c", strings.Join(args, " "))
-
+	//cmd := exec.Command("sh", "-c", strings.Join(args, " "))
+	cmd := exec.Command("go",args[1:]...)
 	var out bytes.Buffer
 	cmd.Stdout = &out
 
