@@ -1,10 +1,12 @@
-hash: dd48dcf570a0887e0a3aeebcd4f59b019a29908cab9b236b61112fc70a7f5068
-updated: 2018-07-17T23:11:21.010923497+08:00
+hash: 1203040745780fd9495f9050bb2d1204935988ba444233ae9060714c4288e7cc
+updated: 2018-08-13T17:28:49.511935336+08:00
 imports:
 - name: github.com/boltdb/bolt
   version: 2f1ce7a837dcb8da3ec595b1dac9d0632f0f99e8
   subpackages:
   - '...'
+- name: github.com/fsnotify/fsnotify
+  version: c2828203cd70a50dcccfb2761f8b1f8ceef9a8e9
 - name: github.com/go-sql-driver/mysql
   version: a0583e0143b1624142adab07e0e97fe106d99561
 - name: github.com/gorilla/context

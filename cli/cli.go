@@ -7,8 +7,10 @@ import (
 	"errors"
 	"github.com/silsuer/bingo/bingo"
 	"os/exec"
-	"bytes"
 	"log"
+	"io/ioutil"
+	"io"
+	"bufio"
 )
 
 type CLI struct{}
@@ -46,7 +48,7 @@ func (cli *CLI) Run() {
 	}
 
 	if runCmd.Parsed() {
-		cli.RunSite()
+		cli.RunSite(os.Args[2:])
 	}
 
 	if swordCmd.Parsed() {
@@ -54,21 +56,41 @@ func (cli *CLI) Run() {
 	}
 }
 
-func (cli *CLI) RunSite() {
+func (cli *CLI) RunSite(arg []string) {
+	// bingo run watch   监听文件变动，有变动即平滑重启服务
+	// bingo run daemon
+	// bingo run production
+	//param := "dev"
+	//if len(arg) > 0 {
+	//	param = arg[0]
+	//}
 	// 这里应该运行 go run start.go
-	cmd := exec.Command("go", "run", "start.go")
+	tmpSlice := []string{"run", "start.go"}
+	cmd := exec.Command("go", append(tmpSlice, arg...)...)
 
-	var out bytes.Buffer
-	cmd.Stdout = &out
+	stdout, _ := cmd.StdoutPipe()
+	defer stdout.Close()
 
 	if err := cmd.Start(); err != nil {
 		panic(err)
 	}
 
+	reader := bufio.NewReader(stdout)
+
+	//实时循环读取输出流中的一行内容
+	for {
+		line, err2 := reader.ReadString('\n')
+		if err2 != nil || io.EOF == err2 {
+			break
+		}
+		fmt.Println(line)
+	}
+
 	if err := cmd.Wait(); err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(out.String())
+	opBytes, _ := ioutil.ReadAll(stdout)
+	fmt.Println(string(opBytes))
 }
 
 func ThrowError(text string) {

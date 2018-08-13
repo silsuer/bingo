@@ -13,3 +13,5 @@ import:
   version: v1.1.1
 - package: go.uber.org/dig
   version: v1.3.0
+- package: github.com/fsnotify/fsnotify
+  version: v1.4.7
