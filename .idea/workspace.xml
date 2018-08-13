@@ -68,8 +68,8 @@
         <entry file="file://$PROJECT_DIR$/doc/开发流程.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="472">
-                <caret line="534" column="45" selection-start-line="534" selection-start-column="45" selection-end-line="534" selection-end-column="45" />
+              <first_editor relative-caret-position="442">
+                <caret line="536" selection-start-line="536" selection-end-line="538" selection-end-column="57" />
               </first_editor>
               <second_editor />
             </state>
@@ -314,8 +314,8 @@
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32969698" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2532189" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32969698" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2532189" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32969698" />
@@ -610,8 +610,8 @@
     <entry file="file://$PROJECT_DIR$/doc/开发流程.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="472">
-            <caret line="534" column="45" selection-start-line="534" selection-start-column="45" selection-end-line="534" selection-end-column="45" />
+          <first_editor relative-caret-position="442">
+            <caret line="536" selection-start-line="536" selection-end-line="538" selection-end-column="57" />
           </first_editor>
           <second_editor />
         </state>
