@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e2a7b7b2-5741-4757-a91b-4437d1f48196" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bingo/bingo.go" beforeDir="false" afterPath="$PROJECT_DIR$/bingo/bingo.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bingo/graceful.go" beforeDir="false" afterPath="$PROJECT_DIR$/bingo/graceful.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cli/cli.go" beforeDir="false" afterPath="$PROJECT_DIR$/cli/cli.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cli/cli_sword.go" beforeDir="false" afterPath="$PROJECT_DIR$/cli/cli_sword.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -29,15 +25,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="utils.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/bingo/utils.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="110" column="8" selection-start-line="110" selection-start-column="8" selection-end-line="110" selection-end-column="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="server.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../tim1020/godaemon/server.go">
           <provider selected="true" editor-type-id="text-editor">
@@ -52,6 +39,18 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="75">
               <caret line="5" column="8" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="8" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="308">
+                <caret line="320" column="6" lean-forward="true" selection-start-line="320" selection-start-column="6" selection-end-line="320" selection-end-column="6" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -87,8 +86,8 @@
         <entry file="file://$PROJECT_DIR$/doc/开发流程.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="202">
-                <caret line="520" column="11" selection-start-line="520" selection-start-column="11" selection-end-line="520" selection-end-column="11" />
+              <first_editor relative-caret-position="322">
+                <caret line="532" column="39" lean-forward="true" selection-start-line="524" selection-start-column="4" selection-end-line="532" selection-end-column="39" />
               </first_editor>
               <second_editor />
             </state>
@@ -107,7 +106,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="graceful.go" pinned="false" current-in-tab="true">
+      <file leaf-file-name="graceful.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bingo/graceful.go">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="355">
@@ -132,7 +131,6 @@
     <findStrings>
       <find>MakeCommand</find>
       <find>GetCurrentDirectory</find>
-      <find>bingo run</find>
       <find>log</find>
       <find>output</find>
       <find>srv</find>
@@ -145,9 +143,10 @@
       <find>save</find>
       <find>pidVal</find>
       <find>gor</find>
-      <find>Da</find>
       <find>outpu</find>
       <find>fmt</find>
+      <find>Da</find>
+      <find>bingo run</find>
     </findStrings>
     <replaceStrings>
       <replace>MakeOriginCommand</replace>
@@ -172,15 +171,15 @@
         <option value="$PROJECT_DIR$/cli/cli_sword.go" />
         <option value="$PROJECT_DIR$/bingo/utils.go" />
         <option value="$PROJECT_DIR$/cli/cli_init.go" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/main.go" />
         <option value="$PROJECT_DIR$/glide.yaml" />
         <option value="$PROJECT_DIR$/glide.lock" />
         <option value="$PROJECT_DIR$/cli/cli_daemon.go" />
-        <option value="$PROJECT_DIR$/doc/开发流程.md" />
         <option value="$PROJECT_DIR$/cli/cli.go" />
         <option value="$PROJECT_DIR$/bingo/bingo.go" />
         <option value="$PROJECT_DIR$/bingo/graceful.go" />
+        <option value="$PROJECT_DIR$/doc/开发流程.md" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -325,14 +324,15 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32969698" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2532189" />
+      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32969698" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2532189" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32969698" />
@@ -488,19 +488,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="397">
-            <caret line="389" selection-start-line="389" selection-end-line="389" />
-            <folding>
-              <element signature="e#17#59#0" expanded="true" />
-            </folding>
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cli/cli_sword.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="380">
@@ -577,16 +564,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/doc/开发流程.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="202">
-            <caret line="520" column="11" selection-start-line="520" selection-start-column="11" selection-end-line="520" selection-end-column="11" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../../silsuer.github.io/_posts/2018-04-17-bingo-start.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -635,6 +612,26 @@
           <folding>
             <element signature="e#15#50#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doc/开发流程.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="322">
+            <caret line="532" column="39" lean-forward="true" selection-start-line="524" selection-start-column="4" selection-end-line="532" selection-end-column="39" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="308">
+            <caret line="320" column="6" lean-forward="true" selection-start-line="320" selection-start-column="6" selection-end-line="320" selection-end-column="6" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>

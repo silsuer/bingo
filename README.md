@@ -34,7 +34,7 @@ Bingo是一款使用`httprouter`作为路由的Web全栈开发框架。
     
     此时你的项目中应该有`.env.yaml`,`start.go`这两个文件以及一些文件夹
     现在执行
-    `bingo run`, 在浏览器中输入：`localhost:12345`,看到欢迎界面，安装成功！
+    `bingo run dev`, 在浏览器中输入：`localhost:12345`,看到欢迎界面，安装成功！
     （默认使用`12345`端口，如需更改，在`start.go`中指定）
     
  2. 正常（我为什么要用这个词...）安装
@@ -44,7 +44,7 @@ Bingo是一款使用`httprouter`作为路由的Web全栈开发框架。
      
        bingo init  // 初始化项目
    
-       bingo run // 运行初始化后的项目
+       bingo run dev // 运行初始化后的项目
      
      // 此时浏览器输入 localhost:12345 会出现Welcome to bingo字样。安装成功
     ```
@@ -312,7 +312,24 @@ Bingo提供了4种方法向数据库中插入数据
     }
  ```
 
-## 自定义命令
+
+## 开发脚手架
+
+## 1. bingo run 工具
+
+  - 使用 `bingo run dev` 运行开发环境程序
+      
+  - 使用 `bingo run daemon` 以守护进程运行程序
+      
+  - 使用 `bingo run daemon start` 以守护进程运行程序
+      
+  - 使用 `bingo run daemon restart` 平滑重启守护进程
+      
+  - 使用 `bingo run daemon stop` 平滑关闭重启
+  
+  - 使用 `bingo run watch` 在开发时监听工程目录下文件变更，当发现文件变更时，自动重启服务
+
+## 2. 自定义命令
 
 ### 简介
 
@@ -374,6 +391,7 @@ var Commands = []interface{}{
 	&Command.ExampleCommand{},  // 请务必传入该命令的地址
 }
 ```
+
 
 ### 执行命令
 
