@@ -10,6 +10,10 @@ import (
 	"time"
 	"sync"
 	"syscall"
+	"os/exec"
+	"bufio"
+	"io"
+	"io/ioutil"
 )
 
 // 重启队列
@@ -99,15 +103,15 @@ func startWatchServer(port string, handler http.Handler) {
 			select {
 			case ev := <-f.Events:
 				if ev.Op&fsnotify.Create == fsnotify.Create {
-					fmt.Println("created file : ", ev.Name)
+					fmt.Printf("\n %c[0;48;33m%s%c[0m", 0x1B, "["+time.Now().Format("2006-01-02 15:04:05")+"]created file:"+ev.Name, 0x1B)
 				}
 				if ev.Op&fsnotify.Remove == fsnotify.Remove {
-					fmt.Println("deleted file : ", ev.Name)
+					fmt.Printf("\n %c[0;48;31m%s%c[0m", 0x1B, "["+time.Now().Format("2006-01-02 15:04:05")+"]deleted file:"+ev.Name, 0x1B)
 				}
 				if ev.Op&fsnotify.Rename == fsnotify.Rename {
-					fmt.Println("rename file : ", ev.Name)
+					fmt.Printf("\n %c[0;48;34m%s%c[0m", 0x1B, "["+time.Now().Format("2006-01-02 15:04:05")+"]renamed file:"+ev.Name, 0x1B)
 				} else {
-					fmt.Println("modified file : ", ev.Name)
+					fmt.Printf("\n %c[0;48;32m%s%c[0m", 0x1B, "["+time.Now().Format("2006-01-02 15:04:05")+"]modified file:"+ev.Name, 0x1B)
 				}
 				// 有变化，放入重启数组中
 				restartSlice = append(restartSlice, 1)
@@ -125,21 +129,42 @@ func startWatchServer(port string, handler http.Handler) {
 
 // 重启守护进程
 func restartDaemonServer() {
-	procAttr := &syscall.ProcAttr{
-		Env:   os.Environ(),
-		Files: []uintptr{os.Stdin.Fd(), os.Stdout.Fd(), os.Stderr.Fd()},
-	}
 	listeningWatcherDir(wdDir)
 	var mutex sync.Mutex
 	for {
 		// 如果重启切片中有数据，证明数据有变动，重新设置监听目录
 		if len(restartSlice) > 0 {
 			mutex.Lock()
-			_, err := syscall.ForkExec(os.Args[0], []string{os.Args[0], "daemon", "restart"}, procAttr)
-			if err != nil {
-				fmt.Println(err)
-			}
 
+			go func() {
+				// 执行重启命令
+				cmd := exec.Command("bingo", "run", "daemon", "restart")
+				stdout, err := cmd.StdoutPipe()
+				if err != nil {
+					fmt.Println(err)
+				}
+				defer stdout.Close()
+
+				if err := cmd.Start(); err != nil {
+					panic(err)
+				}
+				reader := bufio.NewReader(stdout)
+				//实时循环读取输出流中的一行内容
+				for {
+					line, err2 := reader.ReadString('\n')
+					if err2 != nil || io.EOF == err2 {
+						break
+					}
+					fmt.Print(line)
+				}
+
+				if err := cmd.Wait(); err != nil {
+					fmt.Println(err)
+				}
+				opBytes, _ := ioutil.ReadAll(stdout)
+				fmt.Print(string(opBytes))
+
+			}()
 			listeningWatcherDir(wdDir)
 			restartSlice = []int{}
 			mutex.Unlock()

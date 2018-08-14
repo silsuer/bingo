@@ -19,7 +19,6 @@ func (cli *CLI) Run() {
 	//cli.validateArgs()
 	initCmd := flag.NewFlagSet("init", flag.ExitOnError)
 	runCmd := flag.NewFlagSet("run", flag.ExitOnError)
-	//runPort := runCmd.Int("port", 8088, "监听端口") // 默认是8088端口
 
 	swordCmd := flag.NewFlagSet("sword", flag.ExitOnError) // bingo sword 命令
 	//swordConfig := swordCmd.String("name","list","the Commands name")
@@ -60,10 +59,6 @@ func (cli *CLI) RunSite(arg []string) {
 	// bingo run watch   监听文件变动，有变动即平滑重启服务
 	// bingo run daemon
 	// bingo run production
-	//param := "dev"
-	//if len(arg) > 0 {
-	//	param = arg[0]
-	//}
 	// 这里应该运行 go run start.go
 	tmpSlice := []string{"run", "start.go"}
 	cmd := exec.Command("go", append(tmpSlice, arg...)...)
@@ -83,14 +78,14 @@ func (cli *CLI) RunSite(arg []string) {
 		if err2 != nil || io.EOF == err2 {
 			break
 		}
-		fmt.Println(line)
+		fmt.Print(line)
 	}
 
 	if err := cmd.Wait(); err != nil {
 		log.Fatal(err)
 	}
 	opBytes, _ := ioutil.ReadAll(stdout)
-	fmt.Println(string(opBytes))
+	fmt.Print(string(opBytes))
 }
 
 func ThrowError(text string) {

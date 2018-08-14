@@ -49,5 +49,5 @@ func (cli *CLI) swordHandle(args []string) {
 		log.Fatal(err)
 	}
 
-	fmt.Println(out.String())
+	fmt.Print(out.String())
 }

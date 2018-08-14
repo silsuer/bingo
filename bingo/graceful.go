@@ -164,7 +164,7 @@ func (this *server) fork() error {
 		return err
 	}
 	savePid(pid)
-	log.Printf("[%d] %s fork ok\n", pid, appName)
+	fmt.Printf("\n %c[0;48;32m%s%c[0m", 0x1B, "["+strconv.Itoa(pid)+"] "+appName+" forked ok", 0x1B)
 	return nil
 }
 
@@ -236,9 +236,7 @@ func handleSignals() {
 }
 
 func DaemonInit() {
-	//file, _ := filepath.Abs(os.Args[0])
-	//appPath := filepath.Dir(file)
-	//appName = filepath.Base(file)
+	// 得到存放pid文件的路径
 	dir, _ := os.Getwd()
 	pidFile = dir + "/" + Env.Get("PID_FILE")
 	if os.Getenv("__Daemon") != "true" { //master
@@ -249,7 +247,7 @@ func DaemonInit() {
 		switch cmd {
 		case "start":
 			if isRunning() {
-				fmt.Println("[" + strconv.Itoa(pidVal) + "] bingo is running")
+				fmt.Printf("\n %c[0;48;34m%s%c[0m", 0x1B, "["+strconv.Itoa(pidVal)+"] Bingo is running", 0x1B)
 			} else { //fork daemon进程
 				if err := forkDaemon(); err != nil {
 					fmt.Println(err)
@@ -257,15 +255,15 @@ func DaemonInit() {
 			}
 		case "restart": //重启:
 			if !isRunning() {
-				fmt.Println("bingo not running")
+				fmt.Printf("\n %c[0;48;31m%s%c[0m", 0x1B, "[Warning]bingo not running", 0x1B)
 				restart(pidVal)
 			} else {
-				fmt.Println("[" + strconv.Itoa(pidVal) + "] bingo restart now")
+				fmt.Printf("\n %c[0;48;34m%s%c[0m", 0x1B, "["+strconv.Itoa(pidVal)+"] Bingo restart now", 0x1B)
 				restart(pidVal)
 			}
 		case "stop": //停止
 			if !isRunning() {
-				fmt.Println("bingo not running")
+				fmt.Printf("\n %c[0;48;31m%s%c[0m", 0x1B, "[Warning]bingo not running", 0x1B)
 			} else {
 				syscall.Kill(pidVal, syscall.SIGTERM) //kill
 			}
@@ -293,7 +291,8 @@ func forkDaemon() error {
 		panic(err)
 	}
 	savePid(pid)
-	fmt.Println("[" + strconv.Itoa(pid) + "] bingo start daemon")
+	fmt.Printf("\n %c[0;48;32m%s%c[0m", 0x1B, "["+strconv.Itoa(pid)+"] Bingo running...", 0x1B)
+	fmt.Println()
 	return nil
 }
 
