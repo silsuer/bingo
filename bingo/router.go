@@ -78,7 +78,6 @@ package bingo
 
 import (
 	"net/http"
-	"fmt"
 )
 
 // Handle is a function that can be registered to a route to handle HTTP
@@ -235,7 +234,7 @@ func (r *Router) Handle(method, path string, route Route) {
 // request handle.
 func (r *Router) Handler(method, path string, handler http.Handler) {
 	route := Route{}
-	route.Target = func(context *Context) {
+	route.TargetMethod = func(context *Context) {
 		handler.ServeHTTP(context.Writer, context.Request)
 	}
 	r.Handle(method, path, route)
@@ -265,7 +264,7 @@ func (r *Router) ServeFiles(path string, root http.FileSystem) {
 	fileServer := http.FileServer(root)
 
 	route := Route{}
-	route.Target = func(context *Context) {
+	route.TargetMethod = func(context *Context) {
 		context.Request.URL.Path = context.Params.ByName("filepath")
 		fileServer.ServeHTTP(context.Writer, context.Request)
 	}
@@ -304,19 +303,20 @@ func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	if root := r.trees[req.Method]; root != nil {
 		path := req.URL.Path
 
-		if route, ps, tsr := root.getValue(path); route.Target != nil {
+		if route, ps, tsr := root.getValue(path); route.TargetMethod != nil {
 			// 封装上下文
-			session, err := globalSession.Get(req, "bingoSess") // 从cookie读取数据并且返回对应session
-			fmt.Println(err)
+			session, _ := globalSession.Get(req, "bingoSess") // 从cookie读取数据并且返回对应session
+
+			//fmt.Println(err)
 			context := &Context{w, req, ps, Session{session: session, writer: w, req: req}}
 			// 判断路由是否有中间件列表，如果有，就执行
 			if len(route.Middleware) != 0 {
-				for _, middleHandle := range route.Middleware {
-					context = middleHandle(context) // 顺序执行中间件，得到的返回结果重新注入到上下文中
+				for _, m := range route.Middleware {
+					context = m.Handle(context) // 顺序执行中间件，得到的返回结果重新注入到上下文中
 				}
 			}
 			// 执行目标函数
-			route.Target(context)
+			route.TargetMethod(context)
 			return
 		} else if req.Method != "CONNECT" && path != "/" {
 			code := 301 // Permanent redirect, request with GET method
@@ -406,11 +406,15 @@ type TargetHandle func(c *Context)
 type MiddlewareHandle func(c *Context) *Context // 中间件需要把上下文返回回来，用来传入TargetHandle中
 
 type Route struct {
-	Path       string             // 路径
-	Target     TargetHandle       // 要执行的方法
-	Method     string             // 访问类型 是get post 或者其他
-	Alias      string             // 路由的别名，并没有什么卵用的样子.......
-	Middleware []MiddlewareHandle // 中间件名称，在执行TargetHandle之前执行的方法
+	Prefix       string           // 路由前缀
+	Path         string           // 路径
+	TargetMethod func(c *Context) // 要执行的方法
+	//Controller *ControllerInterface  // 路由对应的控制器
+	Method     string                // 访问类型 是get post 或者其他
+	Alias      string                // 路由的别名，并没有什么卵用的样子.......
+	Middleware []MiddlewareInterface // 中间件名称，在执行TargetHandle之前执行的方法
+	//Middleware []reflect.Value // 中间件名称，在执行TargetHandle之前执行的方法
+	MGroup []string // 中间件组，这里记录中间件组的名称，用于在初始化的时候添加中间件
 }
 
 var RouteList []Route // 全体列表
@@ -423,39 +427,150 @@ func RegisterRoute(r []Route) {
 }
 
 // 添加路由时需要，设置为Get方法
-func (r Route) Get(path string, target TargetHandle) Route {
-	return r.Request(GET, path, target)
+func (r Route) Get(path string) Route {
+	//return r.Request(GET, path, target)
+	r.Path = path
+	r.Method = GET
+	return r
+}
+
+// 这里传入一个回调
+func (r Route) Target(target TargetHandle) Route {
+	return r.Request(r.Method, r.Path, target)
 }
 
 // 添加路由时需要，设置为Post方法
 func (r Route) Post(path string, target TargetHandle) Route {
-	return r.Request(POST, path, target)
+	//return r.Request(POST, path, target)
+	r.Path = path
+	r.Method = POST
+	return r
 }
 
 // 添加路由时需要，设置为put方法
 func (r Route) Put(path string, target TargetHandle) Route {
-	return r.Request(PUT, path, target)
+	//return r.Request(PUT, path, target)
+	r.Path = path
+	r.Method = PUT
+	return r
 }
 
 // 添加路由时需要，设置为patch方法
 func (r Route) Patch(path string, target TargetHandle) Route {
-	return r.Request(PATCH, path, target)
+	//return r.Request(PATCH, path, target)
+	r.Path = path
+	r.Method = PATCH
+	return r
 }
 
 // 添加路由时需要，设置为delete方法
 func (r Route) Delete(path string, target TargetHandle) Route {
-	return r.Request(DELETE, path, target)
+	//return r.Request(DELETE, path, target)
+	r.Path = path
+	r.Method = DELETE
+	return r
 }
 
 func (r Route) Request(method string, path string, target TargetHandle) Route {
 	r.Method = method
 	r.Path = path
-	r.Target = target
+	r.TargetMethod = target
+	return r
+}
+
+func (r Route) MiddlewareGroup(groupName []string) Route {
+	r.MGroup = groupName
+	return r
+}
+
+// 通过传入在Kernel中定义好的路由名称，来设置路由
+func (r Route) MiddlewareWithName(names []string) Route {
+	for _, name := range names {
+		if m, ok := RouteMiddlewares[name]; ok {
+			r.addMiddleware(m)
+		}
+	}
+	return r
+}
+
+// 通过直接传入中间件数组来设置路由
+func (r Route) Middlewares(ms []MiddlewareInterface) Route {
+	for _, m := range ms {
+		r.addMiddleware(m)
+	}
 	return r
 }
 
 func (r Route) Register() Route {
+	// 将全局中间件挂载上去
+	for _, m := range GlobalMiddlewares {
+		r.addMiddleware(m) // 添加全局中间件
+	}
+
+	// 将中间件组挂载上去
+	for _, mName := range r.MGroup {
+		if mg, ok := GroupMiddlewares[mName]; ok { // 存在这个路由组
+			for _, m := range mg { // 得到路由
+				r.addMiddleware(m)
+			}
+		}
+	}
+	// 将单个中间件挂载上去
 	RouteList = append(RouteList, r)
 	return r
 }
 
+func (r *Route) addMiddleware(mid MiddlewareInterface) {
+	flag := false // 当前路由上不存在这个中间件
+	for _, m := range r.Middleware {
+		if m == mid {
+			flag = true // 存在中间件
+		}
+	}
+
+	if flag == false { // 如果存在，则跳过，否则添加
+		r.Middleware = append(r.Middleware, mid)
+	}
+}
+
+func NewRoute() Route {
+	return Route{}
+}
+
+// 路由组
+type RouteGroup struct {
+	MGName []string              // 中间件组名
+	MGroup []MiddlewareInterface // 中间件集合
+}
+
+// 新建路由组
+func NewRouteGroup() *RouteGroup {
+	return &RouteGroup{}
+}
+
+func (r *RouteGroup) MiddlewareGroup(args ...string) *RouteGroup {
+	for _, mName := range args {
+		if ms, ok := GroupMiddlewares[mName]; ok {
+			r.MGName = append(r.MGName, mName) // 录入中间件组名
+			for _, m := range ms {
+				r.MGroup = append(r.MGroup, m)
+			}
+		}
+	}
+	return r
+}
+
+// 传入路由组名称，根据路由组的名字设定中间件
+// NewRouteGroup().MiddlewareGroup('aa','bb','cc').Group(func()).Register()
+func (r *RouteGroup) Group(call func(routes []Route) []Route) *RouteGroup {
+	rs := make([]Route, 0)
+	rs = call(rs)
+
+	// 遍历路由并注册
+	for _, route := range rs {
+		route.MiddlewareGroup(r.MGName).Register()
+	}
+
+	// 中间件组
+	return r
+}

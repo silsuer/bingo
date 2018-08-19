@@ -58,9 +58,9 @@ Bingo是一款使用`httprouter`作为路由的Web全栈开发框架。
    ```go
       // 使用Get方法，注册'/'，对应路由为打印一个hello world字符串
       // 注意最后一定要使用Register()将该路由注册进去
-      utils.Route().Get("/", func(c *bingo.Context) {
-      		fmt.Fprintln(c.Writer,"Hello World")
-      	}).Register()
+     bingo.NewRoute().Get("/").Target(func(c *bingo.Context) {
+          fmt.Fprint(c.Writer,"Hello,Bingo")
+     	}).Register()
    ```
  
 ## 数据库操作：
@@ -405,5 +405,18 @@ var Commands = []interface{}{
 `bingo sword make:command` 创建一个命令
 
 `bingo sword make:origin:command` 创建一个内置命令(将在`bingo/cli`目录下建立新的文件)
+
+
+### 配置文件
+
+`bingo` 的配置文件默认存在 `config`目录下，可以在 `env.yaml`文件中修改
+
+- 支持多级目录
+
+- yaml支持多级结构
+
+- 暂时不支持配置数组
+
+
 
  ####  未完待续

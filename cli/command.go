@@ -16,6 +16,7 @@ var InnerCommands = []interface{}{
 	&MakeController{},
 	&MakeCommand{},
 	&MakeOriginCommand{},
+	&MakeMiddleware{},
 }
 
 // 命令运行
