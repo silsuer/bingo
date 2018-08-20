@@ -3,6 +3,7 @@ package bingo
 type MiddlewareInterface interface {
 	Handle(c *Context) *Context
 	Init()
+	SyncStatus() bool
 }
 
 // 中间件父类
@@ -18,6 +19,15 @@ func (m *Middleware) Handle(c *Context) *Context {
 // 初始化中间件，比如设置同步/异步执行
 func (m *Middleware) Init() {
 	m.Sync = true
+}
+
+// 返回是否是同步中间件
+func (m *Middleware) SyncStatus() bool {
+	if m.Sync == true {
+		return true
+	} else {
+		return false
+	}
 }
 
 var GlobalMiddlewares []MiddlewareInterface

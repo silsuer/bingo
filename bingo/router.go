@@ -312,7 +312,11 @@ func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 			// 判断路由是否有中间件列表，如果有，就执行
 			if len(route.Middleware) != 0 {
 				for _, m := range route.Middleware {
-					context = m.Handle(context) // 顺序执行中间件，得到的返回结果重新注入到上下文中
+					if m.SyncStatus() == true { // 同步中间件
+						context = m.Handle(context) // 顺序执行中间件，得到的返回结果重新注入到上下文中
+					} else {
+						go m.Handle(context) // 开启一个协程异步执行中间件
+					}
 				}
 			}
 			// 执行目标函数
@@ -529,6 +533,7 @@ func (r *Route) addMiddleware(mid MiddlewareInterface) {
 	}
 
 	if flag == false { // 如果存在，则跳过，否则添加
+		mid.Init()
 		r.Middleware = append(r.Middleware, mid)
 	}
 }
@@ -539,8 +544,9 @@ func NewRoute() Route {
 
 // 路由组
 type RouteGroup struct {
-	MGName []string              // 中间件组名
-	MGroup []MiddlewareInterface // 中间件集合
+	PrefixString string                // 路由前缀
+	MGName       []string              // 中间件组名
+	MGroup       []MiddlewareInterface // 中间件集合
 }
 
 // 新建路由组
@@ -553,6 +559,7 @@ func (r *RouteGroup) MiddlewareGroup(args ...string) *RouteGroup {
 		if ms, ok := GroupMiddlewares[mName]; ok {
 			r.MGName = append(r.MGName, mName) // 录入中间件组名
 			for _, m := range ms {
+				m.Init()
 				r.MGroup = append(r.MGroup, m)
 			}
 		}
@@ -568,9 +575,16 @@ func (r *RouteGroup) Group(call func(routes []Route) []Route) *RouteGroup {
 
 	// 遍历路由并注册
 	for _, route := range rs {
+		route.Path = r.PrefixString + route.Path
 		route.MiddlewareGroup(r.MGName).Register()
 	}
 
 	// 中间件组
+	return r
+}
+
+// 为路由组中的所有路由加入前缀
+func (r *RouteGroup) Prefix(prefix string) *RouteGroup {
+	r.PrefixString = prefix
 	return r
 }
