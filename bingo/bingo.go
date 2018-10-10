@@ -14,6 +14,7 @@ import (
 	"bufio"
 	"io"
 	"io/ioutil"
+	"strings"
 )
 
 // 重启队列
@@ -21,10 +22,19 @@ var restartSlice []int
 var fileWatcher *fsnotify.Watcher
 var wdDir string
 
+var BasePath string
+
+func init() {
+	// 默认的BasePath是运行命令时所在的路径
+	BasePath, _ = os.Getwd()
+}
+
 // bingo结构体，向外暴露一些属性和方法  实现了http方法
 type Bingo struct{}
 
 func (b *Bingo) Run(port string, args []string) {
+
+	b.setGlobalParamFromArgs(args)
 	// 根据httprouter进行重写(根据Httprouter的原理，重新实现路由)
 	// 这个时候要根据RouteList,对每一个方法解析出一个tree来
 	router := New()
@@ -44,6 +54,23 @@ func (b *Bingo) Run(port string, args []string) {
 	b.startServer(args, port, context.ClearHandler(router))
 
 	// TODO 监听平滑升级和重启
+}
+
+// 从传入的参数中提取出根目录等参数并赋值
+func (b *Bingo) setGlobalParamFromArgs(args []string) {
+	for _, arg := range args {
+		// a b path=/home/work/jx
+		if strings.Contains(arg, "=") {
+			p := strings.Split(arg, "=")
+			if len(p) != 2 {
+				continue
+			}
+
+			if p[0] == "path" {
+				BasePath = p[1]
+			}
+		}
+	}
 }
 
 func (b *Bingo) startServer(params []string, port string, handler http.Handler) {
@@ -80,10 +107,10 @@ func startWatchServer(port string, handler http.Handler) {
 		panic(err)
 	}
 	defer f.Close()
-	dir, _ := os.Getwd()
-	wdDir = dir
+	//dir, _ := os.Getwd()
+	//wdDir = dir
 	fileWatcher = f
-	f.Add(dir)
+	f.Add(BasePath)
 
 	done := make(chan bool)
 
@@ -176,8 +203,8 @@ func restartDaemonServer() {
 
 func listeningWatcherDir(dir string) {
 	filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
-		dir, _ := os.Getwd()
-		pidFile = dir + "/" + Env.Get("PID_FILE")
+		//dir, _ := os.Getwd()
+		pidFile = BasePath + "/" + Env.Get("PID_FILE")
 		fileWatcher.Add(path)
 		fileWatcher.Remove(pidFile)
 		return nil

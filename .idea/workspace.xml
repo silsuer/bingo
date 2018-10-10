@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e2a7b7b2-5741-4757-a91b-4437d1f48196" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/bingo/middleware.go" beforeDir="false" afterPath="$PROJECT_DIR$/bingo/middleware.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bingo/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/bingo/router.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bingo/bingo.go" beforeDir="false" afterPath="$PROJECT_DIR$/bingo/bingo.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bingo/env.go" beforeDir="false" afterPath="$PROJECT_DIR$/bingo/env.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bingo/utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/bingo/utils.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -13,15 +15,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="router.go" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/bingo/router.go">
+    <leaf>
+      <file leaf-file-name="env.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bingo/env.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="350">
-              <caret line="587" column="27" selection-start-line="587" selection-start-column="27" selection-end-line="587" selection-end-column="27" />
-              <folding>
-                <element signature="e#2951#2980#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="253">
+              <caret line="29" column="32" lean-forward="true" selection-start-line="29" selection-start-column="22" selection-end-line="29" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -29,47 +28,8 @@
       <file leaf-file-name="inner_make_origin_command.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cli/inner_make_origin_command.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="25" column="9" lean-forward="true" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="540">
-                <caret line="36" column="33" selection-start-line="36" selection-start-column="33" selection-end-line="36" selection-end-column="33" />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="middleware.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/bingo/middleware.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="36" column="9" lean-forward="true" selection-start-line="36" selection-start-column="9" selection-end-line="36" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="command.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cli/command.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="301">
-              <caret line="27" column="20" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="20" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="cli_init.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cli/cli_init.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="366">
-              <caret line="241" column="1" lean-forward="true" selection-start-line="241" selection-start-column="1" selection-end-line="241" selection-end-column="1" />
+            <state relative-caret-position="285">
+              <caret line="22" column="18" selection-start-line="22" selection-start-column="18" selection-end-line="22" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -77,23 +37,50 @@
       <file leaf-file-name="inner_make_middleware.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cli/inner_make_middleware.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="321">
-              <caret line="24" column="37" lean-forward="true" selection-start-line="24" selection-start-column="37" selection-end-line="24" selection-end-column="37" />
+            <state relative-caret-position="250">
+              <caret line="35" column="32" lean-forward="true" selection-start-line="35" selection-start-column="32" selection-end-line="35" selection-end-column="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bingo_test.go" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/bingo/bingo_test.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="328">
+              <caret line="51" column="13" selection-start-line="51" selection-start-column="11" selection-end-line="51" selection-end-column="13" />
               <folding>
-                <element signature="e#13#74#0" expanded="true" />
+                <element signature="e#15#65#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="inner_make_controller.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cli/inner_make_controller.go">
+      <file leaf-file-name="server.go" pinned="false" current-in-tab="false">
+        <entry file="file:///usr/local/Cellar/go/1.10.3/libexec/src/net/http/server.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="305">
-              <caret line="65" selection-start-line="65" selection-end-line="65" />
+            <state relative-caret-position="166">
+              <caret line="1725" selection-start-line="1725" selection-end-line="1725" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vendor/github.com/kylelemons/go-gypsy/yaml/config.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="80" selection-start-line="80" selection-end-line="80" />
               <folding>
-                <element signature="e#13#63#0" expanded="true" />
+                <element signature="e#626#680#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bingo.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bingo/bingo.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="40" column="22" lean-forward="true" selection-start-line="40" selection-start-column="22" selection-end-line="40" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -101,17 +88,29 @@
       <file leaf-file-name="utils.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bingo/utils.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="293">
-              <caret line="107" column="27" selection-start-line="107" selection-start-column="27" selection-end-line="107" selection-end-column="27" />
+            <state relative-caret-position="234">
+              <caret line="79" lean-forward="true" selection-start-line="79" selection-end-line="79" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="inner_make_command.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cli/inner_make_command.go">
+      <file leaf-file-name="start.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../../test/start.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="343">
-              <caret line="35" column="106" lean-forward="true" selection-start-line="32" selection-start-column="4" selection-end-line="35" selection-end-column="106" />
+            <state relative-caret-position="210">
+              <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+              <folding>
+                <element signature="e#14#98#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="testing.go" pinned="false" current-in-tab="false">
+        <entry file="file:///usr/local/Cellar/go/1.10.3/libexec/src/testing/testing.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="576" column="17" selection-start-line="576" selection-start-column="17" selection-end-line="576" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -133,7 +132,6 @@
       <find>output</find>
       <find>srv</find>
       <find>form</find>
-      <find>init</find>
       <find>interrupt</find>
       <find>__Daemon</find>
       <find>makeAll</find>
@@ -153,6 +151,10 @@
       <find>fmt</find>
       <find>Register</find>
       <find>inner_make_middleware</find>
+      <find>starts</find>
+      <find>os.Getwd()</find>
+      <find>getwd</find>
+      <find>init</find>
     </findStrings>
     <replaceStrings>
       <replace>MakeOriginCommand</replace>
@@ -174,12 +176,10 @@
         <option value="$PROJECT_DIR$/cli/inner_make_command.go" />
         <option value="$PROJECT_DIR$/cli/inner_make_origin_command.go" />
         <option value="$PROJECT_DIR$/cli/cli_sword.go" />
-        <option value="$PROJECT_DIR$/bingo/utils.go" />
         <option value="$PROJECT_DIR$/main.go" />
         <option value="$PROJECT_DIR$/glide.lock" />
         <option value="$PROJECT_DIR$/cli/cli_daemon.go" />
         <option value="$PROJECT_DIR$/cli/cli.go" />
-        <option value="$PROJECT_DIR$/bingo/bingo.go" />
         <option value="$PROJECT_DIR$/bingo/graceful.go" />
         <option value="$PROJECT_DIR$/../../../gitee.com/bangbaoshi/wordcloud/vendor/github.com/fogleman/gg/context.go" />
         <option value="$PROJECT_DIR$/../../../gitee.com/bangbaoshi/wordcloud/vendor/github.com/fogleman/gg/util.go" />
@@ -199,6 +199,10 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/bingo/middleware.go" />
         <option value="$PROJECT_DIR$/bingo/router.go" />
+        <option value="$PROJECT_DIR$/bingo/env.go" />
+        <option value="$PROJECT_DIR$/bingo/bingo.go" />
+        <option value="$PROJECT_DIR$/bingo/utils.go" />
+        <option value="$PROJECT_DIR$/bingo/bingo_test.go" />
       </list>
     </option>
   </component>
@@ -229,16 +233,6 @@
             </path>
             <path>
               <item name="bingo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="bingo" type="462c0819:PsiDirectoryNode" />
-              <item name="bingo" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="bingo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="bingo" type="462c0819:PsiDirectoryNode" />
-              <item name="cli" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="bingo" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
             <path>
@@ -257,44 +251,24 @@
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="GOPATH &lt;bingo&gt;" type="20ee2d1f:SyntheticLibraryElementNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="gitee.com" type="462c0819:PsiDirectoryNode" />
+              <item name="github.com" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="bingo" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="GOPATH &lt;bingo&gt;" type="20ee2d1f:SyntheticLibraryElementNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="gitee.com" type="462c0819:PsiDirectoryNode" />
-              <item name="bangbaoshi" type="462c0819:PsiDirectoryNode" />
+              <item name="github.com" type="462c0819:PsiDirectoryNode" />
+              <item name="cweill" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="bingo" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="GOPATH &lt;bingo&gt;" type="20ee2d1f:SyntheticLibraryElementNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="gitee.com" type="462c0819:PsiDirectoryNode" />
-              <item name="bangbaoshi" type="462c0819:PsiDirectoryNode" />
-              <item name="wordcloud" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="bingo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="GOPATH &lt;bingo&gt;" type="20ee2d1f:SyntheticLibraryElementNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="gitee.com" type="462c0819:PsiDirectoryNode" />
-              <item name="bangbaoshi" type="462c0819:PsiDirectoryNode" />
-              <item name="wordcloud" type="462c0819:PsiDirectoryNode" />
-              <item name="imgs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="bingo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="GOPATH &lt;bingo&gt;" type="20ee2d1f:SyntheticLibraryElementNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="gitee.com" type="462c0819:PsiDirectoryNode" />
-              <item name="bangbaoshi" type="462c0819:PsiDirectoryNode" />
-              <item name="wordcloud" type="462c0819:PsiDirectoryNode" />
-              <item name="wordle" type="462c0819:PsiDirectoryNode" />
+              <item name="github.com" type="462c0819:PsiDirectoryNode" />
+              <item name="cweill" type="462c0819:PsiDirectoryNode" />
+              <item name="gotests" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -334,47 +308,109 @@
       </list>
     </option>
   </component>
+  <component name="RunManager">
+    <configuration name="Benchmark_Bingo_Run in github.com/silsuer/bingo/bingo" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="bingo" />
+      <working_directory value="$PROJECT_DIR$/bingo" />
+      <go_parameters value="-i" />
+      <framework value="gobench" />
+      <kind value="PACKAGE" />
+      <package value="github.com/silsuer/bingo/bingo" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
+      <pattern value="^Benchmark_Bingo_Run$" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Test.Benchmark_Bingo_Run in github.com/silsuer/bingo/bingo" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TestHistory">
+    <history-entry file="Benchmark_Bingo_Run_in_github_com_silsuer_bingo_bingo - 2018.10.09 at 16h 44m 58s.xml">
+      <configuration name="Benchmark_Bingo_Run in github.com/silsuer/bingo/bingo" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="Benchmark_Bingo_Run_in_github_com_silsuer_bingo_bingo - 2018.10.09 at 16h 45m 50s.xml">
+      <configuration name="Benchmark_Bingo_Run in github.com/silsuer/bingo/bingo" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="Benchmark_Bingo_Run_in_github_com_silsuer_bingo_bingo - 2018.10.09 at 16h 48m 59s.xml">
+      <configuration name="Benchmark_Bingo_Run in github.com/silsuer/bingo/bingo" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="Benchmark_Bingo_Run_in_github_com_silsuer_bingo_bingo - 2018.10.09 at 16h 49m 59s.xml">
+      <configuration name="Benchmark_Bingo_Run in github.com/silsuer/bingo/bingo" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="Benchmark_Bingo_Run_in_github_com_silsuer_bingo_bingo - 2018.10.09 at 16h 50m 32s.xml">
+      <configuration name="Benchmark_Bingo_Run in github.com/silsuer/bingo/bingo" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="Benchmark_Bingo_Run_in_github_com_silsuer_bingo_bingo - 2018.10.09 at 16h 50m 54s.xml">
+      <configuration name="Benchmark_Bingo_Run in github.com/silsuer/bingo/bingo" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="Benchmark_Bingo_Run_in_github_com_silsuer_bingo_bingo - 2018.10.09 at 16h 51m 16s.xml">
+      <configuration name="Benchmark_Bingo_Run in github.com/silsuer/bingo/bingo" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="Benchmark_Bingo_Run_in_github_com_silsuer_bingo_bingo - 2018.10.09 at 16h 51m 39s.xml">
+      <configuration name="Benchmark_Bingo_Run in github.com/silsuer/bingo/bingo" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="Benchmark_Bingo_Run_in_github_com_silsuer_bingo_bingo - 2018.10.10 at 16h 11m 06s.xml">
+      <configuration name="Benchmark_Bingo_Run in github.com/silsuer/bingo/bingo" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="Benchmark_Bingo_Run_in_github_com_silsuer_bingo_bingo - 2018.10.10 at 19h 38m 35s.xml">
+      <configuration name="Benchmark_Bingo_Run in github.com/silsuer/bingo/bingo" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+  </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26037195" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32880098" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.3448702" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2746781" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32969698" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.39151517" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26037195" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32969698" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.39151517" />
+      <window_info id="Favorites" order="2" side_tool="true" />
     </layout>
     <layout-to-restore>
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25679544" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32969698" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.41454545" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -387,49 +423,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/cli/cli_daemon.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="17" selection-start-line="3" selection-start-column="17" selection-end-line="3" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bingo/graceful.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4230">
-          <caret line="294" column="17" selection-start-line="294" selection-start-column="17" selection-end-line="294" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cli/cli.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
-          <caret line="17" column="16" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../gitee.com/bangbaoshi/wordcloud/imgs/foot.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../gitee.com/bangbaoshi/wordcloud/imgs/dot.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../gitee.com/bangbaoshi/wordcloud/imgs/circle.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../gitee.com/bangbaoshi/wordcloud/imgs/china.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../gitee.com/bangbaoshi/wordcloud/imgs/animal.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../gitee.com/bangbaoshi/wordcloud/imgs/water.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../gitee.com/bangbaoshi/wordcloud/imgs/tiger.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../gitee.com/bangbaoshi/wordcloud/imgs/internet.jpg" />
     <entry file="file:///usr/local/Cellar/go/1.10.3/libexec/src/image/image.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="371">
@@ -468,9 +461,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="202">
           <caret line="251" lean-forward="true" selection-start-line="251" selection-end-line="251" />
-          <folding>
-            <element signature="e#86#346#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -481,9 +471,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="205">
           <caret line="67" column="5" lean-forward="true" selection-start-line="67" selection-start-column="5" selection-end-line="67" selection-end-column="5" />
-          <folding>
-            <element signature="e#12#220#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -494,10 +481,7 @@
     <entry file="file://$PROJECT_DIR$/main.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
-          <caret line="8" column="7" selection-start-line="8" selection-start-column="7" selection-end-line="8" selection-end-column="7" />
-          <folding>
-            <element signature="e#14#56#0" expanded="true" />
-          </folding>
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
         </state>
       </provider>
     </entry>
@@ -526,13 +510,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bingo/env.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="31" column="25" selection-start-line="31" selection-start-column="25" selection-end-line="31" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/glide.yaml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
@@ -554,16 +531,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/github.com/kylelemons/go-gypsy/yaml/config.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2">
-          <caret line="16" column="7" lean-forward="true" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
-          <folding>
-            <element signature="e#626#680#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/github.com/kylelemons/go-gypsy/yaml/types.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -575,23 +542,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
           <caret line="16" selection-start-line="16" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bingo/config.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="86" column="2" lean-forward="true" selection-start-line="86" selection-start-column="2" selection-end-line="86" selection-end-column="2" />
-          <folding>
-            <element signature="e#15#44#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bingo/controller.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="398">
-          <caret line="27" column="26" selection-start-line="27" selection-start-column="26" selection-end-line="27" selection-end-column="26" />
         </state>
       </provider>
     </entry>
@@ -617,24 +567,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cli/inner_make_origin_command.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="25" column="9" lean-forward="true" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cli/inner_make_command.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="343">
           <caret line="35" column="106" lean-forward="true" selection-start-line="32" selection-start-column="4" selection-end-line="35" selection-end-column="106" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bingo/utils.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="107" column="27" selection-start-line="107" selection-start-column="27" selection-end-line="107" selection-end-column="27" />
         </state>
       </provider>
     </entry>
@@ -648,16 +584,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cli/inner_make_middleware.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="24" column="37" lean-forward="true" selection-start-line="24" selection-start-column="37" selection-end-line="24" selection-end-column="37" />
-          <folding>
-            <element signature="e#13#74#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cli/cli_init.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="366">
@@ -665,16 +591,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/doc/开发流程.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="331">
-            <caret line="546" column="17" selection-start-line="546" selection-start-column="17" selection-end-line="546" selection-end-column="17" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/doc/开发流程.md" />
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -705,6 +622,134 @@
           <caret line="587" column="27" selection-start-line="587" selection-start-column="27" selection-end-line="587" selection-end-column="27" />
           <folding>
             <element signature="e#2951#2980#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bingo/config.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="708">
+          <caret line="86" column="2" lean-forward="true" selection-start-line="86" selection-start-column="2" selection-end-line="86" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bingo/controller.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bingo/drivers.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../cweill/gotests/gotests.go">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bingo/graceful.go">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../cweill/gotests/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="105">
+            <caret line="7" selection-start-line="7" selection-end-line="7" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bingo/kvstorage.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="22" column="35" lean-forward="true" selection-start-line="22" selection-start-column="35" selection-end-line="22" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cli/cli.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-251" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cli/inner_make_origin_command.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="22" column="18" selection-start-line="22" selection-start-column="18" selection-end-line="22" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/Cellar/go/1.10.3/libexec/src/testing/testing.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="576" column="17" selection-start-line="576" selection-start-column="17" selection-end-line="576" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../test/start.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+          <folding>
+            <element signature="e#14#98#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/Cellar/go/1.10.3/libexec/src/net/http/server.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="1725" selection-start-line="1725" selection-end-line="1725" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/github.com/kylelemons/go-gypsy/yaml/config.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="80" selection-start-line="80" selection-end-line="80" />
+          <folding>
+            <element signature="e#626#680#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bingo/env.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="29" column="32" lean-forward="true" selection-start-line="29" selection-start-column="22" selection-end-line="29" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cli/inner_make_middleware.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="250">
+          <caret line="35" column="32" lean-forward="true" selection-start-line="35" selection-start-column="32" selection-end-line="35" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bingo/utils.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="79" lean-forward="true" selection-start-line="79" selection-end-line="79" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bingo/bingo.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="40" column="22" lean-forward="true" selection-start-line="40" selection-start-column="22" selection-end-line="40" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bingo/bingo_test.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="328">
+          <caret line="51" column="13" selection-start-line="51" selection-start-column="11" selection-end-line="51" selection-end-column="13" />
+          <folding>
+            <element signature="e#15#65#0" expanded="true" />
           </folding>
         </state>
       </provider>

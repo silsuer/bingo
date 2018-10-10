@@ -2,7 +2,6 @@ package bingo
 
 import (
 	"github.com/kylelemons/go-gypsy/yaml"
-	"os"
 )
 
 type env struct {
@@ -25,13 +24,15 @@ func (e *env) Get(k string) string {
 	if v, ok := e.submap[k]; ok {
 		// 如果存在，直接返回返回值
 		return v
-	}else{
+	} else {
 		// 如果不存在，读取env文件，并且把数据存入Env中
-		path,err := os.Getwd()
-		Check(err)
-		envConfig,err := yaml.ReadFile(path+"/env.yaml")
-		val,err := envConfig.Get(k)
+
+		//path,err := os.Getwd()
+		//Check(err)
+		envConfig, err := yaml.ReadFile(BasePath + "/env.yaml")
+		val, err := envConfig.Get(k)
 		// 写入内存
+		Check(err)
 		e.submap[k] = val
 		return val
 	}

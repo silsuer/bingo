@@ -57,24 +57,24 @@ func GetCurrentDirectory() string {
 // 获取路由文件夹路径
 func GetRoutesPath() string {
 
-	dir, err := os.Getwd()
-	dir = strings.Replace(dir, "\\", "/", -1)
-	Check(err)
+	//dir, err := os.Getwd()
+	dir := strings.Replace(BasePath, "\\", "/", -1)
+	//Check(err)
 	//// 获取env文件的所有值
 	//c := FileGetJson(dir + "/.env")
 	//return c
 	//route_path,err := Env("ROUTES_PATH")
 	route_path := Env.Get("ROUTES_PATH")
-	Check(err)
+	//Check(err)
 	path := dir + "/" + route_path
 	return path
 }
 
 // 获取静态文件夹路径
 func GetPublicPath() string {
-	dir, err := os.Getwd()
-	dir = strings.Replace(dir, "\\", "/", -1)
-	Check(err)
+	//dir, err := os.Getwd()
+	dir := strings.Replace(BasePath, "\\", "/", -1)
+	//Check(err)
 	return dir + "/" + Env.Get("STATIC_FILE_DIR")
 }
 
@@ -114,4 +114,3 @@ func MakeFile(dir string, content string) bool {
 	}
 	return true
 }
-
