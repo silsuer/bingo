@@ -24,7 +24,6 @@ func (cli *CLI) swordHandle(args []string) {
 	consoleKernelAbsolutePath := dir + "/" + consoleKernelPath + "/Kernel.go"
 
 	// 使用go shell 调用 go run xxx/Kernel.go arg1 arg2 arg3
-
 	var tmpSlice = []string{"go", "run", consoleKernelAbsolutePath}
 
 	args = append(tmpSlice, args...)
@@ -34,7 +33,6 @@ func (cli *CLI) swordHandle(args []string) {
 	console := Console{}
 	console.Exec(args[2:], InnerCommands)
 
-	//fmt.Println(args)
 	//[run /Users/silsuer/go/src/test/app/Console/Kernel.go aaa bbb ccc]
 	//cmd := exec.Command("sh", "-c", strings.Join(args, " "))
 	cmd := exec.Command("go",args[1:]...)

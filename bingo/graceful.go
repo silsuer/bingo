@@ -235,15 +235,16 @@ func handleSignals() {
 	}
 }
 
-func DaemonInit() {
+func DaemonInit(cmd string) {
 	// 得到存放pid文件的路径
-	dir, _ := os.Getwd()
-	pidFile = dir + "/" + Env.Get("PID_FILE")
-	if os.Getenv("__Daemon") != "true" { //master
-		cmd := "start" //缺省为start
-		if l := len(os.Args); l > 2 {
-			cmd = os.Args[l-1]
-		}
+	//pdiFile := BasePath +"/"+Env.Get("PID_FILE")
+	//dir, _ := os.Getwd()
+	//pidFile = dir + "/" + Env.Get("PID_FILE")
+	//if os.Getenv("__Daemon") != "true" { //master
+	//	cmd := "start" //缺省为start
+	//	if l := len(os.Args); l > 2 {
+	//		cmd = os.Args[l-1]
+	//	}
 		switch cmd {
 		case "start":
 			if isRunning() {
@@ -274,7 +275,7 @@ func DaemonInit() {
 		}
 		//主进程退出
 		os.Exit(0)
-	}
+	//}
 	go handleSignals()
 }
 

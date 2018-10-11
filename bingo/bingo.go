@@ -10,10 +10,6 @@ import (
 	"time"
 	"sync"
 	"syscall"
-	"os/exec"
-	"bufio"
-	"io"
-	"io/ioutil"
 	"strings"
 )
 
@@ -32,8 +28,12 @@ func init() {
 // bingo结构体，向外暴露一些属性和方法  实现了http方法
 type Bingo struct{}
 
-func (b *Bingo) Run(port string, args []string) {
+func (b *Bingo) Run(port string) {
 
+	args := []string{"daemon", "start"}
+	if len(os.Args) != 0 {
+		args = os.Args[1:]
+	}
 	b.setGlobalParamFromArgs(args)
 	// 根据httprouter进行重写(根据Httprouter的原理，重新实现路由)
 	// 这个时候要根据RouteList,对每一个方法解析出一个tree来
@@ -86,7 +86,7 @@ func (b *Bingo) startServer(params []string, port string, handler http.Handler) 
 	case "watch":
 		startWatchServer(port, handler)
 	case "daemon":
-		startDaemonServer(port, handler)
+		startDaemonServer(port, handler, params[1:])
 	default:
 		fmt.Println("undefined param:" + param)
 	}
@@ -164,33 +164,7 @@ func restartDaemonServer() {
 			mutex.Lock()
 
 			go func() {
-				// 执行重启命令
-				cmd := exec.Command("bingo", "run", "daemon", "restart")
-				stdout, err := cmd.StdoutPipe()
-				if err != nil {
-					fmt.Println(err)
-				}
-				defer stdout.Close()
-
-				if err := cmd.Start(); err != nil {
-					panic(err)
-				}
-				reader := bufio.NewReader(stdout)
-				//实时循环读取输出流中的一行内容
-				for {
-					line, err2 := reader.ReadString('\n')
-					if err2 != nil || io.EOF == err2 {
-						break
-					}
-					fmt.Print(line)
-				}
-
-				if err := cmd.Wait(); err != nil {
-					fmt.Println(err)
-				}
-				opBytes, _ := ioutil.ReadAll(stdout)
-				fmt.Print(string(opBytes))
-
+				DaemonInit("restart")
 			}()
 			listeningWatcherDir(wdDir)
 			restartSlice = []int{}
@@ -205,6 +179,9 @@ func listeningWatcherDir(dir string) {
 	filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
 		//dir, _ := os.Getwd()
 		pidFile = BasePath + "/" + Env.Get("PID_FILE")
+
+		fmt.Println(pidFile)
+		fmt.Println(path)
 		fileWatcher.Add(path)
 		fileWatcher.Remove(pidFile)
 		return nil
@@ -212,6 +189,10 @@ func listeningWatcherDir(dir string) {
 }
 
 // 以守护进程运行
-func startDaemonServer(port string, handler http.Handler) {
-	DaemonInit()
+func startDaemonServer(port string, handler http.Handler, args []string) {
+	if len(args) > 0 {
+		DaemonInit(args[0])
+	} else {
+		DaemonInit("start")
+	}
 }
