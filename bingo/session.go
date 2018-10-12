@@ -28,7 +28,9 @@ func randId() string {
 	b := make([]byte, 32)
 	if _, err := io.ReadFull(rand.Reader, b); err != nil {
 		return ""
-  zzX}
+	}
+	return base64.URLEncoding.EncodeToString(b)
+}
 
 
 func (s *Session) Set(key string,value interface{}) error {
