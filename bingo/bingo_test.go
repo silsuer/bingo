@@ -71,4 +71,3 @@ func TestBingo_setGlobalParamFromArgs(t *testing.T) {
 		})
 	}
 }
-

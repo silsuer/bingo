@@ -226,7 +226,6 @@ func makeStartFile() {
 
 import (
 	"github.com/silsuer/bingo/bingo"
-    "os"
 	"` + currentDir[len(currentDir)-1] + `/routes"
 	_ "` + currentDir[len(currentDir)-1] + `/app/Http"
 
@@ -235,7 +234,7 @@ import (
 func main() {
 	b := bingo.Bingo{}
 	routes.SetRoutes()
-	b.Run(":12345",os.Args[1:])
+	b.Run(":12345")
 }
 
 
