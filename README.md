@@ -1,5 +1,7 @@
 # Bingo
 
+[![Build Status](https://travis-ci.org/silsuer/bingo.svg?branch=master)](https://travis-ci.org/silsuer/bingo)
+
 Bingo是一款使用`httprouter`作为路由的Web全栈开发框架。
 
 受到`Laravel`的启发，将一些网站开发过程中必备的功能内置到了框架中，开箱即用
