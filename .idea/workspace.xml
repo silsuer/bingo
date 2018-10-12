@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e2a7b7b2-5741-4757-a91b-4437d1f48196" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bingo/bingo.go" beforeDir="false" afterPath="$PROJECT_DIR$/bingo/bingo.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bingo/bingo_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bingo/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/bingo/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bingo/env.go" beforeDir="false" afterPath="$PROJECT_DIR$/bingo/env.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bingo/graceful.go" beforeDir="false" afterPath="$PROJECT_DIR$/bingo/graceful.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cli/cli_sword.go" beforeDir="false" afterPath="$PROJECT_DIR$/cli/cli_sword.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bingo/session.go" beforeDir="false" afterPath="$PROJECT_DIR$/bingo/session.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -40,8 +34,8 @@
       <file leaf-file-name="session.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bingo/session.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" column="1" lean-forward="true" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
+            <state relative-caret-position="450">
+              <caret line="30" column="5" selection-start-line="30" selection-start-column="5" selection-end-line="30" selection-end-column="5" />
               <folding>
                 <element signature="e#15#108#0" expanded="true" />
               </folding>
@@ -198,6 +192,7 @@
         <option value="$PROJECT_DIR$/bingo/config.go" />
         <option value="$PROJECT_DIR$/bingo/config_test.go" />
         <option value="$PROJECT_DIR$/bingo/env.go" />
+        <option value="$PROJECT_DIR$/bingo/session.go" />
       </list>
     </option>
   </component>
@@ -238,13 +233,6 @@
               <item name="bingo" type="462c0819:PsiDirectoryNode" />
               <item name="drivers" type="462c0819:PsiDirectoryNode" />
               <item name="db" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="bingo" type="b2602c69:ProjectViewProjectNode" />
-              <item name="bingo" type="462c0819:PsiDirectoryNode" />
-              <item name="drivers" type="462c0819:PsiDirectoryNode" />
-              <item name="db" type="462c0819:PsiDirectoryNode" />
-              <item name="mysql" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -373,7 +361,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32944915" />
       <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.33474576" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19172113" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.38344225" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32969698" />
@@ -739,8 +727,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bingo/session.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="1" lean-forward="true" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
+        <state relative-caret-position="450">
+          <caret line="30" column="5" selection-start-line="30" selection-start-column="5" selection-end-line="30" selection-end-column="5" />
           <folding>
             <element signature="e#15#108#0" expanded="true" />
           </folding>
