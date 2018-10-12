@@ -92,3 +92,18 @@ func TestConfigMap_SetSlice(t *testing.T) {
 		})
 	}
 }
+
+func TestConfigMap_Get(t *testing.T) {
+	// 设置几个数
+	res := Env.Set("key", "test")
+
+	if !res {
+		t.Fatal("Env.Set() function error")
+	}
+
+	r := Env.Get("key")
+
+	if r != "test" {
+		t.Fatal("Env.Set() function test FAIL")
+	}
+}

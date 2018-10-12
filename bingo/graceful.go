@@ -26,7 +26,7 @@ type ConnectionManager struct {
 	sync.WaitGroup
 	Counter   int
 	mux       sync.Mutex
-	idleConns map[string]net.Conn
+	idleConns map[string]net.Conn  // 面向网络的连接
 }
 
 //improvement http.Server
@@ -52,6 +52,7 @@ func (cm *ConnectionManager) done() {
 	cm.WaitGroup.Done()
 }
 
+// 设置超时时间，超过这个时间，连接将关闭
 func (cm *ConnectionManager) close(t time.Duration) {
 	cm.mux.Lock()
 	dt := time.Now().Add(t)

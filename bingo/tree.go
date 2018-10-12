@@ -187,7 +187,8 @@ func (n *node) addRoute(path string, route Route) {
 				return
 
 			} else if i == len(path) { // Make node a (in-path) leaf
-				if n.route.Target != nil {
+				//if n.route.Target != nil {
+				if n.route.TargetMethod != nil {
 					panic("a handle is already registered for path ''" + fullPath + "'")
 				}
 				n.route = route   // 挂载到上面
@@ -338,7 +339,7 @@ walk: // Outer loop for walking the tree
 					// Nothing found.
 					// We can recommend to redirect to the same URL without a
 					// trailing slash if a leaf exists for that path.
-					tsr = (path == "/" && n.route.Target != nil)
+					tsr = (path == "/" && n.route.TargetMethod != nil)
 					return
 
 				}
@@ -376,13 +377,13 @@ walk: // Outer loop for walking the tree
 						return
 					}
 
-					if route = n.route; route.Target != nil {
+					if route = n.route; route.TargetMethod != nil {
 						return
 					} else if len(n.children) == 1 {
 						// No handle found. Check if a handle for this path + a
 						// trailing slash exists for TSR recommendation
 						n = n.children[0]
-						tsr = (n.path == "/" && n.route.Target != nil)
+						tsr = (n.path == "/" && n.route.TargetMethod != nil)
 					}
 
 					return
@@ -408,7 +409,7 @@ walk: // Outer loop for walking the tree
 		} else if path == n.path {
 			// We should have reached the node containing the handle.
 			// Check if this node has a handle registered.
-			if route = n.route; route.Target != nil {
+			if route = n.route; route.TargetMethod != nil {
 				return
 			}
 
@@ -417,8 +418,8 @@ walk: // Outer loop for walking the tree
 			for i := 0; i < len(n.indices); i++ {
 				if n.indices[i] == '/' {
 					n = n.children[i]
-					tsr = (len(n.path) == 1 && n.route.Target != nil) ||
-						(n.nType == catchAll && n.children[0].route.Target != nil)
+					tsr = (len(n.path) == 1 && n.route.TargetMethod != nil) ||
+						(n.nType == catchAll && n.children[0].route.TargetMethod != nil)
 					return
 				}
 			}
@@ -430,7 +431,7 @@ walk: // Outer loop for walking the tree
 		// extra trailing slash if a leaf exists for that path
 		tsr = (path == "/") ||
 			(len(n.path) == len(path)+1 && n.path[len(path)] == '/' &&
-				path == n.path[:len(n.path)-1] && n.route.Target != nil)
+				path == n.path[:len(n.path)-1] && n.route.TargetMethod != nil)
 		return
 	}
 }
@@ -466,7 +467,7 @@ func (n *node) findCaseInsensitivePath(path string, fixTrailingSlash bool) (ciPa
 
 				// Nothing found. We can recommend to redirect to the same URL
 				// without a trailing slash if a leaf exists for that path
-				found = (fixTrailingSlash && path == "/" && n.route.Target != nil)
+				found = (fixTrailingSlash && path == "/" && n.route.TargetMethod != nil)
 				return
 			}
 
@@ -497,13 +498,13 @@ func (n *node) findCaseInsensitivePath(path string, fixTrailingSlash bool) (ciPa
 					return
 				}
 
-				if n.route.Target != nil {
+				if n.route.TargetMethod != nil {
 					return ciPath, true
 				} else if fixTrailingSlash && len(n.children) == 1 {
 					// No handle found. Check if a handle for this path + a
 					// trailing slash exists
 					n = n.children[0]
-					if n.path == "/" && n.route.Target != nil {
+					if n.path == "/" && n.route.TargetMethod != nil {
 						return append(ciPath, '/'), true
 					}
 				}
@@ -518,7 +519,7 @@ func (n *node) findCaseInsensitivePath(path string, fixTrailingSlash bool) (ciPa
 		} else {
 			// We should have reached the node containing the handle.
 			// Check if this node has a handle registered.
-			if n.route.Target != nil {
+			if n.route.TargetMethod != nil {
 				return ciPath, true
 			}
 
@@ -528,8 +529,8 @@ func (n *node) findCaseInsensitivePath(path string, fixTrailingSlash bool) (ciPa
 				for i := 0; i < len(n.indices); i++ {
 					if n.indices[i] == '/' {
 						n = n.children[i]
-						if (len(n.path) == 1 && n.route.Target != nil) ||
-							(n.nType == catchAll && n.children[0].route.Target != nil) {
+						if (len(n.path) == 1 && n.route.TargetMethod != nil) ||
+							(n.nType == catchAll && n.children[0].route.TargetMethod != nil) {
 							return append(ciPath, '/'), true
 						}
 						return
@@ -548,7 +549,7 @@ func (n *node) findCaseInsensitivePath(path string, fixTrailingSlash bool) (ciPa
 		}
 		if len(path)+1 == len(n.path) && n.path[len(path)] == '/' &&
 			strings.ToLower(path) == strings.ToLower(n.path[:len(path)]) &&
-			n.route.Target != nil {
+			n.route.TargetMethod != nil {
 			return append(ciPath, n.path...), true
 		}
 	}

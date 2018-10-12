@@ -364,7 +364,8 @@ func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 			}
 
 			route, _, _ := r.trees[method].getValue(req.URL.Path)
-			if route.Target != nil {
+			//if route.Target != nil {
+			if route.TargetMethod != nil {
 				if r.MethodNotAllowed != nil {
 					r.MethodNotAllowed(w, req)
 				} else {

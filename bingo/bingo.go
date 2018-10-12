@@ -28,9 +28,11 @@ func init() {
 // bingo结构体，向外暴露一些属性和方法  实现了http方法
 type Bingo struct{}
 
+// 开启的端口号，传入参数，是否允许使用os.Args
 func (b *Bingo) Run(port string) {
 
 	args := []string{"daemon", "start"}
+
 	if len(os.Args) != 0 {
 		args = os.Args[1:]
 	}
@@ -52,8 +54,6 @@ func (b *Bingo) Run(port string) {
 	// daemon 以守护进程运行
 	// 开启服务器
 	b.startServer(args, port, context.ClearHandler(router))
-
-	// TODO 监听平滑升级和重启
 }
 
 // 从传入的参数中提取出根目录等参数并赋值
@@ -65,7 +65,6 @@ func (b *Bingo) setGlobalParamFromArgs(args []string) {
 			if len(p) != 2 {
 				continue
 			}
-
 			if p[0] == "path" {
 				BasePath = p[1]
 			}
@@ -81,14 +80,14 @@ func (b *Bingo) startServer(params []string, port string, handler http.Handler) 
 
 	switch param {
 	case "dev":
-		//startDevServer(port, handler)
 		startDevServer(port, handler)
 	case "watch":
 		startWatchServer(port, handler)
 	case "daemon":
 		startDaemonServer(port, handler, params[1:])
 	default:
-		fmt.Println("undefined param:" + param)
+		startDevServer(port, handler)
+		//fmt.Println("undefined param:" + param)
 	}
 }
 
@@ -107,8 +106,6 @@ func startWatchServer(port string, handler http.Handler) {
 		panic(err)
 	}
 	defer f.Close()
-	//dir, _ := os.Getwd()
-	//wdDir = dir
 	fileWatcher = f
 	f.Add(BasePath)
 
