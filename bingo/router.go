@@ -413,7 +413,7 @@ type MiddlewareHandle func(c *Context) *Context // 中间件需要把上下文�
 type Route struct {
 	Prefix       string           // 路由前缀
 	Path         string           // 路径
-	TargetMethod func(c *Context) // 要执行的方法
+		TargetMethod func(c *Context) // 要执行的方法
 	//Controller *ControllerInterface  // 路由对应的控制器
 	Method     string                // 访问类型 是get post 或者其他
 	Alias      string                // 路由的别名，并没有什么卵用的样子.......

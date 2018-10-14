@@ -10,42 +10,42 @@ package bingo
 
 import (
 	"testing"
+	"net/http/httptest"
+	"net/http"
+	"io"
+	"io/ioutil"
 )
 
+func TestBingo_Run(t *testing.T) {
 
-//
-//func TestBingo_Run(t *testing.T) {
-//
-//	b := Bingo{}
-//	//b.Run(":12345")
-//
-//	NewRoute().Get("/").Target(func(c *Context) {
-//		c.Writer.WriteHeader(http.StatusOK)
-//		c.Writer.Header().Set("Content-Type", "application/json")
-//		io.WriteString(c.Writer, `{"message":"Hello Bingo!"}`)
-//	}).Register()
-//
-//	// 开启服务，并且不阻塞主进程
-//	go func() {
-//		b.Run(":12345")
-//	}()
-//
-//	//time.Sleep(1 * time.Second)
-//	resp, err := http.Get("http://localhost:12345")
-//	if err != nil {
-//		t.Fatal(err)
-//	}
-//
-//	defer resp.Body.Close()
-//
-//	body, err := ioutil.ReadAll(resp.Body)
-//
-//	if err != nil {
-//		t.Fatal(err)
-//	}
-//
-//	t.Log(string(body))
-//}
+	rr := NewRoute().Get("/").Target(func(c *Context) {
+		c.Writer.WriteHeader(http.StatusOK)
+		c.Writer.Header().Set("Content-Type", "application/json")
+		io.WriteString(c.Writer, `{"message":"Hello Bingo!"}`)
+	}).Register()
+
+	r := New()
+
+	r.Handle("GET", "/", rr)
+
+	s := httptest.NewServer(r)
+	defer s.Close()
+
+	res, err := http.Get(s.URL)
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	body, err := ioutil.ReadAll(res.Body)
+	defer res.Body.Close()
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	t.Log(string(body))
+}
 
 func TestBingo_setGlobalParamFromArgs(t *testing.T) {
 	type args struct {
