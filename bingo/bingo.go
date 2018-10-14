@@ -96,11 +96,11 @@ func startDevServer(port string, handler http.Handler) {
 	GracefulServe(port, handler)
 }
 
+// 监听目录变化，如果有变化，重启服务
+// 守护进程开启服务，主进程阻塞不断扫描当前目录，有任何更新，向守护进程传递信号，守护进程重启服务
+// 开启一个协程运行服务
+// 监听目录变化，有变化运行 bingo run daemon restart
 func startWatchServer(port string, handler http.Handler) {
-	// 监听目录变化，如果有变化，重启服务
-	// 守护进程开启服务，主进程阻塞不断扫描当前目录，有任何更新，向守护进程传递信号，守护进程重启服务
-	// 开启一个协程运行服务
-	// 监听目录变化，有变化运行 bingo run daemon restart
 	f, err := fsnotify.NewWatcher()
 	if err != nil {
 		panic(err)
