@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	_ "github.com/go-sql-driver/mysql"
-	"fmt"
 )
 
 func TestDriverInit(t *testing.T) {
@@ -12,7 +11,7 @@ func TestDriverInit(t *testing.T) {
 	// 测试一个不存在的驱动
 	Env.Set("DB_DRIVER", "TEST")
 	DriverInit()
-	fmt.Println(Driver)
+	//fmt.Println(Driver)
 
 	// 测试一个存在的驱动
 	Env.Set("DB_DRIVER", "MYSQL")
@@ -24,6 +23,6 @@ func TestDriverInit(t *testing.T) {
 	Env.Set("DB_CHARSET", "utf8")
 
 	DriverInit()
-	fmt.Println(Driver)
+	//fmt.Println(Driver)
 }
 
