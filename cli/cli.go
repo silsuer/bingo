@@ -55,11 +55,11 @@ func (cli *CLI) Run() {
 	}
 }
 
+// bingo run watch   监听文件变动，有变动即平滑重启服务
+// bingo run daemon
+// bingo run production
+// 这里应该运行 go run start.go
 func (cli *CLI) RunSite(arg []string) {
-	// bingo run watch   监听文件变动，有变动即平滑重启服务
-	// bingo run daemon
-	// bingo run production
-	// 这里应该运行 go run start.go
 	tmpSlice := []string{"run", "start.go"}
 	cmd := exec.Command("go", append(tmpSlice, arg...)...)
 
