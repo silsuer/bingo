@@ -13,3 +13,4 @@ import:
   version: v1.1.1
 - package: github.com/fsnotify/fsnotify
   version: v1.4.7
+- package: github.com/ivpusic/grpool
