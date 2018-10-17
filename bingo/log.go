@@ -2,6 +2,7 @@ package bingo
 
 import (
 	"log"
+	"github.com/ivpusic/grpool"
 )
 
 // log 包
@@ -15,7 +16,8 @@ var Logger Log // 全局log
 
 type Log struct {
 	log.Logger
-	synchronize bool // 日志记录模式 0 同步记录 2 协程池记录
+	mode bool // 日志记录模式 0 同步记录 2 协程池记录
+	pool grpool.Pool  // 协程池
 }
 
 func (l *Log) set() {
