@@ -14,3 +14,4 @@ import:
 - package: github.com/fsnotify/fsnotify
   version: v1.4.7
 - package: github.com/ivpusic/grpool
+- package: github.com/silsuer/bingo-log

@@ -1,5 +1,5 @@
-hash: 02050745615942bbc9d94a0fcb21881b219eed3f9807d786c555faceab13c9f0
-updated: 2018-10-15T17:38:49.190653163+08:00
+hash: d0e1ca4a6dcec3c42e6ab7b10f2578e929b1ae3289bc7d1e735443560e5f7a89
+updated: 2018-10-17T21:51:38.247393325+08:00
 imports:
 - name: github.com/boltdb/bolt
   version: 2f1ce7a837dcb8da3ec595b1dac9d0632f0f99e8
@@ -21,6 +21,8 @@ imports:
   version: 08cad365cd28a7fba23bb1e57aa43c5e18ad8bb8
   subpackages:
   - yaml
+- name: github.com/silsuer/bingo-log
+  version: b0f143b26dc02b8f950a8f1deb81b7b9e74e7ad9
 - name: golang.org/x/sys
   version: 79b0c6888797020a994db17c8510466c72fe75d9
   subpackages:
