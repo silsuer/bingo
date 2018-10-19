@@ -1,11 +1,3 @@
-//Generated TestBingo_Run
-//Generated TestBingo_setGlobalParamFromArgs
-//Generated TestBingo_startServer
-//Generated Test_startDevServer
-//Generated Test_startWatchServer
-//Generated Test_restartDaemonServer
-//Generated Test_listeningWatcherDir
-//Generated Test_startDaemonServer
 package bingo
 
 import (
@@ -19,53 +11,6 @@ import (
 )
 
 func TestBingo_Run(t *testing.T) {
-
-	//b := Bingo{}
-	//
-	//Env.Set("PID_FILE","start.pid")
-	//
-	//wg := sync.WaitGroup{}
-	//wg.Add(1)
-	//go func() {
-	//	os.Args = []string{"bingo", "run", "daemon", "start"}
-	//	syscall.Kill(12341, syscall.SIGHUP)
-	//	go b.Run(":12341")
-	//	wg.Done()
-	//}()
-	//
-	//wg.Add(1)
-	//go func() {
-	//	os.Args = []string{"bingo", "run", "daemon", "restart"}
-	//	syscall.Kill(12342, syscall.SIGHUP)
-	//	go b.Run(":12342")
-	//	wg.Done()
-	//}()
-	//
-	//wg.Add(1)
-	//go func() {
-	//	os.Args = []string{"bingo", "run", "daemon", "stop"}
-	//	syscall.Kill(12343, syscall.SIGHUP)
-	//	go b.Run(":12343")
-	//	wg.Done()
-	//}()
-	//
-	//wg.Add(1)
-	//go func() {
-	//	os.Args = []string{"bingo", "run", "watch"}
-	//	syscall.Kill(12344, syscall.SIGHUP)
-	//	go b.Run(":12344")
-	//	wg.Done()
-	//}()
-	//
-	//wg.Add(1)
-	//go func() {
-	//	os.Args = []string{"bingo", "run", "dev"}
-	//	syscall.Kill(12345, syscall.SIGHUP)
-	//	go b.Run(":12345")
-	//	wg.Done()
-	//}()
-	//
-	//wg.Wait()
 
 	rr := NewRoute().Get("/").Target(func(c *Context) {
 		c.Writer.WriteHeader(http.StatusOK)
@@ -129,7 +74,6 @@ func TestBingo_setGlobalParamFromArgs(t *testing.T) {
 }
 
 func TestBingo_startServer(t *testing.T) {
-	//syscall.Kill(12345,syscall.SIGHUP)
 	rr := NewRoute().Get("/").Target(func(c *Context) {
 		c.Writer.WriteHeader(http.StatusOK)
 		c.Writer.Header().Set("Content-Type", "application/json")
@@ -147,28 +91,13 @@ func TestBingo_startServer(t *testing.T) {
 	go func() {
 		syscall.Kill(12345, syscall.SIGHUP)
 		go b.startServer([]string{"dev"}, ":12345", r)
-		//DaemonInit("stop")
 		wg.Done()
 	}()
-
-	//wg.Add(1)
-	//go func() {
-	//	syscall.Kill(12344, syscall.SIGHUP)
-	//	go b.startServer([]string{"watch"}, ":12344", r)
-	//	//DaemonInit("stop")
-	//	wg.Done()
-	//}()
-
 	wg.Add(1)
 	go func() {
 		syscall.Kill(12343, syscall.SIGHUP)
 		go b.startServer([]string{"daemon", "start"}, ":12343", r)
-		//DaemonInit("stop")
 		wg.Done()
 	}()
-
 	wg.Wait()
-
-	//go b.startServer([]string{"daemon","stop"},":12345",r)
-
 }
