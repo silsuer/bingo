@@ -8,8 +8,6 @@
 
 我致力于让它有着`Golang`的速度和`Laravel`的优雅
 
-目前正在开发中......
-
 
 > 开发过程中请勿使用master分支，如有需要，请使用release的版本
 > 我们使用分支开发，主干发布的工作流，但是并不保证master一定可用，如发现问题，可提issue
@@ -19,7 +17,7 @@
 
  - [x] [bingo脚手架](https://github.com/silsuer/bingo)
 
- - [x] 日志模块(https://github.com/silsuer/bingo-log)
+ - [x] [日志模块](https://github.com/silsuer/bingo-log)
 
  - 路由模块
 
