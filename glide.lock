@@ -1,5 +1,5 @@
-hash: e8e49a1493c332fe59c4da0fe2cb879e077a49c32ee00d360fb023e293e5029c
-updated: 2018-10-12T11:02:01.339391771+08:00
+hash: 9db9ca9f3bc863430abc9f09af634492e9a3425b9c3bbe45cd0ec7f974645865
+updated: 2018-10-20T10:19:57.512084+08:00
 imports:
 - name: github.com/boltdb/bolt
   version: 2f1ce7a837dcb8da3ec595b1dac9d0632f0f99e8
@@ -9,10 +9,18 @@ imports:
   version: c2828203cd70a50dcccfb2761f8b1f8ceef9a8e9
 - name: github.com/go-sql-driver/mysql
   version: a0583e0143b1624142adab07e0e97fe106d99561
+- name: github.com/gorilla/context
+  version: 08b5f424b9271eedf6f9f0ce86cb9396ed337a42
 - name: github.com/gorilla/securecookie
   version: e59506cc896acb7f7bf732d4fdf5e25f7ccd8983
 - name: github.com/gorilla/sessions
   version: ca9ada44574153444b00d3fd9c8559e4cc95f896
 - name: github.com/kylelemons/go-gypsy
   version: 08cad365cd28a7fba23bb1e57aa43c5e18ad8bb8
+  subpackages:
+  - yaml
+- name: golang.org/x/sys
+  version: 8e24a49d80f82323e1c4db1b5da3e0f31171a151
+  subpackages:
+  - unix
 testImports: []

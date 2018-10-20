@@ -10,9 +10,32 @@
 
 目前正在开发中......
 
+
 > 开发过程中请勿使用master分支，如有需要，请使用release的版本
 > 我们使用分支开发，主干发布的工作流，但是并不保证master一定可用，如发现问题，可提issue
 > 如果有想法，欢迎联系我 Email: silsuer.liu@gmail.com
+
+## 模块列表
+
+ - [x] [bingo脚手架](https://github.com/silsuer/bingo)
+
+ - [x] 日志模块(https://github.com/silsuer/bingo-log)
+
+ - 路由模块
+
+ - 控制器模块
+
+ - 数据库模块
+
+ - 基于jwt-token的权限认证模块
+
+ - 数据库模块
+
+ - 缓存模块
+
+ - 队列模块
+
+ - WebSocket模块
 
 ## 安装
 
