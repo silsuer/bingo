@@ -19,9 +19,7 @@
 
  - [x] [日志模块](https://github.com/silsuer/bingo-log)
 
- - 路由模块
-
- - 控制器模块
+ - [x] 路由模块
 
  - 数据库模块
 
