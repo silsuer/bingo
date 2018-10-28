@@ -1,11 +1,3 @@
-//Generated TestBingo_Run
-//Generated TestBingo_setGlobalParamFromArgs
-//Generated TestBingo_startServer
-//Generated Test_startDevServer
-//Generated Test_startWatchServer
-//Generated Test_restartDaemonServer
-//Generated Test_listeningWatcherDir
-//Generated Test_startDaemonServer
 package bingo
 
 import (
@@ -14,6 +6,8 @@ import (
 	"net/http"
 	"io"
 	"io/ioutil"
+	"sync"
+	"syscall"
 )
 
 func TestBingo_Run(t *testing.T) {
@@ -33,6 +27,8 @@ func TestBingo_Run(t *testing.T) {
 
 	res, err := http.Get(s.URL)
 
+	res2, err := http.Get(s.URL + "/test")
+
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -40,11 +36,14 @@ func TestBingo_Run(t *testing.T) {
 	body, err := ioutil.ReadAll(res.Body)
 	defer res.Body.Close()
 
+	body2, err := ioutil.ReadAll(res2.Body)
+
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	t.Log(string(body))
+	t.Log(string(body2))
 }
 
 func TestBingo_setGlobalParamFromArgs(t *testing.T) {
@@ -61,7 +60,7 @@ func TestBingo_setGlobalParamFromArgs(t *testing.T) {
 			b:    &Bingo{},
 			args: struct{ args []string }{args:
 			[]string{
-				"name", "path=currentPath", "file=test",
+				"name", "path=currentPath", "file=test=1",
 			},
 			},
 		},
@@ -72,4 +71,33 @@ func TestBingo_setGlobalParamFromArgs(t *testing.T) {
 			b.setGlobalParamFromArgs(tt.args.args)
 		})
 	}
+}
+
+func TestBingo_startServer(t *testing.T) {
+	rr := NewRoute().Get("/").Target(func(c *Context) {
+		c.Writer.WriteHeader(http.StatusOK)
+		c.Writer.Header().Set("Content-Type", "application/json")
+		io.WriteString(c.Writer, `{"message":"Hello Bingo!"}`)
+	}).Register()
+
+	r := New()
+
+	r.Handle("GET", "/", rr)
+
+	b := Bingo{}
+
+	wg := sync.WaitGroup{}
+	wg.Add(1)
+	go func() {
+		syscall.Kill(12345, syscall.SIGHUP)
+		go b.startServer([]string{"dev"}, ":12345", r)
+		wg.Done()
+	}()
+	wg.Add(1)
+	go func() {
+		syscall.Kill(12343, syscall.SIGHUP)
+		go b.startServer([]string{"daemon", "start"}, ":12343", r)
+		wg.Done()
+	}()
+	wg.Wait()
 }

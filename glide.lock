@@ -1,5 +1,5 @@
-hash: 9db9ca9f3bc863430abc9f09af634492e9a3425b9c3bbe45cd0ec7f974645865
-updated: 2018-10-20T10:19:57.512084+08:00
+hash: a1b04ae151f040f68fa0bb49c31113e0c902e418c47315d1d3bec0c61a6f676e
+updated: 2018-10-28T12:13:41.451018556+08:00
 imports:
 - name: github.com/boltdb/bolt
   version: 2f1ce7a837dcb8da3ec595b1dac9d0632f0f99e8
@@ -15,12 +15,16 @@ imports:
   version: e59506cc896acb7f7bf732d4fdf5e25f7ccd8983
 - name: github.com/gorilla/sessions
   version: ca9ada44574153444b00d3fd9c8559e4cc95f896
+- name: github.com/ivpusic/grpool
+  version: 28957a27c9441f178d644aa598bac0aad4dd7bba
 - name: github.com/kylelemons/go-gypsy
   version: 08cad365cd28a7fba23bb1e57aa43c5e18ad8bb8
   subpackages:
   - yaml
+- name: github.com/silsuer/bingo-log
+  version: 57f01791ee6803aedd920c1465cac9e35f6115db
 - name: golang.org/x/sys
-  version: 8e24a49d80f82323e1c4db1b5da3e0f31171a151
+  version: 79b0c6888797020a994db17c8510466c72fe75d9
   subpackages:
   - unix
 testImports: []
