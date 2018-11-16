@@ -20,13 +20,13 @@
 
  - [x] [数据库模块](https://github.com/silsuer/bingo-orm)
 
- - [ ]基于jwt-token的权限认证模块
+ - []基于jwt-token的权限认证模块
 
- - [ ]缓存模块
+ - []缓存模块
 
- - [ ]队列模块
+ - []队列模块
 
- - [ ]WebSocket模块
+ - []WebSocket模块
 
 
 
