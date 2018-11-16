@@ -1,20 +1,21 @@
-package bingo
+package main
 
 import (
-	"github.com/urfave/cli"
-	"github.com/silsuer/bingo-router"
+	"github.com/silsuer/bingo/core"
+	"os"
 )
 
-type Bingo struct {
-	Cli    *cli.App
-	Router *bingo_router.Router
+var App *core.Bingo
+
+func init() {
+	App = core.NewApp()
 }
 
-// 创建一个app
-func NewApp() *Bingo {
-	b := &Bingo{
-		Cli:    cli.NewApp(),
-		Router: bingo_router.New(),
-	}
-	return b
+func main() {
+	// 创建一个cli
+	// 创建一个应用
+	// 挂载路由
+	App.Cli.Run(os.Args)
+	//App.Router.Mount(routes.Api())
+	//http.ListenAndServe(":8080", App.Router)
 }
