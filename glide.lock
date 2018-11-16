@@ -1,30 +1,14 @@
-hash: a1b04ae151f040f68fa0bb49c31113e0c902e418c47315d1d3bec0c61a6f676e
-updated: 2018-10-31T15:27:43.49360338+08:00
+hash: 130b0c80dacac1117b7c9ff89735f6189eafc8da2a75eaf7c4feb0cebdcff548
+updated: 2018-11-16T12:29:18.035919207+08:00
 imports:
-- name: github.com/boltdb/bolt
-  version: 2f1ce7a837dcb8da3ec595b1dac9d0632f0f99e8
-  subpackages:
-  - '...'
-- name: github.com/fsnotify/fsnotify
-  version: c2828203cd70a50dcccfb2761f8b1f8ceef9a8e9
-- name: github.com/go-sql-driver/mysql
-  version: a0583e0143b1624142adab07e0e97fe106d99561
-- name: github.com/gorilla/context
-  version: 08b5f424b9271eedf6f9f0ce86cb9396ed337a42
-- name: github.com/gorilla/securecookie
-  version: e59506cc896acb7f7bf732d4fdf5e25f7ccd8983
-- name: github.com/gorilla/sessions
-  version: ca9ada44574153444b00d3fd9c8559e4cc95f896
-- name: github.com/ivpusic/grpool
-  version: 28957a27c9441f178d644aa598bac0aad4dd7bba
-- name: github.com/kylelemons/go-gypsy
-  version: 08cad365cd28a7fba23bb1e57aa43c5e18ad8bb8
-  subpackages:
-  - yaml
+- name: github.com/silsuer/bingo-events
+  version: b6f7fa7605ae6df8a439ec52f16580760ee5927a
 - name: github.com/silsuer/bingo-log
   version: 57f01791ee6803aedd920c1465cac9e35f6115db
-- name: golang.org/x/sys
-  version: 79b0c6888797020a994db17c8510466c72fe75d9
-  subpackages:
-  - unix
+- name: github.com/silsuer/bingo-orm
+  version: 4049d666f1d0d745fdbb71387d18d0c1aafad038
+- name: github.com/silsuer/bingo-router
+  version: e12e43b35884c80bc97e890fa7c66327b031f081
+- name: github.com/urfave/cli
+  version: cfb38830724cc34fedffe9a2a29fb54fa9169cd1
 testImports: []

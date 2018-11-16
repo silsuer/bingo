@@ -9,13 +9,6 @@
 我致力于让它有着`Golang`的速度和`Laravel`的优雅
 
 
-> 2018-10-29 更新
-> 目前正在开发周边模块，我准备开发完核心的模块(路由、db、日志) 后再统一整合进这个项目中
-> 所以此时如果有需要，请使用release版本的代码，并且由于老版本中使用了 syscall 包
-> 在 go 1.11以上的版本会出现 undefined package 的错误，所以目前也只能在1.10版本及以下使用
-> 我会持续更新哒，稍安勿躁~
-
-
 > 我们使用分支开发，主干发布的工作流，但是并不保证master一定可用，如发现问题，可提issue
 > 如果有想法，欢迎联系我 Email: silsuer.liu@gmail.com
 
@@ -27,7 +20,7 @@
 
  - [x] [路由模块](https://github.com/silsuer/bingo-router)
 
- - 数据库模块
+ - [x] [数据库模块](https://github.com/silsuer/bingo-orm)
 
  - 基于jwt-token的权限认证模块
 
@@ -66,5 +59,6 @@
 
 ## 更多内容，请查看 [wiki文档](https://github.com/silsuer/bingo/wiki)
 
+----------------
 
 ####  未完待续
