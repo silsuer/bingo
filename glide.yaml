@@ -9,7 +9,7 @@ import:
 - package: github.com/silsuer/bingo-events
   version: 0.1.1
 - package: github.com/silsuer/bingo-router
-  version: 0.1.1
+  version: 0.1.2
 - package: github.com/toolkits/net
 - package: github.com/facebookgo/grace
 - package: github.com/facebookgo/httpdown
