@@ -1,10 +1,16 @@
 FROM golang:1.8
 
-WORKDIR /go/src/bingo
-COPY . .
+MAINTAINER silsuer <silsuer.liu@gmail.com>
 
-RUN export PATH=$PATH:$GOPATH/bin && \
-    go get -d -v ./...
+WORKDIR /go/src/github.com/silsuer/bingo
+
+# COPY . .
+
+#RUN curl https://glide.sh/get | sh && \
+
+#    glide install
+
+#    go get -d -v ./...
 
 
 ENTRYPOINT ["make","dev"]
