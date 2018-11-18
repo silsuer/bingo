@@ -1,17 +1,10 @@
 hash: 77091f05a97182b7c13ae3187acb587b1b1b4b0997eb0d54b6f334fcc0f604a1
-updated: 2018-11-18T10:41:44.02574+08:00
+updated: 2018-11-18T11:27:46.136336+08:00
 imports:
-- name: github.com/facebookgo/clock
-  version: 600d898af40aa09a7a93ecb9265d87b0504b6f03
 - name: github.com/facebookgo/grace
   version: 75cf19382434e82df4dd84953f566b8ad23d6e9e
-  subpackages:
-  - gracehttp
-  - gracenet
 - name: github.com/facebookgo/httpdown
   version: 5979d39b15c26299dc282711b0d65b113daccea6
-- name: github.com/facebookgo/stats
-  version: 1b76add642e42c6ffba7211ad7b3939ce654526e
 - name: github.com/silsuer/bingo-events
   version: b6f7fa7605ae6df8a439ec52f16580760ee5927a
 - name: github.com/silsuer/bingo-log
