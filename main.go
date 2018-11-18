@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/silsuer/bingo/core"
+	"github.com/silsuer/bingo/routes"
 	"os"
 )
 
@@ -12,10 +13,9 @@ func init() {
 }
 
 func main() {
-	// 创建一个cli
-	// 创建一个应用
 	// 挂载路由
+	App.Router.Mount(routes.Api())
+	core.Singleton = App // 添加单例
 	App.Cli.Run(os.Args)
-	//App.Router.Mount(routes.Api())
-	//http.ListenAndServe(":8080", App.Router)
+
 }
