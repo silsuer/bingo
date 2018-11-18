@@ -1,6 +1,6 @@
 FROM golang:1.8
 
-WORKDIR /go/src/app
+WORKDIR /go/src/bingo
 COPY . .
 
 RUN export PATH=$PATH:$GOPATH/bin && \

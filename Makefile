@@ -1,3 +1,3 @@
 dev:
-	go build
-	/go/src/app/bingo run dev
+	go install
+	bingo run dev
