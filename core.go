@@ -1,20 +1,22 @@
-package core
+package bingo
 
 import (
 	"fmt"
 	"github.com/facebookgo/grace/gracehttp"
 	"github.com/silsuer/bingo-router"
-	"github.com/silsuer/bingo/settings"
 	"github.com/silsuer/bingo/utils"
 	"github.com/urfave/cli"
 	"net/http"
 	"os"
 	"strconv"
+	"github.com/kylelemons/go-gypsy/yaml"
 )
 
 const (
 	EnvVariable = "BINGOENVPID"
 )
+
+var cPath string
 
 var title = `
  ____    ___   _   _    ____    ___    _
@@ -28,33 +30,42 @@ var Singleton *Bingo
 var DevDomainUrl string
 var NetworkUrl string
 
-func init() {
-	DevDomainUrl = settings.Local + ":" + strconv.Itoa(settings.HttpPort)
-	network, _ := utils.IntranetIP()
-	if len(network) > 0 {
-		NetworkUrl = "http://" + network[0] + ":" + strconv.Itoa(settings.HttpPort)
-	} else {
-		NetworkUrl = DevDomainUrl
-	}
-
-}
-
 type Bingo struct {
 	Cli    *cli.App
 	Router *bingo_router.Router
 }
 
-// 创建一个app
-func NewApp() *Bingo {
+// 创建一个app,传入一个路径，这个路径就是env文件所在的位置
+func NewApp(configPath string, cliName string) *Bingo {
+	cPath = configPath
 	b := &Bingo{
 		Cli:    cli.NewApp(),
 		Router: bingo_router.New(),
 	}
 
+	Singleton = b
+
+	e := GetInstance(configPath)
+
+	DevDomainUrl = e.Get("DOMAIN") + ":" + e.Get("HTTP_PORT")
+	network, _ := utils.IntranetIP()
+	if len(network) > 0 {
+		NetworkUrl = "http://" + network[0] + ":" + e.Get("HTTP_PORT")
+	} else {
+		NetworkUrl = DevDomainUrl
+	}
+
+	// 读取配置文件
+	file, err := yaml.ReadFile(configPath)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(11111)
 	// 给cli添加一个bingo命令，然后在上面
-	b.Cli.Name = "bingo"
+	b.Cli.Name = cliName
 	b.Cli.Usage = "bingo cli"
-	b.Cli.Version = settings.VERSION
+	b.Cli.Version, _ = file.Get("VERSION")
 	b.Cli.Commands = []cli.Command{
 		{
 			Name: "run",
@@ -76,7 +87,7 @@ func NewApp() *Bingo {
 						pid := os.Getpid()
 						os.Setenv(EnvVariable, strconv.Itoa(pid))
 						// 平滑开启一个测试服务器,正常开启
-						gracehttp.Serve(&http.Server{Addr: ":" + strconv.Itoa(settings.HttpPort), Handler: Singleton.Router})
+						gracehttp.Serve(&http.Server{Addr: ":" + GetInstance(cPath).Get("HTTP_PORT"), Handler: Singleton.Router})
 						return nil
 					},
 				},
