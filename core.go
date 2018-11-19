@@ -36,7 +36,7 @@ type Bingo struct {
 }
 
 // 创建一个app,传入一个路径，这个路径就是env文件所在的位置
-func NewApp(configPath string, cliName string) *Bingo {
+func NewApp(configPath string) *Bingo {
 	cPath = configPath
 	b := &Bingo{
 		Cli:    cli.NewApp(),
@@ -60,10 +60,8 @@ func NewApp(configPath string, cliName string) *Bingo {
 	if err != nil {
 		panic(err)
 	}
-
-	fmt.Println(11111)
 	// 给cli添加一个bingo命令，然后在上面
-	b.Cli.Name = cliName
+	b.Cli.Name = "bingo"
 	b.Cli.Usage = "bingo cli"
 	b.Cli.Version, _ = file.Get("VERSION")
 	b.Cli.Commands = []cli.Command{
