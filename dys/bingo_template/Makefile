@@ -1,3 +1,3 @@
 dev:
 	go build
-	./test run dev
+	./${name} run dev

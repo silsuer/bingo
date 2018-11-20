@@ -59,6 +59,21 @@ func initProject() {
 	}
 
 	copyDir(bingoTemplatePath, path, p)
+	// 打印欢迎信息
+	welecome()
+}
+
+func welecome() {
+	info := `
+__        _______ _     ____ ___  __  __ _____     ____ ___ _   _  ____  ___  _ 
+\ \      / / ____| |   / ___/ _ \|  \/  | ____|   | __ )_ _| \ | |/ ___|/ _ \| |
+ \ \ /\ / /|  _| | |  | |  | | | | |\/| |  _|     |  _ \| ||  \| | |  _| | | | |
+  \ V  V / | |___| |__| |__| |_| | |  | | |___    | |_) | || |\  | |_| | |_| |_|
+   \_/\_/  |_____|_____\____\___/|_|  |_|_____|   |____/___|_| \_|\____|\___/(_)
+  
+  Now you can start a development server with: make dev 
+`
+	fmt.Printf("\n %c[0;48;32m%s%c[0m\n\n", 0x1B, info, 0x1B)
 }
 
 func copyDir(src string, dest string, variable string) {
@@ -155,10 +170,18 @@ func CopyFile(src, dst string, variable string) (w int, err error) {
 
 	// 获取srcFile中的所有数据，并替换变量
 	defer dstFile.Close()
-
-	str := strings.Replace(string(bytes), "${path}", variable, -1)
+	var str string
+	if fName := filepath.Base(dst); fName == "Makefile" || fName == ".gitignore" {
+		// 如果是makefile，则把其中的 ${name} 替换成 当前目录
+		// 否则再进行判断后缀名的操作
+		// 如果是.gitignore,则也进行替换
+		v := strings.Split(variable, "/")
+		vv := v[len(v)-1]
+		str = strings.Replace(string(bytes), "${name}", vv, -1)
+	} else {
+		str = strings.Replace(string(bytes), "${path}", variable, -1)
+	}
 
 	// 这个文件写入dstFile中
 	return io.WriteString(dstFile, str)
-
 }
