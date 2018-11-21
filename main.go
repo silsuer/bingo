@@ -32,6 +32,17 @@ func main() {
 			},
 			Action: CreateProject,
 		},
+		{
+			Name:  "run",
+			Usage: "Start a server",
+			Subcommands: []cli.Command{
+				{
+					Name:   "dev",
+					Usage:  "Start a development server. Listen the current directory.",
+					Action: Dev,
+				},
+			},
+		},
 	}
 
 	app.Run(os.Args)
