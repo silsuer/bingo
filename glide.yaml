@@ -1,18 +1,4 @@
 package: github.com/silsuer/bingo
 import:
-- package: github.com/facebookgo/grace
-  subpackages:
-  - gracehttp
-- package: github.com/kylelemons/go-gypsy
-  subpackages:
-  - yaml
 - package: github.com/urfave/cli
   version: v1.20.0
-- package: github.com/silsuer/bingo-router
-  version: 0.1.2
-- package: github.com/silsuer/bingo-orm
-  version: 0.1.1
-- package: github.com/silsuer/bingo-log
-  version: 0.1.1
-- package: github.com/silsuer/bingo-events
-  version: 0.1.1
