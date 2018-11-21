@@ -14,3 +14,5 @@ func init() {
 	conn := bingo_log.NewKirinConnector(config)
 	Log.LoadConnector(conn)
 }
+
+

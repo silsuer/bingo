@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
 	"sync"
@@ -45,6 +45,18 @@ func (env *Environment) Get(key string) string {
 	v, err := env.file.Get(key)
 	if err != nil {
 		panic(err)
+	}
+	return v
+}
+
+func (env *Environment) GetWithDefault(key string, def string) string {
+	// 先判断map里有没有，如果有直接返回，如果没有，从文件中取出
+	if v, ok := env.values[key]; ok {
+		return v
+	}
+	v, err := env.file.Get(key)
+	if err != nil { // 没找到，返回默认值
+		return def
 	}
 	return v
 }

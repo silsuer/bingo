@@ -1,35 +1,22 @@
 package main
 
 import (
-	"github.com/urfave/cli"
 	"os"
 	"strings"
 	"fmt"
 	"path/filepath"
-	"io"
 	"io/ioutil"
+	"io"
 )
 
-func main() {
-	// 初始化一个项目
-	c := cli.NewApp()
-	c.Name = "dys"
-	c.Action = func(ctx *cli.Context) error {
-		// 创建项目的方法
-		initProject()
-		return nil
-	}
-	c.Run(os.Args)
-}
-
 // 初始化项目
-func initProject() {
+func initProject(path string) {
 	// 得到当前在src下的路径
 	// 得到当前路径
-	path, err := os.Getwd()
-	if err != nil {
-		panic(err)
-	}
+	//path, err := os.Getwd()
+	//if err != nil {
+	//	panic(err)
+	//}
 	goSrcPath := os.Getenv("GOPATH") + "/src/"
 	if !strings.Contains(path, goSrcPath) { // 包含这个路径
 		fmt.Printf("You must use dys command in the $GOPATH directory.\n")
@@ -40,7 +27,7 @@ func initProject() {
 
 	p := path[len(goSrcPath):]
 	// 从当前路径下查找bingo_template
-	bingoTemplatePath := os.Getenv("GOPATH") + `/src/github.com/silsuer/bingo/dys/bingo_template`
+	bingoTemplatePath := os.Getenv("GOPATH") + `/src/github.com/silsuer/bingo/gtpl`
 	// 如果是dir
 	stat, err := os.Stat(bingoTemplatePath)
 
@@ -147,7 +134,7 @@ func CopyFile(src, dst string, variable string) (w int, err error) {
 	}
 
 	ext := filepath.Ext(dst)
-	if ext == ".tpl" {
+	if ext == ".gtpl" {
 		//oldName := filepath.Base(dst)
 		//newName := oldName[:len(filepath.Ext(dst))]
 		newNameSlice := strings.Split(filepath.Base(dst), ".")
