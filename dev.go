@@ -41,7 +41,6 @@ func Dev(c *cli.Context) error {
 	// make dev
 	// 定义一个函数，用来执行make dev
 	// 定义一个函数，用来监听当前目录
-
 	makeDev()
 	a.Wait()
 	return nil
@@ -49,7 +48,7 @@ func Dev(c *cli.Context) error {
 
 func makeDev() {
 	go watchDir()
-	cmd := exec.Command("make", "dev")
+	cmd := exec.Command("make", "run")
 	cmd.Stdout = os.Stdout // 控制台输出命令
 	cmd.Stderr = os.Stdout // 如果有错误，也使用控制台进行输出
 	command = cmd          // 赋值给全局变量
