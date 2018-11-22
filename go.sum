@@ -1,2 +1,8 @@
+github.com/fsnotify/fsnotify v1.4.7 h1:IXs+QLmnXW2CcXuY+8Mzv/fWEsPGWxqefPtCP5CnV9I=
+github.com/fsnotify/fsnotify v1.4.7/go.mod h1:jwhsz4b93w/PPRr/qN1Yymfu8t87LnFCMoQvtojpjFo=
 github.com/urfave/cli v1.20.0 h1:fDqGv3UG/4jbVl/QkFwEdddtEDjh/5Ov6X+0B/3bPaw=
 github.com/urfave/cli v1.20.0/go.mod h1:70zkFmudgCuE/ngEzBv17Jvp/497gISqfk5gWijbERA=
+github.com/xcltapestry/xclpkg v0.0.0-20150203092146-4bb35f81c878 h1:rLd7/3KSgh6aJA2uIHDQIVH+VVOGnQ6aQ04ir8kjXYY=
+github.com/xcltapestry/xclpkg v0.0.0-20150203092146-4bb35f81c878/go.mod h1:gpJV7hn4KdEBybBWbZB+qQMN3W6CsaNts61JKiU5NiQ=
+golang.org/x/sys v0.0.0-20181121002834-0cf1ed9e522b h1:fpg9kqwtLzitbbnpLJATV5Ty8sDv8sJ2ii9+e6fG89A=
+golang.org/x/sys v0.0.0-20181121002834-0cf1ed9e522b/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
