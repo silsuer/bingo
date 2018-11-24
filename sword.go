@@ -21,5 +21,10 @@ func sword() []cli.Command {
 			Usage:  "Create a command file from the bingo template.",
 			Action: makeCommand,
 		},
+		{
+			Name:   "make:middleware",
+			Usage:  "Create a middleware file from the bingo template.",
+			Action: makeMiddleware,
+		},
 	}
 }

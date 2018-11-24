@@ -1,19 +1,20 @@
 package main
 
 import (
-	"github.com/urfave/cli"
-	"fmt"
-	"os"
-	"github.com/fsnotify/fsnotify"
-	"path/filepath"
-	"log"
-	"github.com/xcltapestry/xclpkg/clcolor"
-	"time"
-	"os/exec"
-	"sync"
 	"bufio"
+	"fmt"
+	"github.com/fsnotify/fsnotify"
+	"github.com/urfave/cli"
+	"github.com/xcltapestry/xclpkg/clcolor"
 	"io"
+	"log"
+	"os"
+	"os/exec"
+	"path/filepath"
 	"strings"
+	"sync"
+	"syscall"
+	"time"
 )
 
 const title = `
@@ -41,13 +42,13 @@ func Dev(c *cli.Context) error {
 	// make dev
 	// 定义一个函数，用来执行make dev
 	// 定义一个函数，用来监听当前目录
+	go watchDir()
 	makeDev()
 	a.Wait()
 	return nil
 }
 
 func makeDev() {
-	go watchDir()
 	cmd := exec.Command("make", "run")
 	cmd.Stdout = os.Stdout // 控制台输出命令
 	cmd.Stderr = os.Stdout // 如果有错误，也使用控制台进行输出
@@ -124,7 +125,6 @@ func watchDir() {
 	r := bufio.NewReader(file)
 	for {
 		line, err := r.ReadString('\n') //以'\n'为结束符读入一行
-
 		if err != nil || io.EOF == err {
 			break
 		}
@@ -199,7 +199,8 @@ func timer() {
 			// 删除
 			// 向程序发送退出信号，并重新执行make dev
 			if command != nil {
-				command.Process.Kill()
+				//command.Process.Kill()
+				syscall.Kill(command.Process.Pid, syscall.SIGTERM)
 				makeDev()
 			}
 		})
@@ -213,10 +214,10 @@ func timer() {
 func removeWatcher(dir string) {
 	filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
 		if info.IsDir() {
-			//removeWatcher(path)
-			p, _ := filepath.Abs(path)
+			p := filepath.Dir(path)
 			watcher.Remove(p)
 		} else {
+			fmt.Println(path)
 			watcher.Remove(path)
 		}
 		return nil
