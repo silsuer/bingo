@@ -67,5 +67,6 @@
 
   在浏览器中输入`http://localhost:8080`,若安装成功，会出现一个小狮纸...
 
+  ![](http://qiniu-cdn.zhiguanapp.com/a076a9134a5294317c3889506c667345)
 
 ## 更多内容，请查看 [wiki文档](https://github.com/silsuer/bingo/wiki)（已弃用，文档官网正在备案中）
