@@ -2,13 +2,13 @@
 
 [![Build Status](https://travis-ci.org/silsuer/bingo.svg?branch=master)](https://travis-ci.org/silsuer/bingo)
 
-一款使用`httprouter`作为路由的Web全栈开发框架。
+`bingo`实际上是一个开发脚手架，使用它可以快速构建以 `bingo-router` 为核心的开发框架
 
 受到`Laravel`的启发，将一些网站开发过程中必备的功能内置到了框架中，开箱即用
 
 我致力于让它有着`Golang`的速度和`Laravel`的优雅
 
->  重新按照模块化改了一版，正在搭建文档官网 ，请稍等 ...
+>  重新按照模块化改了一版，搭建了文档官网，目前正在备案中 ，请稍等 ...
 
 ## 模块列表
 
@@ -37,28 +37,35 @@
 1. 下载
 
   ```shell
-      git clone https://github.com/silsuer/bingo.git 
+      git get -v https://github.com/silsuer/bingo.git
   ```
- 
-2. 安装依赖
-  
-  ```shell
-     cd bingo
-     glide install
+
+  > 如果出现错误，请先配置命令行科学上网，可以解决大部分错误问题
+
+2. 创建项目
+
   ```
-  
-  > 注: bingo采用 `glide` 管理依赖，在开发前请先安装 `glide`,点击此处查看 [安装方法](https://github.com/Masterminds/glide)
+    bingo create bingo-demo
+  ```
+
+  使用该命令后将在命令行中出现如下显示:
+
+  ![](http://qiniu-cdn.zhiguanapp.com/24a006d2c7f2f52d9a345e4c2454cd7b)
+
+  在当前目录向将出现一个 `bingo-demo` 目录，里面放置着初始化好了的项目
 
 3. 启动开发模式
 
   ```go
-     go run main.go
+     cd bingo-demo
+     bingo run dev
   ```
-  
-  访问浏览器 `http://localhost:12345`,可以看到 `hello bingo` 字样，安装成功
 
-## 更多内容，请查看 [wiki文档](https://github.com/silsuer/bingo/wiki)
+  将在命令行中显示如下:
 
-----------------
+  ![](http://qiniu-cdn.zhiguanapp.com/ca12fa181c4d494640a72055a7af4cf4)
 
-####  未完待续
+  在浏览器中输入`http://localhost:8080`,若安装成功，会出现一个小狮纸...
+
+
+## 更多内容，请查看 [wiki文档](https://github.com/silsuer/bingo/wiki)（已弃用，文档官网正在备案中）
