@@ -8,8 +8,6 @@
 
 我致力于让它有着`Golang`的速度和`Laravel`的优雅
 
->  重新按照模块化改了一版，搭建了文档官网，目前正在备案中 ，请稍等 ...
-
 ## 模块列表
 
  - [x] [bingo脚手架](https://github.com/silsuer/bingo)
@@ -69,4 +67,4 @@
 
   ![](http://qiniu-cdn.zhiguanapp.com/a076a9134a5294317c3889506c667345)
 
-## 更多内容，请查看 [wiki文档](https://github.com/silsuer/bingo/wiki)（已弃用，文档官网正在备案中）
+## 更多内容，请移步[官网文档](https://bingo.techub.fun/)
