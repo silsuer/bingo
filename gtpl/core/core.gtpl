@@ -4,7 +4,7 @@ import (
 	"github.com/urfave/cli"
 	"github.com/silsuer/bingo-router"
 	"github.com/kylelemons/go-gypsy/yaml"
-	"github.com/silsuer/test/config"
+	"${path}/config"
 	"github.com/facebookgo/grace/gracehttp"
 	"net/http"
 	"${path}/utils"
