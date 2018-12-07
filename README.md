@@ -52,11 +52,11 @@
 
   在当前目录向将出现一个 `bingo-demo` 目录，里面放置着初始化好了的项目
 
-3. 启动开发模式
+3. 启动服务
 
   ```go
      cd bingo-demo
-     bingo run dev
+     make run
   ```
 
   将在命令行中显示如下:
