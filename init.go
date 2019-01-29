@@ -46,6 +46,7 @@ func initProject(path string) {
 	}
 
 	copyDir(bingoTemplatePath, path, p)
+	// 录入首页信息
 	// 打印欢迎信息
 	welecome()
 }
@@ -135,11 +136,13 @@ func CopyFile(src, dst string, variable string) (w int, err error) {
 
 	ext := filepath.Ext(dst)
 	if ext == ".gtpl" {
-		//oldName := filepath.Base(dst)
-		//newName := oldName[:len(filepath.Ext(dst))]
 		newNameSlice := strings.Split(filepath.Base(dst), ".")
 		newName := strings.Join(newNameSlice[:len(newNameSlice)-1], ".")
 		dst = filepath.Dir(dst) + "/" + newName + ".go"
+	} else if ext == ".ghtml" {
+		newNameSlice := strings.Split(filepath.Base(dst), ".")
+		newName := strings.Join(newNameSlice[:len(newNameSlice)-1], ".")
+		dst = filepath.Dir(dst) + "/" + newName + ".html"
 	}
 	dstFile, err := os.Create(dst)
 

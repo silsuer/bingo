@@ -8,8 +8,6 @@
 
 我致力于让它有着`Golang`的速度和`Laravel`的优雅
 
->  重新按照模块化改了一版，搭建了文档官网，目前正在备案中 ，请稍等 ...
-
 ## 模块列表
 
  - [x] [bingo脚手架](https://github.com/silsuer/bingo)
@@ -53,11 +51,11 @@
 
   在当前目录向将出现一个 `bingo-demo` 目录，里面放置着初始化好了的项目
 
-3. 启动开发模式
+3. 启动服务
 
   ```go
      cd bingo-demo
-     bingo run dev
+     make run
   ```
 
   将在命令行中显示如下:
@@ -68,4 +66,4 @@
 
   ![](http://qiniu-cdn.zhiguanapp.com/a076a9134a5294317c3889506c667345)
 
-## 更多内容，请查看 [wiki文档](https://github.com/silsuer/bingo/wiki)（已弃用，文档官网正在备案中）
+## 更多内容，请移步[官网文档](https://bingo.techub.fun/)
